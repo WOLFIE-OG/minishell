@@ -13,6 +13,8 @@ To install and build
 ```bash
   git clone https://github.com/WOLFIE-OG/minishell
   cd minishell
+  git submodule update --init --recursive
   make
+  ./minishell
 ```
     
