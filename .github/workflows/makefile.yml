@@ -17,6 +17,21 @@ jobs:
     - name: Get submodules
       run: git submodule update --init --recursive
 
+    - name: Update apt
+      run: sudo apt-get update --fix-missing
+    
+    - name: Install tree
+      run: sudo apt-get install tree
+
+    - name: Install norminette
+      run: pip install norminette
+
+    - name: Run tree
+      run: tree
+
+    - name: Run norminette
+      run: norminette src include
+
     - name: Make program
       run: make
 
