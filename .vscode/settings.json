@@ -1,0 +1,13 @@
+{
+	"files.associations": {
+		"libft.h": "c",
+		"ft_printf.h": "c",
+		"stdbool.h": "c",
+		"list.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"utility": "c"
+	}
+}
