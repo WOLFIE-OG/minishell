@@ -1,1 +1,1 @@
-cc echo.c -L../../libft/build -lft -o echo
+cc echo.c -L../../libft/build -lft -g -o echo

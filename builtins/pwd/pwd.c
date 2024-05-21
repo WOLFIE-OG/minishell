@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 13:06:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/05/21 16:00:41 by otodd            ###   ########.fr       */
+/*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
+/*   Updated: 2024/05/21 15:33:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../libft/include/libft.h"
 
-int	main(int arg_n, char **arg_a, char *env[])
+// void	pwd(char **data)
+// {
+// 
+// }
+
+int	main(int arg_n, char **arg_a)
 {
+	char	cwd[256];
+
 	(void)arg_n;
-	(void)arg_a;
-	while (*env)
-	{
-		// ft_printf("%a\n", ft_split(*env, '='));
-		ft_printf("%s\n", *env);
-		env++;
-	}
+	ft_printf("%s\n", getcwd(cwd, sizeof(cwd)));
 	return (EXIT_SUCCESS);
 }

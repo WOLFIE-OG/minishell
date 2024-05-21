@@ -1,0 +1,1 @@
+cc cd.c -L../../libft/build -lft -o cd
