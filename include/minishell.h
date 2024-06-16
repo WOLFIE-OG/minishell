@@ -6,14 +6,14 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/10 15:23:46 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/06/16 13:43:01 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "../libft/include/libft.h"
-# include <csignal.h>
+//# include "../libft/include/libft.h"
+//# include <csignal.h>
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdbool.h>
@@ -27,6 +27,8 @@
 
 //I suggest making separate .h files for the builtins,
 //the parser, the lexer and execution etc
+
+# include "parser.h"
 
 # define SUCCESS 0
 
