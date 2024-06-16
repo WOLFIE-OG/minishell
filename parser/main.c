@@ -6,16 +6,16 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/16 13:43:05 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:00:22 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 
-int gvar_signal;
+int	gvar_signal;
 
-void    ft_init_shell(int ac, char **av, char **env)
+void	ft_init_shell(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
@@ -28,7 +28,7 @@ void    ft_init_shell(int ac, char **av, char **env)
 int main(int ac, char **av, char **env)
 {
 	gvar_signal = 0;
-	char    *input;
+	char	*input;
 	ft_init_shell(ac, av, env); //signal handling
 	//init_envps ??
 
@@ -40,7 +40,7 @@ int main(int ac, char **av, char **env)
 		if (!input)
 		{
 			printf("\nBye Bye Minishell\n");
-			break ; //handle eof (ctrlD)
+			break; //handle eof (ctrlD)
 		}
 		add_history(input);
 		free(input);
