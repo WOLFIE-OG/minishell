@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
+#    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/04/23 13:44:09 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/12 12:29:51 by ssottori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,13 @@ CC 			= 	cc
 CFLAGS 		= 	-Wall -Wextra -Werror -g
 NAME		= 	minishell
 
-SRC_DIR 	= 	src
+SRC_DIR 	= 	parser
 OBJ_DIR 	= 	obj
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
 
-SRCS		= 	$(SRC_DIR)/init.c
+SRCS		= 	$(SRC_DIR)/signals.c \
+				$(SRC_DIR)/main.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

@@ -1,4 +1,16 @@
-#include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
+/*   Updated: 2024/06/15 21:29:30 by ssottori         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 static void	sigint_input(int signum)
 {
@@ -14,7 +26,7 @@ static void	sigint_exec(int signum)
 	write(1, "\n", 1);
 }
 
-void	config_sigint(void)
+void	config_siginit(void)
 {
 	signal(SIGINT, sigint_input);
 	signal(SIGQUIT, SIG_IGN);
