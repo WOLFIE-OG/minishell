@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/17 17:57:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/17 17:59:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void get_env(char **envp)
 
 	data.name = "USER"
 	data.value = "wolfie"
+
+	This will be a big array of EnvVar's
 	*/
 	printf("%s\n", strtok(envp[58], "="));
 	i = 0;
