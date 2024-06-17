@@ -8,6 +8,10 @@
 		"string": "c",
 		"string_view": "c",
 		"initializer_list": "c",
-		"utility": "c"
+		"utility": "c",
+		"signal.h": "c",
+		"history.h": "c",
+		"readline.h": "c",
+		"minishell.h": "c"
 	}
 }

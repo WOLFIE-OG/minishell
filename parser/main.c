@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/16 14:00:22 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:21:50 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "env.h"
 
 int	gvar_signal;
 
@@ -31,6 +32,9 @@ int main(int ac, char **av, char **env)
 	char	*input;
 	ft_init_shell(ac, av, env); //signal handling
 	//init_envps ??
+
+	// debug env
+	get_env(env);
 
 	while(1)
 	{

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
+#    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 13:09:08 by ssottori          #+#    #+#              #
-#    Updated: 2024/06/16 13:42:49 by ssottori         ###   ########.fr        #
+#    Updated: 2024/06/17 17:22:16 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LDFLAGS = -L/opt/homebrew/Cellar/readline/8.2.10/lib
 NAME = minishell
 SRCS = parser/main.c \
 		parser/signals.c \
+		parser/env.c \
 
 OBJS = $(SRCS:.c=.o)
 LIBS = -L/opt/homebrew/opt/readline/lib -lreadline
