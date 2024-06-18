@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/16 13:43:01 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:08:01 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-//# include "../libft/include/libft.h"
+// # include "../libft/include/libft.h"
 //# include <csignal.h>
 # include <unistd.h>
 # include <stdarg.h>
@@ -29,6 +29,7 @@
 //the parser, the lexer and execution etc
 
 # include "parser.h"
+# include "env.h"
 
 # define SUCCESS 0
 

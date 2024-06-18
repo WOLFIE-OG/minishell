@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    OlliesMake                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
+#    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/16 11:27:08 by ssottori         ###   ########.fr        #
+#    Updated: 2024/06/18 15:56:06 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,15 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 CC 			= 	cc
-CFLAGS 		= 	-Wall -Wextra -Werror -g
+CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude -std=c99 
 NAME		= 	minishell
 
-SRC_DIR 	= 	parser
+SRC_DIR 	= 	src
 OBJ_DIR 	= 	obj
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
 
-SRCS		= 	$(SRC_DIR)/signals.c \
-				$(SRC_DIR)/main.c \
+SRCS		=	$(SRC_DIR)/init.c
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -35,7 +34,7 @@ LIBFT 		= 	$(LIBFT_DIR)/build/libft.a
 
 HEADERS		= 	-I$(INC_DIR)
 
-LIBS		=	-L$(LIBFT_DIR)/build -lft
+LIBS		=	-L$(LIBFT_DIR)/build -lft -lreadline
 
 
 all: $(LIBFT) $(NAME)
@@ -47,23 +46,23 @@ dir:
 	fi
 
 $(NAME): $(OBJS)
-	@echo "[$(BLUE)MINISHELL$(NC)]    Building $@..."
+	@echo "[$(BLUE)MINISH$(NC)]    Building $@..."
 	@$(CC) $(CFLAGS) $(OBJS) $(HEADERS) $(LIBS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/minishell.h | dir
-	@echo "[$(CYAN)MINISHELL$(NC)]    Compiling $< --> $@"
+	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 
 $(LIBFT):
 	@$(MAKE) -s -C $(LIBFT_DIR)
 
 clean:
-	@echo "[$(YELLOW)MINISHELL$(NC)]    Cleaning object directory..."
+	@echo "[$(YELLOW)MINISH$(NC)]    Cleaning object directory..."
 	@$(MAKE) -s -C $(LIBFT_DIR) clean
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "[$(RED)MINISHELL$(NC)]    Cleaning executable directory..."
+	@echo "[$(RED)MINISH$(NC)]    Cleaning executable directory..."
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
 	@rm -rf $(NAME)
 
