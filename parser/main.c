@@ -16,25 +16,30 @@
 
 int	gvar_signal;
 
-void	ft_init_shell(int ac, char **av, char **env)
+void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	(void)env;
+	t_env_var	*var;
 	//what to do with env?
 	config_siginit();
-	//init data below
+	root->env = init_env(env);
+	var = get_var(root, "USER");
+	ft_printf("Value: %s\n", var->value);
+	set_var(root, "USER", ft_strdup("This is a test"));
+	ft_printf("Value: %s\n", var->value);
 }
 
 int main(int ac, char **av, char **env)
 {
-	gvar_signal = 0;
 	char	*input;
-	ft_init_shell(ac, av, env); //signal handling
+	t_root	root;
+	gvar_signal = 0;
+
+	ft_init_shell(&root, ac, av, env); //signal handling
 	//init_envps ??
 
 	// debug env
-	get_env(env);
 
 	while(1)
 	{

@@ -19,6 +19,10 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
-void	get_env(char **envp);
+void		get_env(char **envp);
+t_list		*init_env(char **envp);
+t_env_var	*find_var_by_key(t_root *root, char *key);
+bool		set_var(t_root *root, char *key, char *value);
+t_env_var	*get_var(t_root *root, char *key);
 
 #endif

@@ -22,7 +22,7 @@
 void	config_siginit(void);
 void	config_sigquit(void);
 void	kill_shell(void);
-void	ft_init_shell(int ac, char **av, char **env);
+void	ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 #endif
 
