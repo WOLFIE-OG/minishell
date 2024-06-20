@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 13:09:08 by ssottori          #+#    #+#              #
-#    Updated: 2024/06/20 15:05:33 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 16:01:34 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -std=c99 -Iinclude
-LDFLAGS = $(LIBRARY_PATH)
 NAME = minishell
 LIBFT_DIR = libft
 SRCS = parser/main.c \

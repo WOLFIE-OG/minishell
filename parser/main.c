@@ -6,13 +6,11 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/17 17:21:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/20 16:42:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "env.h"
+#include "../include/minishell.h"
 
 int	gvar_signal;
 

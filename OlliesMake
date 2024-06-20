@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/20 14:58:46 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 16:43:14 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,10 +18,10 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 CC 			= 	cc
-CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude -std=c99 -Iinclude
+CFLAGS 		= 	-Wall -Wextra -Werror
 NAME		= 	minishell
 
-SRC_DIR 	= 	src
+SRC_DIR 	= 	parser
 OBJ_DIR 	= 	obj
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
@@ -36,13 +36,10 @@ LIBFT 		= 	$(LIBFT_DIR)/build/libft.a
 
 HEADERS		= 	-I$(INC_DIR)
 
-LIBS		=	-L$(LIBFT_DIR)/build -lft -lreadline
+LIBS		=	-L$(LIBFT_DIR)/build -lft
 
 
 all: $(LIBFT) $(NAME)
-	@echo "Running with zsh:"
-    @echo "Current directory: $$(pwd)"
-    @echo "Date: $$(date)"
 
 dir:
 	@if [ ! -d "obj" ]; then \
@@ -57,6 +54,7 @@ $(NAME): $(OBJS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/minishell.h | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+
 
 $(LIBFT):
 	@$(MAKE) -s -C $(LIBFT_DIR)

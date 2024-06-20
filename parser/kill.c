@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   kill.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:32:42 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/16 14:01:13 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:42:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 /*
 * Kills and exits the shell properly
