@@ -1,21 +1,21 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    OlliesMake                                         :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/20 18:07:15 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 18:13:44 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-comp 		=	cc
+CC 			= 	cc
 
-unamestr=$(uname)
-if [[ "$unamestr" == 'Darwin' ]]; then
-	comp=/opt/homebrew/Cellar/gcc/14.1.0_1/bin/gcc-14
-fi
+unamestr := $(shell uname)
+ifeq ($(unamestr), Darwin)
+	CC		=	/opt/homebrew/Cellar/gcc/14.1.0_1/bin/gcc-14
+endif
 
 YELLOW		=	\033[1;33m
 RED			=	\033[1;31m
@@ -24,7 +24,7 @@ BLUE		=	\033[1;34m
 CYAN		=	\033[1;36m
 NC			=	\033[0m
 
-CC 			= 	comp
+
 CFLAGS 		= 	-Wall -Wextra -Werror
 NAME		= 	minishell
 
