@@ -14,6 +14,7 @@
 		"readline.h": "c",
 		"minishell.h": "c",
 		"env.h": "c",
-		"parser.h": "c"
+		"parser.h": "c",
+		"stdio.h": "c"
 	}
 }
