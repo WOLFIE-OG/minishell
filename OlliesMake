@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/20 14:50:36 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 14:58:46 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ BLUE		=	\033[1;34m
 CYAN		=	\033[1;36m
 NC			=	\033[0m
 
-CC 			= 	clang
-CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude -std=c99 
+CC 			= 	cc
+CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude -std=c99 -Iinclude
 NAME		= 	minishell
 
 SRC_DIR 	= 	src
@@ -40,6 +40,9 @@ LIBS		=	-L$(LIBFT_DIR)/build -lft -lreadline
 
 
 all: $(LIBFT) $(NAME)
+	@echo "Running with zsh:"
+    @echo "Current directory: $$(pwd)"
+    @echo "Date: $$(date)"
 
 dir:
 	@if [ ! -d "obj" ]; then \
