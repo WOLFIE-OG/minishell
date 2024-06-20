@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/20 16:43:14 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 16:47:07 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,14 @@ CC 			= 	cc
 CFLAGS 		= 	-Wall -Wextra -Werror
 NAME		= 	minishell
 
-SRC_DIR 	= 	parser
+SRC_DIR 	= 	src
 OBJ_DIR 	= 	obj
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
 
-SRCS		=	parser/main.c \
-				parser/signals.c \
-				parser/env.c \
+SRCS		=	$(SRC_DIR)/main.c \
+				$(SRC_DIR)/signals.c \
+				$(SRC_DIR)/env.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
