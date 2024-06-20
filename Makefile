@@ -6,11 +6,11 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/20 18:13:44 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 18:17:15 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC 			= 	cc
+CC 			= 	gcc
 
 unamestr := $(shell uname)
 ifeq ($(unamestr), Darwin)
