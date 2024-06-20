@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/18 15:56:06 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 14:50:36 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ BLUE		=	\033[1;34m
 CYAN		=	\033[1;36m
 NC			=	\033[0m
 
-CC 			= 	cc
+CC 			= 	clang
 CFLAGS 		= 	-Wall -Wextra -Werror -g -Iinclude -std=c99 
 NAME		= 	minishell
 
