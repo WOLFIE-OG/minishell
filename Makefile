@@ -6,14 +6,14 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/16 13:09:08 by ssottori          #+#    #+#              #
-#    Updated: 2024/06/20 15:04:41 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/20 15:05:33 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Makefile
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -std=c99
+CFLAGS = -Wall -Wextra -Werror -std=c99 -Iinclude
 LDFLAGS = $(LIBRARY_PATH)
 NAME = minishell
 LIBFT_DIR = libft
@@ -22,7 +22,7 @@ SRCS = parser/main.c \
 		parser/env.c \
 
 OBJS = $(SRCS:.c=.o)
-LIBS = -lreadline -L$(LIBFT_DIR)/build -lft -Iinclude
+LIBS = -lreadline -L$(LIBFT_DIR)/build -lft
 LIBFT = $(LIBFT_DIR)/build/libft.a
 
 all: $(LIBFT) $(NAME)
