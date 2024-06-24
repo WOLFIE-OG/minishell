@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/20 18:17:15 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/24 17:30:27 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 
-CFLAGS 		= 	-Wall -Wextra -Werror
+CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g
 NAME		= 	minishell
 
 SRC_DIR 	= 	src
@@ -36,6 +36,8 @@ LIBFT_DIR 	= 	libft
 SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/signals.c \
 				$(SRC_DIR)/env.c \
+				$(SRC_DIR)/builtins/pwd/pwd.c \
+				$(SRC_DIR)/builtins/cd/cd.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -52,6 +54,8 @@ dir:
 	@if [ ! -d "obj" ]; then \
 		echo "[$(GREEN)MINISH$(NC)]    Creating obj directory..."; \
 		mkdir -p obj; \
+		mkdir -p "obj/builtins/pwd/"; \
+		mkdir -p "obj/builtins/cd/"; \
 	fi
 
 $(NAME): $(OBJS)
@@ -59,6 +63,14 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(HEADERS) $(LIBS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/minishell.h | dir
+	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
+	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/pwd/pwd.c $(INC_DIR)/minishell.h | dir
+	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
+	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/cd/cd.c $(INC_DIR)/minishell.h | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 

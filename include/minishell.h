@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/18 18:08:01 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/24 17:50:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,19 @@
 # include <sys/errno.h>
 # include <signal.h>
 
-//I suggest making separate .h files for the builtins,
-//the parser, the lexer and execution etc
-
 typedef struct s_root
 {
 	t_list	*env;
+	char	**prompt;
+	char	**p_head;
 }	t_root;
 
 # include "parser.h"
 # include "env.h"
+# include "builtins.h"
+
+//I suggest making separate .h files for the builtins,
+//the parser, the lexer and execution etc
 
 # define SUCCESS 0
 

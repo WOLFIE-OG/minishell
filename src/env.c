@@ -6,24 +6,33 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/20 16:42:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/24 19:14:02 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-bool	set_var(t_root *root, char *key, char *value)
+t_env_var	*set_var(t_root *root, char *key, char *value)
 {
 	t_env_var	*var;
 
 	var = find_var_by_key(root, key);
 	if (var)
 	{
+		free(var->value);
 		var->value = ft_strdup(value);
 		free(value);
-		return (true);
+		return (var);
 	}
-	return (false);
+	else
+	{
+		var = malloc(sizeof(t_env_var));
+		var->key = ft_strdup(key);
+		var->value = ft_strdup(value);
+		free(value);
+		ft_lstadd_back(&root->env, ft_lstnew(var));
+		return (var);
+	}
 }
 
 t_env_var	*get_var(t_root *root, char *key)
@@ -73,4 +82,22 @@ t_list	*init_env(char **envp)
 		envp++;
 	}
 	return (head);
+}
+
+void	free_env_list(t_root *root)
+{
+	t_env_var	*var;
+	t_list		*head;
+
+	head = root->env;
+	while (head)
+	{
+		var = (t_env_var *)head->content;
+		ft_printf("Free'd: %s\n", var->key);
+		free(var->key);
+		free(var->value);
+		head = head->next;
+	}
+	ft_lstclear(&root->env, free);
+	free(root->env);
 }
