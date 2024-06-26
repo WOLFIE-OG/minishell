@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/24 17:30:27 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/26 13:35:09 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/env.c \
 				$(SRC_DIR)/builtins/pwd/pwd.c \
 				$(SRC_DIR)/builtins/cd/cd.c \
+				$(SRC_DIR)/builtins/export/export.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -56,6 +57,7 @@ dir:
 		mkdir -p obj; \
 		mkdir -p "obj/builtins/pwd/"; \
 		mkdir -p "obj/builtins/cd/"; \
+		mkdir -p "obj/builtins/export/"; \
 	fi
 
 $(NAME): $(OBJS)
@@ -74,6 +76,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/cd/cd.c $(INC_DIR)/minishell.h | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/export/export.c $(INC_DIR)/minishell.h | dir
+	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
+	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 
 $(LIBFT):
 	@$(MAKE) -s -C $(LIBFT_DIR)

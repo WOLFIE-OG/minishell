@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/24 19:14:02 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/25 14:30:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,22 @@ t_env_var	*set_var(t_root *root, char *key, char *value)
 	}
 }
 
+// void	*unset_var(t_root *root, char *key)
+// {
+// 	t_list		*node;
+// 	t_env_var	*var;
+// 
+// 	node = find_var_by_key_return_node(root, key);
+// 	if (node)
+// 	{
+// 		free(var->value);
+// 		free(var->key);
+// 		
+// 		return (var);
+// 	}
+// }
+
+
 t_env_var	*get_var(t_root *root, char *key)
 {
 	return (find_var_by_key(root, key));
@@ -55,6 +71,22 @@ t_env_var	*find_var_by_key(t_root *root, char *key)
 	}
 	return (NULL);
 }
+
+// t_list	*find_var_by_key_return_node(t_root *root, char *key)
+// {
+// 	t_list		*head;
+// 	t_env_var	*var;
+// 
+// 	head = root->env;
+// 	while (head)
+// 	{
+// 		var = (t_env_var *)head->content;
+// 		if (!ft_strcmp(var->key, key))
+// 			return (head);
+// 		head = head->next;
+// 	}
+// 	return (NULL);
+// }
 
 t_list	*init_env(char **envp)
 {
@@ -84,20 +116,19 @@ t_list	*init_env(char **envp)
 	return (head);
 }
 
-void	free_env_list(t_root *root)
+static void	free_node(void *node)
 {
 	t_env_var	*var;
-	t_list		*head;
 
-	head = root->env;
-	while (head)
-	{
-		var = (t_env_var *)head->content;
-		ft_printf("Free'd: %s\n", var->key);
-		free(var->key);
-		free(var->value);
-		head = head->next;
-	}
+	var = (t_env_var *)node;
+	ft_printf("Free'd: %s\n", var->key);
+	free(var->key);
+	free(var->value);
+}
+
+void	free_env_list(t_root *root)
+{
+	ft_lstiter(root->env, free_node);
 	ft_lstclear(&root->env, free);
 	free(root->env);
 }

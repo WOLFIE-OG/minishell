@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/15 17:07:30 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:12:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/include/libft.h"
+#include "../../../include/minishell.h"
 
-void	echo(char **data)
+void	echo(t_root *root, char **data)
 {
 	int		offset;
 
@@ -24,12 +24,5 @@ void	echo(char **data)
 		ft_printf("%A", &data[offset]);
 	}
 	if (offset != 2)
-		ft_printf("\n");
-}
-
-int	main(int arg_n, char **arg_a)
-{
-	(void)arg_n;
-	echo(arg_a);
-	return (EXIT_SUCCESS);
+		printf("\n");
 }

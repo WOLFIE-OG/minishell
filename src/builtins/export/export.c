@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/05/21 15:33:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/26 13:34:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/include/libft.h"
+#include "../../../include/minishell.h"
 
-// void	pwd(char **data)
-// {
-// 
-// }
-
-int	main(int arg_n, char **arg_a)
+void	export(t_root *root, char *data)
 {
-	char	cwd[256];
+	char	**temp;
 
-	(void)arg_n;
-	ft_printf("%s\n", getcwd(cwd, sizeof(cwd)));
-	return (EXIT_SUCCESS);
+	temp = ft_key_value(data, '=');
+	if (temp[1])
+	{
+		set_var(root, temp[0], temp[1]);
+		free(temp[0]);
+		free(temp);
+	}
 }

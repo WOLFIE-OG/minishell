@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/24 17:50:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/25 14:27:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ typedef struct s_root
 // # define CYAN "\033[0;96m"
 // # define WHITE "\033[0;97m"
 
-extern int  gvar_signal;
+extern int  g_var_signal;
 
 #endif

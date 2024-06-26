@@ -17,6 +17,11 @@
 		"parser.h": "c",
 		"stdio.h": "c",
 		"builtins.h": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"optional": "c",
+		"system_error": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c"
 	}
 }
