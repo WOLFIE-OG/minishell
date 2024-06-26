@@ -1,1 +1,0 @@
-cc pwd.c -L../../libft/build -lft -o pwd

@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/06/26 13:35:09 by otodd            ###   ########.fr        #
+#    Updated: 2024/06/26 13:53:25 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,15 +30,18 @@ NAME		= 	minishell
 
 SRC_DIR 	= 	src
 OBJ_DIR 	= 	obj
+OBJ_DIRS	=	$(OBJ_DIR) \
+				$(OBJ_DIR)/builtins
+
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
 
 SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/signals.c \
 				$(SRC_DIR)/env.c \
-				$(SRC_DIR)/builtins/pwd/pwd.c \
-				$(SRC_DIR)/builtins/cd/cd.c \
-				$(SRC_DIR)/builtins/export/export.c \
+				$(SRC_DIR)/builtins/pwd.c \
+				$(SRC_DIR)/builtins/cd.c \
+				$(SRC_DIR)/builtins/export.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -52,13 +55,12 @@ LIBS		=	-L$(LIBFT_DIR)/build -lft -lreadline
 all: $(LIBFT) $(NAME)
 
 dir:
-	@if [ ! -d "obj" ]; then \
-		echo "[$(GREEN)MINISH$(NC)]    Creating obj directory..."; \
-		mkdir -p obj; \
-		mkdir -p "obj/builtins/pwd/"; \
-		mkdir -p "obj/builtins/cd/"; \
-		mkdir -p "obj/builtins/export/"; \
-	fi
+	@for dir in $(OBJ_DIRS); do 									\
+		if [ ! -d "$$dir" ]; then 												\
+			echo "[$(GREEN)MINISH$(NC)]    Creating directory --> $$dir"; 		\
+			mkdir -p $$dir; 													\
+		fi; 																	\
+	done
 
 $(NAME): $(OBJS)
 	@echo "[$(BLUE)MINISH$(NC)]    Building $@..."
@@ -68,15 +70,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/minishell.h | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/pwd/pwd.c $(INC_DIR)/minishell.h | dir
-	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/cd/cd.c $(INC_DIR)/minishell.h | dir
-	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/export/export.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/builtins/%.c $(INC_DIR)/minishell.h | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 

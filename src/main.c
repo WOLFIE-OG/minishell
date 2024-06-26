@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/26 13:04:55 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/26 13:44:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int main(int ac, char **av, char **env)
 			printf("\nBye Bye Minishell\n");
 			break ;
 		}
-		cd(&root, "/home/wolfie");
+		cd(&root, "~");
 		pwd(&root);
 		export(&root, "TESTVAR=test");
 		add_history(input);

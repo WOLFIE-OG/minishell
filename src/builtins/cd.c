@@ -6,11 +6,11 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/25 14:12:01 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/26 13:50:17 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	cd(t_root *root, char *path)
 {
@@ -27,4 +27,5 @@ void	cd(t_root *root, char *path)
 		set_var(root, "OLDPWD", ft_strdup(_pwd->value));
 		set_var(root, "PWD", pth);
 	}
+	free(pth);
 }
