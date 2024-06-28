@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/28 17:28:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/28 17:31:01 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,23 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-
-void	pwd(t_root *root);
-void	cd(t_root *root, char *path);
-void	export(t_root *root, char *data);
-void	echo(t_root *root, char **data);
-
-
-
 typedef struct s_env_var
 {
 	char	*key;
 	char	*value;
 }	t_env_var;
 
+void		pwd(t_root *root);
+void		cd(t_root *root, char *path);
+void		export(t_root *root, char *data);
+void		echo(t_root *root, char **data);
+
+
 t_list		*init_env(char **envp);
 t_env_var	*find_var_by_key(t_root *root, char *key);
 t_env_var	*set_var(t_root *root, char *key, char *value);
 t_env_var	*get_var(t_root *root, char *key);
 void		free_env_list(t_root *root);
-
 
 
 void		config_siginit(void);
