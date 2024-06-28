@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/25 14:27:18 by otodd            ###   ########.fr       */
+/*   Updated: 2024/06/28 17:28:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/errno.h>
+// # include <sys/ioctl.h>
 # include <signal.h>
 
 typedef struct s_root
@@ -32,9 +33,40 @@ typedef struct s_root
 	char	**p_head;
 }	t_root;
 
-# include "parser.h"
-# include "env.h"
-# include "builtins.h"
+typedef struct s_token
+{
+	char			*str;
+	int				type;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
+
+
+void	pwd(t_root *root);
+void	cd(t_root *root, char *path);
+void	export(t_root *root, char *data);
+void	echo(t_root *root, char **data);
+
+
+
+typedef struct s_env_var
+{
+	char	*key;
+	char	*value;
+}	t_env_var;
+
+t_list		*init_env(char **envp);
+t_env_var	*find_var_by_key(t_root *root, char *key);
+t_env_var	*set_var(t_root *root, char *key, char *value);
+t_env_var	*get_var(t_root *root, char *key);
+void		free_env_list(t_root *root);
+
+
+
+void		config_siginit(void);
+void		config_sigquit(void);
+void		kill_shell(void);
+void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 //I suggest making separate .h files for the builtins,
 //the parser, the lexer and execution etc

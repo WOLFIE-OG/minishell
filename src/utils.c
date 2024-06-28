@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 17:18:27 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/24 14:44:59 by otodd            ###   ########.fr       */
+/*   Created: 2024/06/28 17:21:51 by otodd             #+#    #+#             */
+/*   Updated: 2024/06/28 17:23:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include "../include/minishell.h"
 
-typedef struct s_env_var
+int	skip_space(char *input, int i)
 {
-	char	*key;
-	char	*value;
-}	t_env_var;
+	int	j;
 
-t_list		*init_env(char **envp);
-t_env_var	*find_var_by_key(t_root *root, char *key);
-t_env_var	*set_var(t_root *root, char *key, char *value);
-t_env_var	*get_var(t_root *root, char *key);
-void		free_env_list(t_root *root);
-
-#endif
+	j = 0;
+	while (ft_iswhitespace(input[i + j]))
+		j++;
+	return (j);
+}
