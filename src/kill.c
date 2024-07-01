@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:32:42 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/01 16:27:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 17:48:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 void	kill_shell(t_root *root, int code)
 {
 	free_env(root);
+	ft_free_array(root->builtin_array, ft_strarraylen(root->builtin_array));
+	free(root->builtin_array);
 	write(1, "\n", 1);
 	exit(code);
 }

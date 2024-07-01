@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 16:26:52 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 18:02:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ extern int	g_var_signal;
 typedef struct s_root
 {
 	t_list	*env;
+	char	**builtin_array;
 	char	**prompt;
-	char	**p_head;
+	char	*args;
+	char	*name;
 }	t_root;
 
 typedef struct s_token
@@ -54,9 +56,9 @@ typedef struct s_env_var
 // src/builtins/*.c - Bultins
 
 void		ft_pwd(t_root *root);
-void		ft_cd(t_root *root, char *path);
+int			ft_cd(t_root *root, char *path);
 void		ft_export(t_root *root, char *data);
-void		ft_echo(t_root *root, char **data);
+void		ft_echo(char **data);
 void		ft_unset(t_root *root, char *key);
 void		ft_env(t_root *root);
 void		ft_exit(t_root *root, int code);
@@ -80,6 +82,10 @@ void		config_siginit(void);
 void		config_sigquit(void);
 void		kill_shell(t_root *root, int code);
 void		ft_init_shell(t_root *root, int ac, char **av, char **env);
+
+// src/executor.c - Executor Functions
+
+bool		is_builtin(t_root *root, char *cmd);
 
 # define SUCCESS 0
 

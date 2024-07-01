@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/01 16:17:40 by otodd            ###   ########.fr        #
+#    Updated: 2024/07/01 18:00:13 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,14 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/env_helpers.c \
 				$(SRC_DIR)/utils.c \
 				$(SRC_DIR)/kill.c \
+				$(SRC_DIR)/executor.c \
 				$(SRC_DIR)/builtins/pwd.c \
 				$(SRC_DIR)/builtins/cd.c \
 				$(SRC_DIR)/builtins/export.c \
+				$(SRC_DIR)/builtins/echo.c \
 				$(SRC_DIR)/builtins/unset.c \
 				$(SRC_DIR)/builtins/env.c \
+				$(SRC_DIR)/builtins/exit.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
