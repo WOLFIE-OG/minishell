@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/01 18:03:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 18:08:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ static char	*set_prompt(t_root *root)
 
 static void	builtin_test(t_root *root)
 {
-	ft_cd(root, "/usr/bin");
-	ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL, "/usr/bin"), "Test"));
+	ft_cd(root, "~/");
+	//ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL,
+	// 	"/usr/bin"), get_var(root, "PWD")->value));
 	// printf("%d\n", is_builtin(root, "cd"));
 	// ft_pwd(root);
 	// ft_export(root, "TESTVAR=test");
