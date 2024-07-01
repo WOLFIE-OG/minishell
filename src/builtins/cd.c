@@ -6,13 +6,13 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/26 13:50:17 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:20:40 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	cd(t_root *root, char *path)
+void	ft_cd(t_root *root, char *path)
 {
 	t_env_var	*_pwd;
 	char		*pth;

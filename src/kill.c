@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:32:42 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:27:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 * Kills and exits the shell properly
 */
 
-void	kill_shell(void)
+void	kill_shell(t_root *root, int code)
 {
-	// ft_freestrarr();
+	free_env(root);
 	write(1, "\n", 1);
-	exit (0);
+	exit(code);
 }
 
 void	ft_free_tokens(t_token *tokens, char *value)
 {
-	t_token	*tmp = 0;
+	static t_token	*tmp = 0;
 
 	while (tokens)
 	{

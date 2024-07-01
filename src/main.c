@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/06/26 13:44:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:27:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-
 	config_siginit();
 	root->env = init_env(env);
 }
@@ -34,14 +33,23 @@ static char	*set_prompt(t_root *root)
 	return (ft_strarraytostr(root->prompt));
 }
 
-int main(int ac, char **av, char **env)
+static void	builtin_test(t_root *root)
+{
+	ft_cd(root, "~/");
+	ft_pwd(root);
+	ft_export(root, "TESTVAR=test");
+	ft_unset(root, "TESTVAR");
+	ft_env(root);
+}
+
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	*tmp;
 	t_root	root;
 
 	g_var_signal = 0;
-	ft_init_shell(&root, ac, av, env);
+	ft_init_shell(&root, ac, av, envp);
 	while (true)
 	{
 		tmp = set_prompt(&root);
@@ -55,12 +63,9 @@ int main(int ac, char **av, char **env)
 			printf("\nBye Bye Minishell\n");
 			break ;
 		}
-		cd(&root, "~");
-		pwd(&root);
-		export(&root, "TESTVAR=test");
+		builtin_test(&root);
 		add_history(input);
 		free(input);
 	}
-	free_env_list(&root);
-	exit(EXIT_SUCCESS);
+	kill_shell(&root, EXIT_SUCCESS);
 }

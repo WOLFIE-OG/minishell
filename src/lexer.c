@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/28 17:20:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:24:50 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Yes             |
 Skip Spaces     Is '|' or '&' or '<' or '>' or '(' or ')' --- No
  |               |                                           |
 Tokenize Space   |                                           V
-                 Tokenize Operator                        Tokenize Command*//* 
+				 Tokenize Operator                        Tokenize Command*//* 
 Start
  |
  V
@@ -37,12 +37,12 @@ Yes             |
 Skip Spaces     Is '|' or '&' or '<' or '>' or '(' or ')' --- No
  |               |                                           |
 Tokenize Space   |                                           V
-                 Tokenize Operator                        Tokenize Command
+				 Tokenize Operator                        Tokenize Command
 */
 
 #include "../include/minishell.h"
 
-t_token *add_new(char *value)
+t_token	*add_new(char *value)
 {
 	t_token = malloc(sizeof(t_token));
 
@@ -54,7 +54,7 @@ t_token *add_new(char *value)
 	return (token);
 }
 
-t_token tokenizer(t_token value, char *input)
+t_token	tokenizer(t_token value, char *input)
 {
 	int i;
 	int w;
@@ -62,7 +62,7 @@ t_token tokenizer(t_token value, char *input)
 	i = 0;
 	w = 0;
 
-	while (!is_whitespace(input[i++]))
+	while (!ft_iswhitespace(input[i++]))
 	{
 
 	}

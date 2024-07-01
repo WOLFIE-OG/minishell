@@ -6,13 +6,13 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/26 13:50:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/01 16:20:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	pwd(t_root *root)
+void	ft_pwd(t_root *root)
 {
 	const t_env_var	*var = get_var(root, "PWD");
 
