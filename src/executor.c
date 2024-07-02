@@ -6,16 +6,44 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 17:47:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/02 16:55:11 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// void	executor(t_root *root)
-// {
-// 
-// }
+void	runner_process(t_root *root, char **args)
+{
+	pid_t		child;
+	int			pipefd[2];
+	char		*line;
+	char		**env;
+
+	pipe(pipefd);
+	child = fork();
+	if (child == 0)
+	{
+		env = env_to_array(root);
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		execve(args[0], args, env);
+		ft_free_array(env, ft_strarraylen(env));
+		free(env);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		close(pipefd[1]);
+		wait(NULL);
+		while ((line = ft_get_next_line(pipefd[0])))
+		{
+			printf("%s", line);
+			free(line);
+		}
+		close(pipefd[0]);
+	}
+}
 
 bool	is_builtin(t_root *root, char *cmd)
 {

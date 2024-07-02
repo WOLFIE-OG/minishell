@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 18:02:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/02 16:36:00 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/errno.h>
+# include <sys/wait.h>
 // # include <sys/ioctl.h>
 # include <signal.h>
 
@@ -66,6 +67,7 @@ void		ft_exit(t_root *root, int code);
 // src/env.c - Env
 
 t_list		*init_env(char **envp);
+char		**env_to_array(t_root *root);
 void		free_env(t_root *root);
 
 // src/env_helpers.c - Env Helpers
@@ -86,6 +88,7 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 // src/executor.c - Executor Functions
 
 bool		is_builtin(t_root *root, char *cmd);
+void		runner_process(t_root *root, char **args);
 
 # define SUCCESS 0
 

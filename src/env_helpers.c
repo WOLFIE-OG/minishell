@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 16:18:53 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/02 17:04:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ bool	unset_var(t_root *root, char *key)
 	{
 		node = ft_lstpop(node);
 		var = (t_env_var *)node->content;
-		printf("%s\n", var->key);
 		free(var->value);
 		free(var->key);
 		free(var);

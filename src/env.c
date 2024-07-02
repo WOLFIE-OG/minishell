@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 16:22:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/02 16:50:09 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,30 @@ t_list	*init_env(char **envp)
 		envp++;
 	}
 	return (head);
+}
+
+char	**env_to_array(t_root *root)
+{
+	t_list		*head;
+	t_env_var	*var;
+	char		*str;
+	char		**tmp;
+	static char	**str_env = NULL;
+
+	head = root->env;
+	while (head)
+	{
+		var = (t_env_var *)head->content;
+		tmp = ft_strarrayappend2(NULL, ft_strdup(var->key));
+		tmp = ft_strarrayappend2(tmp, ft_strdup("="));
+		tmp = ft_strarrayappend2(tmp, ft_strdup(var->value));
+		str = ft_strarraytostr(tmp);
+		ft_free_array(tmp, ft_strarraylen(tmp));
+		str_env = ft_strarrayappend2(str_env, ft_strdup(str));
+		free(str);
+		head = head->next;
+	}
+	return (str_env);
 }
 
 static void	free_var(void *node)

@@ -24,6 +24,7 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"stdlib.h": "c",
-		"stat.h": "c"
+		"stat.h": "c",
+		"wait.h": "c"
 	}
 }
