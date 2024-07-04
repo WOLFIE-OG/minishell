@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:32:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:39:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_test_token(void)
 
 		for (int i = 0; i < num_tests; i++)
 		{
-			t_token *token = ft_token_new(testtokens[i]);
+			t_token *token = ft_token_new(ft_strdup(testtokens[i]));
 			ft_token_type(token, 0);
 
 			printf("Token value: '%s' -> Token type: %d\n", token->str, token->type);
