@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:33:20 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:37:09 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ t_token		*ft_token_new(char *str);
 t_token		*ft_token_pop(t_token *node);
 size_t		ft_token_size(t_token *lst);
 void		ft_token_type(t_token *token, int div);
-
 
 // src/ft_env.c - Env
 

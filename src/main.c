@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/04 17:10:51 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:36:43 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,18 @@ static char	*ft_set_prompt(t_root *root)
 	return (ft_strarraytostr(root->prompt));
 }
 
+/*
+ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL,
+	"/usr/bin"), get_var(root, "PWD")->value));
+	printf("%d\n", is_builtin(root, "cd"));
+	ft_pwd(root);
+	ft_unset(root, "TESTVAR");
+	ft_env(root);
+*/
 static void	ft_builtin_test(t_root *root)
 {
 	char	**tmp;
+
 	ft_cd(root, "~/");
 	ft_export(root, "TESTVAR=test");
 	tmp = ft_strarrayappend2(NULL, ft_strdup("/bin/ls"));
@@ -68,12 +77,6 @@ static void	ft_builtin_test(t_root *root)
 	ft_runner_process(root, tmp);
 	ft_free_array(tmp, ft_strarraylen(tmp));
 	free(tmp);
-	//ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL,
-	// 	"/usr/bin"), get_var(root, "PWD")->value));
-	// printf("%d\n", is_builtin(root, "cd"));
-	// ft_pwd(root);
-	// ft_unset(root, "TESTVAR");
-	// ft_env(root);
 }
 
 int	main(int ac, char **av, char **envp)
