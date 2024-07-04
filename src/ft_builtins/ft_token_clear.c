@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_token_clear.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 17:21:51 by otodd             #+#    #+#             */
-/*   Updated: 2024/06/28 17:23:54 by otodd            ###   ########.fr       */
+/*   Created: 2024/01/23 13:21:21 by otodd             #+#    #+#             */
+/*   Updated: 2024/07/04 16:43:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	skip_space(char *input, int i)
+void	ft_token_clear(t_token **lst, void (*del)(void *))
 {
-	int	j;
+	t_token	*tmp;
+	t_token	*tmp_2;
 
-	j = 0;
-	while (ft_iswhitespace(input[i + j]))
-		j++;
-	return (j);
+	tmp = *lst;
+	while (tmp)
+	{
+		tmp_2 = tmp->next;
+		ft_token_delone(tmp, del);
+		tmp = tmp_2;
+	}
+	*lst = NULL;
 }

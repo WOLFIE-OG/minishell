@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 18:02:35 by otodd            ###   ########.fr       */
+/*   Created: 2024/06/28 17:21:51 by otodd             #+#    #+#             */
+/*   Updated: 2024/07/04 17:07:09 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
-void	ft_exit(t_root *root, int code)
+int	ft_skip_space(char *input, int i)
 {
-	kill_shell(root, code);
+	int	j;
+
+	j = 0;
+	while (ft_iswhitespace(input[i + j]))
+		j++;
+	return (j);
 }

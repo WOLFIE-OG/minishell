@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   ft_executor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/02 16:55:11 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:11:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	runner_process(t_root *root, char **args)
+void	ft_runner_process(t_root *root, char **args)
 {
 	pid_t		child;
 	int			pipefd[2];
@@ -23,7 +23,7 @@ void	runner_process(t_root *root, char **args)
 	child = fork();
 	if (child == 0)
 	{
-		env = env_to_array(root);
+		env = ft_env_to_array(root);
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
@@ -45,7 +45,7 @@ void	runner_process(t_root *root, char **args)
 	}
 }
 
-bool	is_builtin(t_root *root, char *cmd)
+bool	ft_is_builtin(t_root *root, char *cmd)
 {
 	if (ft_is_in_strarray(root->builtin_array, cmd))
 		return (true);

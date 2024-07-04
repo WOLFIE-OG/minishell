@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/02 16:36:00 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:33:20 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum e_token_type
 	INPUT,
 	PIPE,
 	END
-} t_token_type;
+}	t_token_type;
 
 extern int	g_var_signal;
 // This is the main data struct of the shell
@@ -66,7 +66,7 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
-// src/builtins/*.c - Bultins
+// src/ft_builtins/ft_*.c - Bultins
 
 void		ft_pwd(t_root *root);
 int			ft_cd(t_root *root, char *path);
@@ -76,34 +76,47 @@ void		ft_unset(t_root *root, char *key);
 void		ft_env(t_root *root);
 void		ft_exit(t_root *root, int code);
 
-// src/env.c - Env
+// src/ft_tokeniser_helpers/ft_*.c - Tonkeniser Helper Functions
 
-t_list		*init_env(char **envp);
-char		**env_to_array(t_root *root);
-void		free_env(t_root *root);
+void		ft_token_add(t_token **lst, t_token *new_l);
+void		ft_token_delone(t_token *lst, void (*del)(void *));
+t_token		*ft_token_last(t_token *lst);
+t_token		*ft_token_new(char *str);
+t_token		*ft_token_pop(t_token *node);
+size_t		ft_token_size(t_token *lst);
+void		ft_token_type(t_token *token, int div);
 
-// src/env_helpers.c - Env Helpers
 
-t_env_var	*find_var_by_key(t_root *root, char *key);
-t_env_var	*set_var(t_root *root, char *key, char *value);
-t_env_var	*get_var(t_root *root, char *key);
-t_list		*find_node_by_var_key(t_root *root, char *key);
-bool		unset_var(t_root *root, char *key);
+// src/ft_env.c - Env
 
-// src/kill.c - Shell kill
+t_list		*ft_init_env(char **envp);
+char		**ft_env_to_array(t_root *root);
+void		ft_free_env(t_root *root);
 
-void		config_siginit(void);
-void		config_sigquit(void);
-void		kill_shell(t_root *root, int code);
+// src/ft_env_helpers.c - Env Helpers
+
+t_env_var	*ft_find_var_by_key(t_root *root, char *key);
+t_env_var	*ft_set_var(t_root *root, char *key, char *value);
+t_env_var	*ft_get_var(t_root *root, char *key);
+t_list		*ft_find_node_by_var_key(t_root *root, char *key);
+bool		ft_unset_var(t_root *root, char *key);
+
+// src/ft_kill.c - Shell kill
+
+void		ft_config_siginit(void);
+void		ft_config_sigquit(void);
+void		ft_kill_shell(t_root *root, int code);
 void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
-// src/executor.c - Executor Functions
+// src/ft_executor.c - Executor Functions
 
-bool		is_builtin(t_root *root, char *cmd);
-void		runner_process(t_root *root, char **args);
+bool		ft_is_builtin(t_root *root, char *cmd);
+void		ft_runner_process(t_root *root, char **args);
 
-void	test_token()
-void	ft_token_type(t_token *token, int div);
+// src/ft_lexer.c - Lexer
+
+void		ft_test_token(void);
+t_token		*ft_tokenizer(t_token value, char *input);
 
 # define SUCCESS 0
 

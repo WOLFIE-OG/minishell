@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_helpers.c                                      :+:      :+:    :+:   */
+/*   ft_env_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/02 17:04:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:06:40 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_env_var	*set_var(t_root *root, char *key, char *value)
+t_env_var	*ft_set_var(t_root *root, char *key, char *value)
 {
 	t_env_var	*var;
 
-	var = find_var_by_key(root, key);
+	var = ft_find_var_by_key(root, key);
 	if (var)
 	{
 		free(var->value);
@@ -35,12 +35,12 @@ t_env_var	*set_var(t_root *root, char *key, char *value)
 	}
 }
 
-bool	unset_var(t_root *root, char *key)
+bool	ft_unset_var(t_root *root, char *key)
 {
 	t_list		*node;
 	t_env_var	*var;
 
-	node = find_node_by_var_key(root, key);
+	node = ft_find_node_by_var_key(root, key);
 	if (node)
 	{
 		node = ft_lstpop(node);
@@ -54,12 +54,12 @@ bool	unset_var(t_root *root, char *key)
 	return (false);
 }
 
-t_env_var	*get_var(t_root *root, char *key)
+t_env_var	*ft_get_var(t_root *root, char *key)
 {
-	return (find_var_by_key(root, key));
+	return (ft_find_var_by_key(root, key));
 }
 
-t_env_var	*find_var_by_key(t_root *root, char *key)
+t_env_var	*ft_find_var_by_key(t_root *root, char *key)
 {
 	t_list		*head;
 	t_env_var	*var;
@@ -75,7 +75,7 @@ t_env_var	*find_var_by_key(t_root *root, char *key)
 	return (NULL);
 }
 
-t_list	*find_node_by_var_key(t_root *root, char *key)
+t_list	*ft_find_node_by_var_key(t_root *root, char *key)
 {
 	t_list		*head;
 	t_env_var	*var;

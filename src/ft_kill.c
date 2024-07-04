@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kill.c                                             :+:      :+:    :+:   */
+/*   ft_kill.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:32:42 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/01 17:48:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:06:05 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 * Kills and exits the shell properly
 */
 
-void	kill_shell(t_root *root, int code)
+void	ft_kill_shell(t_root *root, int code)
 {
-	free_env(root);
+	ft_free_env(root);
 	ft_free_array(root->builtin_array, ft_strarraylen(root->builtin_array));
 	free(root->builtin_array);
 	write(1, "\n", 1);

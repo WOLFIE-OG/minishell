@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/02 16:50:09 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:06:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_list	*init_env(char **envp)
+t_list	*ft_init_env(char **envp)
 {
 	char		**temp;
 	t_list		*env;
@@ -40,7 +40,7 @@ t_list	*init_env(char **envp)
 	return (head);
 }
 
-char	**env_to_array(t_root *root)
+char	**ft_env_to_array(t_root *root)
 {
 	t_list		*head;
 	t_env_var	*var;
@@ -64,7 +64,7 @@ char	**env_to_array(t_root *root)
 	return (str_env);
 }
 
-static void	free_var(void *node)
+static void	ft_free_var(void *node)
 {
 	t_env_var	*var;
 
@@ -74,9 +74,9 @@ static void	free_var(void *node)
 	free(var->value);
 }
 
-void	free_env(t_root *root)
+void	ft_free_env(t_root *root)
 {
-	ft_lstiter(root->env, free_var);
+	ft_lstiter(root->env, ft_free_var);
 	ft_lstclear(&root->env, free);
 	free(root->env);
 }

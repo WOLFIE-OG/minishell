@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_token_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 15:53:06 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 16:20:57 by otodd            ###   ########.fr       */
+/*   Created: 2023/11/17 15:06:25 by otodd             #+#    #+#             */
+/*   Updated: 2024/07/04 17:19:11 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_unset(t_root *root, char *key)
+size_t	ft_token_size(t_token *lst)
 {
-	unset_var(root, key);
+	size_t	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
