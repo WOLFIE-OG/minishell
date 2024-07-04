@@ -92,6 +92,7 @@ int	main(int ac, char **av, char **envp)
 		free(root.prompt);
 		free(tmp);
 		config_siginit();
+		test_token();
 		if (!input)
 		{
 			printf("Bye Bye Minishell\n");

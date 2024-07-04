@@ -50,6 +50,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/builtins/unset.c \
 				$(SRC_DIR)/builtins/env.c \
 				$(SRC_DIR)/builtins/exit.c \
+				$(SRC_DIR)/lexer.c \
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

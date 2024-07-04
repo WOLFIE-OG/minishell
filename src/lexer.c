@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/01 16:24:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/04 14:09:32 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ t_token	*add_new(char *value)
 		return NULL;
 
 	token->value = ft_strdup(value);
+	token->type = EMPTY;
 	token->next = NULL;
+	token->prev = NULL;
 	return (token);
 }
 
@@ -87,3 +89,20 @@ void	ft_token_type(t_token *token, int div)
 	else
 		token->type = ARG;
 }
+
+void	test_token()
+{
+	char *testtokens[] = {"", ">", ">>", "<", "|", ";", "cmd", "arg"};
+	int num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
+
+		for (int i = 0; i < num_tests; i++)
+		{
+			t_token *token = add_new(testtokens[i]);
+			ft_token_type(token, 0);
+
+			printf("Token value: '%s' -> Token type: %d\n", token->value, token->type);
+
+			free(token->value);
+			free(token);
+		}
+} 

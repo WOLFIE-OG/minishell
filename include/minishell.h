@@ -27,6 +27,18 @@
 // # include <sys/ioctl.h>
 # include <signal.h>
 
+typedef enum e_token_type
+{
+	EMPTY,
+	CMD,
+	ARG,
+	TRUNC,
+	APPEND,
+	INPUT,
+	PIPE,
+	END
+} t_token_type;
+
 extern int	g_var_signal;
 // This is the main data struct of the shell
 typedef struct s_root
@@ -89,6 +101,9 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 bool		is_builtin(t_root *root, char *cmd);
 void		runner_process(t_root *root, char **args);
+
+void	test_token()
+void	ft_token_type(t_token *token, int div);
 
 # define SUCCESS 0
 
