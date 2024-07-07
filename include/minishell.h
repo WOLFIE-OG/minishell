@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 18:31:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/07 22:31:06 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@
 # include <readline/history.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
-// # include <sys/ioctl.h>
+# include <sys/ioctl.h>
 # include <signal.h>
 
 typedef enum e_token_type
 {
-	EMPTY,
+	EMPTY, 
 	CMD,
 	ARG,
-	TRUNC,
-	APPEND,
-	INPUT,
-	PIPE,
-	END
+	TRUNC, // >
+	APPEND, // >>
+	INPUT, // <
+	PIPE, // |
+	END // ;
 }	t_token_type;
 
 extern int	g_var_signal;
@@ -115,7 +115,11 @@ void		ft_runner_process(t_root *root, char **args);
 // src/ft_lexer.c - Lexer
 
 void		ft_test_token(void);
-t_token		*ft_tokenizer(t_token value, char *input);
+t_token		*ft_tokenizer(char *input);
+int	ft_issep(char *input, int i);
+int	ft_skip_whitespace(const char *input, int i);
+char	*ft_tokenstr(const char *input, int start, int end);
+int	ft_parsetokens(const char *input, int i, t_token **head);
 
 # define SUCCESS 0
 

@@ -3,64 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:39:45 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/07 22:31:46 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Start
- |
- V
-Read Input Line
- |
- V
-Is Space? ------ No
- |               |
-Yes             |
- |               V
-Skip Spaces     Is '|' or '&' or '<' or '>' or '(' or ')' --- No
- |               |                                           |
-Tokenize Space   |                                           V
-				 Tokenize Operator                        Tokenize Command*//* 
-Start
- |
- V
-Read Input Line
- |
- V
-Is Space? ------ No
- |               |
-Yes             |
- |               V
-Skip Spaces     Is '|' or '&' or '<' or '>' or '(' or ')' --- No
- |               |                                           |
-Tokenize Space   |                                           V
-				 Tokenize Operator                        Tokenize Command
-*/
-
 #include "../include/minishell.h"
 
-t_token	*ft_tokenizer(t_token value, char *input)
+/*
+parse input string and convert to linked list of tokens 
+each token should correspond to a type*/
+
+t_token	*ft_tokenizer(char *input)
 {
-	int	i;
-	int	w;
+	t_token	*head = NULL;
+	t_token	*token;
+	int		i;
+	char	*tok_str;
+	int		start;
 
 	i = 0;
-	w = 0;
-	(void)w;
-	(void)i;
-	(void)value;
 
-	while (!ft_iswhitespace(input[i++]))
+	while (input[i])
 	{
-
+		i = ft_skip_whitespace(input, i);
+		start = i;
+		while (input[i] && !ft_iswhitespace(input[i]) && !ft_issep(input, i))
+			i++;
+		if (start != i)
+		{
+			tok_str = ft_tokenstr(input, start, i);
+			token = ft_token_new(tok_str);
+			ft_token_add(&head, token);
+		}
+		if (ft_issep(input, i)) //  should i ignore separators?
+			i = ft_parsetokens(input, i, &head);
+		else
+			i++;
 	}
-	return (NULL);
+	return (head);
 }
 
-void	ft_test_token(void)
+/*void	ft_test_token(void)
 {
 	char *testtokens[] = {"", ">", ">>", "<", "|", ";", "cmd", "arg"};
 	int num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
@@ -75,4 +61,4 @@ void	ft_test_token(void)
 			free(token->str);
 			free(token);
 		}
-} 
+}*/

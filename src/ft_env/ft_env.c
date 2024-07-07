@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:06:18 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/07 20:49:36 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	ft_free_var(void *node)
 	t_env_var	*var;
 
 	var = (t_env_var *)node;
-	ft_printf("Free'd: %s\n", var->key);
+	//ft_printf("Free'd: %s\n", var->key);
 	free(var->key);
 	free(var->value);
 }

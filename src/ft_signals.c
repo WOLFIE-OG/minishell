@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/04 17:35:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/07 21:22:33 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	rl_on_new_line(); - movin to nwl line
 	rl_replace_line("", 0); - clearing current input line
 */
+
 static void	ft_sigint_input(int signum)
 {
 	g_var_signal = signum;

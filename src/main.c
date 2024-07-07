@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/04 17:36:43 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/07 22:48:22 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	ft_config_siginit();
+	//ft_config_siginit();
 	root->env = ft_init_env(env);
 	ft_create_builtin_array(root);
 }
@@ -79,26 +79,71 @@ static void	ft_builtin_test(t_root *root)
 	free(tmp);
 }
 
+static void	print_tokens(t_token *head)
+{
+	t_token *current = head;
+	while (current)
+	{
+		printf("token value = '%s' -> token type = %d\n", current->str, current->type);
+		current = current->next;
+	}
+}
+
+static void	free_tokens(t_token *head)
+{
+	t_token *current = head;
+	t_token *next;
+
+	while (current)
+	{
+		next = current->next;
+		free(current->str);
+		free(current);
+		current = next;
+	}
+}
+
+static int	tokenizer_tester(int ac, char **av)
+{
+	int i = 1;
+	t_token *tokens = NULL;
+
+	if (ac > 1)
+	{
+		while (i < ac)
+		{
+			printf("input = %s\n", av[i]);
+			tokens = ft_tokenizer(av[i]);
+			print_tokens(tokens);
+			free_tokens(tokens);
+			printf("\n");
+		}
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	*tmp;
 	t_root	root;
 
-	g_var_signal = 0;
 	ft_init_shell(&root, ac, av, envp);
+	
+	tokenizer_tester(ac, av);
 	while (true)
 	{
+		g_var_signal = 0;
+		ft_config_siginit();
 		tmp = ft_set_prompt(&root);
 		input = readline(tmp);
 		ft_free_array(root.prompt, ft_strarraylen(root.prompt));
 		free(root.prompt);
 		free(tmp);
-		ft_config_siginit();
-		ft_test_token();
+		//ft_test_token();
 		if (!input)
 		{
-			printf("Bye Bye Minishell\n");
+			printf("exit\n"); //handling EOF
 			break ;
 		}
 		ft_builtin_test(&root);
