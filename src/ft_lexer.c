@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/07 22:31:46 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/08 23:19:00 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_token	*ft_tokenizer(char *input)
 	int		start;
 
 	i = 0;
-
 	while (input[i])
 	{
 		i = ft_skip_whitespace(input, i);
@@ -34,6 +33,8 @@ t_token	*ft_tokenizer(char *input)
 			i++;
 		if (start != i)
 		{
+			if (!ft_strcmp(tok_str, ""))
+				break ;
 			tok_str = ft_tokenstr(input, start, i);
 			token = ft_token_new(tok_str);
 			ft_token_add(&head, token);
