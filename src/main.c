@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/08 00:50:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/11 15:12:41 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	main(int ac, char **av, char **envp)
 		ft_free_array(root.prompt, ft_strarraylen(root.prompt));
 		free(root.prompt);
 		free(tmp);
-		//ft_test_token();
+		ft_test_token();
 		if (!input)
 		{
 			printf("exit\n"); //handling EOF
