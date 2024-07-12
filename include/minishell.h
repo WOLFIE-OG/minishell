@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/07 22:31:06 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:16:13 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,17 @@ extern int	g_var_signal;
 // This is the main data struct of the shell
 typedef struct s_root
 {
-	t_list	*env;
-	char	**builtin_array;
-	char	**prompt;
-	char	*args;
-	char	*name;
+	t_list			*env;
+	struct s_token	*tokens;
+	char			**builtin_array;
+	char			**prompt;
+	char			*args;
+	char			*name;
 }	t_root;
 
 typedef struct s_token
 {
+	int				index;
 	char			*str;
 	int				type;
 	struct s_token	*next;
@@ -69,22 +71,25 @@ typedef struct s_env_var
 // src/ft_builtins/ft_*.c - Bultins
 
 void		ft_pwd(t_root *root);
-int			ft_cd(t_root *root, char *path);
-void		ft_export(t_root *root, char *data);
-void		ft_echo(char **data);
-void		ft_unset(t_root *root, char *key);
+int			ft_cd(t_root *root);
+void		ft_export(t_root *root);
+void		ft_echo(t_root *root);
+void		ft_unset(t_root *root);
 void		ft_env(t_root *root);
 void		ft_exit(t_root *root, int code);
 
 // src/ft_tokeniser_helpers/ft_*.c - Tonkeniser Helper Functions
 
 void		ft_token_add(t_token **lst, t_token *new_l);
+void		ft_token_clear(t_token **lst, void (*del)(void *));
 void		ft_token_delone(t_token *lst, void (*del)(void *));
 t_token		*ft_token_last(t_token *lst);
 t_token		*ft_token_new(char *str);
 t_token		*ft_token_pop(t_token *node);
 size_t		ft_token_size(t_token *lst);
 void		ft_token_type(t_token *token, int div);
+t_token		*ft_find_token_by_index(t_root *root, int index);
+
 
 // src/ft_env.c - Env
 
@@ -116,10 +121,10 @@ void		ft_runner_process(t_root *root, char **args);
 
 void		ft_test_token(void);
 t_token		*ft_tokenizer(char *input);
-int	ft_issep(char *input, int i);
-int	ft_skip_whitespace(const char *input, int i);
-char	*ft_tokenstr(const char *input, int start, int end);
-int	ft_parsetokens(const char *input, int i, t_token **head);
+int			ft_issep(char *input, int i);
+int			ft_skip_whitespace(const char *input, int i);
+char		*ft_tokenstr(const char *input, int start, int end);
+int			ft_parsetokens(const char *input, int i, t_token **head);
 
 # define SUCCESS 0
 

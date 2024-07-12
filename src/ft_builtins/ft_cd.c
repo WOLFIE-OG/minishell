@@ -6,30 +6,32 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:07:34 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/12 19:00:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_cd(t_root *root, char *path)
+int	ft_cd(t_root *root)
 {
 	t_env_var	*var;
+	t_token		*arg;
 	char		*pth;
 	int			r_code;
 
-	if (!ft_strlen(path) || !ft_strcmp(path, "~/"))
+	arg = ft_find_token_by_index(root, 1);
+	if (!ft_strlen(arg->str) || !ft_strcmp(arg->str, "~/"))
 	{
 		var = ft_get_var(root, "HOME");
-		path = var->value;
+		arg->str = var->value;
 	}
 	else
 		var = ft_get_var(root, "PWD");
-	if (path[(ft_strlen(path) - 1)] == '/')
-		pth = ft_strndup(path, (ft_strlen(path) - 1));
+	if (arg->str[(ft_strlen(arg->str) - 1)] == '/')
+		pth = ft_strndup(arg->str, (ft_strlen(arg->str) - 1));
 	else
-		pth = ft_strdup(path);
-	r_code = chdir(path);
+		pth = ft_strdup(arg->str);
+	r_code = chdir(arg->str);
 	if (r_code != 0)
 	{
 		free(pth);

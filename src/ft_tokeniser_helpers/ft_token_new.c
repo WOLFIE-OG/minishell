@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:06:25 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:18:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:55:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 t_token	*ft_token_new(char *str)
 {
-	t_token	*new_list;
+	t_token	*node;
 
-	new_list = malloc(sizeof(t_token));
-	if (!new_list)
+	node = malloc(sizeof(t_token));
+	if (!node)
 		return (NULL);
-	new_list->str = str;
-	new_list->type = EMPTY;
-	new_list->next = NULL;
-	new_list->prev = NULL;
-	return (new_list);
+	node->str = str;
+	node->type = EMPTY;
+	node->next = NULL;
+	node->prev = NULL;
+	node->index = 0;
+	return (node);
 }

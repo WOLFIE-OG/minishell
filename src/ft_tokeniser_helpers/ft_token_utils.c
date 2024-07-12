@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:20:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/07 22:30:55 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:35:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_token	*ft_find_token_by_index(t_root *root, int index)
+{
+	t_token	*head;
+
+	head = root->tokens;
+	while (head)
+	{
+		if (head->index == index)
+			return (head);
+		head = head->next;
+	}
+	return (NULL);
+}
 
 void	ft_token_type(t_token *token, int div)
 {
@@ -57,6 +71,7 @@ int	ft_parsetokens(const char *input, int i, t_token **head)
 		i++;
 	}
 	token = ft_token_new(ft_strdup(tok_str));
+	ft_token_type(token, 0);
 	ft_token_add(head, token);
 	return (i + 1);
 }
@@ -70,5 +85,3 @@ int	ft_issep(char *input, int i)
 	else
 		return (0);
 }
-
-

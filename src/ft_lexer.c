@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/08 23:19:00 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/12 20:32:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ t_token	*ft_tokenizer(char *input)
 			i++;
 		if (start != i)
 		{
+			tok_str = ft_tokenstr(input, start, i);
 			if (!ft_strcmp(tok_str, ""))
 				break ;
-			tok_str = ft_tokenstr(input, start, i);
 			token = ft_token_new(tok_str);
+			ft_token_type(token, 0);
 			ft_token_add(&head, token);
+			if (!input[i])
+				continue ;
 		}
 		if (ft_issep(input, i)) //  should i ignore separators?
 			i = ft_parsetokens(input, i, &head);
@@ -47,7 +50,7 @@ t_token	*ft_tokenizer(char *input)
 	return (head);
 }
 
-/*void	ft_test_token(void)
+void	ft_test_token(void)
 {
 	char *testtokens[] = {"", ">", ">>", "<", "|", ";", "cmd", "arg"};
 	int num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
@@ -62,4 +65,4 @@ t_token	*ft_tokenizer(char *input)
 			free(token->str);
 			free(token);
 		}
-}*/
+}

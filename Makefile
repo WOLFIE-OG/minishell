@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/04 18:09:43 by otodd            ###   ########.fr        #
+#    Updated: 2024/07/12 19:25:59 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_builtins/ft_exit.c \
 				$(SRC_DIR)/ft_lexer.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_add.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_clear.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_delone.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_last.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_new.c \

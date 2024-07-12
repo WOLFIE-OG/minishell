@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/11 15:12:41 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/12 20:46:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,31 @@ ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL,
 */
 static void	ft_builtin_test(t_root *root)
 {
-	char	**tmp;
+	// char	**tmp;
 
-	ft_cd(root, "~/");
-	ft_export(root, "TESTVAR=test");
-	tmp = ft_strarrayappend2(NULL, ft_strdup("/bin/ls"));
-	tmp = ft_strarrayappend2(tmp, ft_strdup(ft_get_var(root, "HOME")->value));
-	tmp = ft_strarrayappend2(tmp, ft_strdup("-la"));
-	ft_runner_process(root, tmp);
-	ft_free_array(tmp, ft_strarraylen(tmp));
-	free(tmp);
+	if (!ft_token_size(root->tokens))
+		return ;
+	if (!ft_strcmp(root->tokens->str, "cd"))
+		ft_cd(root);
+	else if (!ft_strcmp(root->tokens->str, "export"))
+		ft_export(root);
+	else if (!ft_strcmp(root->tokens->str, "env"))
+		ft_env(root);
+	else if (!ft_strcmp(root->tokens->str, "unset"))
+		ft_unset(root);
+	else if (!ft_strcmp(root->tokens->str, "exit"))
+		ft_exit(root, EXIT_SUCCESS);
+	else if (!ft_strcmp(root->tokens->str, "echo"))
+		ft_echo(root);
+	else if (!ft_strcmp(root->tokens->str, "pwd"))
+		ft_pwd(root);
+	
+	// tmp = ft_strarrayappend2(NULL, ft_strdup("/bin/ls"));
+	// tmp = ft_strarrayappend2(tmp, ft_strdup(ft_get_var(root, "HOME")->value));
+	// tmp = ft_strarrayappend2(tmp, ft_strdup("-la"));
+	// ft_runner_process(root, tmp);
+	// ft_free_array(tmp, ft_strarraylen(tmp));
+	// free(tmp);
 }
 
 static void	print_tokens(t_token *head)
@@ -84,7 +99,7 @@ static void	print_tokens(t_token *head)
 	t_token *current = head;
 	while (current)
 	{
-		printf("token value = '%s' -> token type = %d\n", current->str, current->type);
+		printf("token value = '%s' -> token type = %d | index = %d\n", current->str, current->type, current->index);
 		current = current->next;
 	}
 }
@@ -130,7 +145,6 @@ int	main(int ac, char **av, char **envp)
 	t_root	root;
 
 	ft_init_shell(&root, ac, av, envp);
-	
 	tokenizer_tester(ac, av);
 	while (true)
 	{
@@ -141,13 +155,16 @@ int	main(int ac, char **av, char **envp)
 		ft_free_array(root.prompt, ft_strarraylen(root.prompt));
 		free(root.prompt);
 		free(tmp);
-		ft_test_token();
+		// ft_test_token();
 		if (!input)
 		{
 			printf("exit\n"); //handling EOF
 			break ;
 		}
+		root.tokens = ft_tokenizer(input);
+		print_tokens(root.tokens);
 		ft_builtin_test(&root);
+		free_tokens(root.tokens);
 		add_history(input);
 		free(input);
 	}
