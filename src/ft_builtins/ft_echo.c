@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/12 19:30:07 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/12 20:50:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ void	ft_echo(t_root *root)
 	flag = ft_find_token_by_index(root, 1);
 	if (!flag)
 		return ;
-	if (ft_strrep(flag->str, 'n'))
+	if (flag->str[0] == '-')
 	{
-		arg_n = 2;
-		has_flag = true;
+		if (ft_strrep(&flag->str[1], 'n'))
+		{
+			arg_n = 2;
+			has_flag = true;
+		}
 	}
 	arg = ft_find_token_by_index(root, arg_n);
 	while (arg)
