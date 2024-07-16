@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/12 19:25:59 by otodd            ###   ########.fr        #
+#    Updated: 2024/07/16 15:57:23 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 
-CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g
+CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -fPIC
 NAME		= 	minishell
 
 SRC_DIR 	= 	src
