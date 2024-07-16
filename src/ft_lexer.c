@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:15:41 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/12 20:32:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/16 16:15:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ t_token	*ft_tokenizer(char *input)
 	{
 		i = ft_skip_whitespace(input, i);
 		start = i;
-		while (input[i] && !ft_iswhitespace(input[i]) && !ft_issep(input, i))
+		while (!ft_iswhitespace(input[i]) && !ft_issep(input, i))
 			i++;
 		if (start != i)
 		{
 			tok_str = ft_tokenstr(input, start, i);
-			if (!ft_strcmp(tok_str, ""))
-				break ;
+			// if (!ft_strcmp(tok_str, ""))
+			// 	break ;
 			token = ft_token_new(tok_str);
 			ft_token_type(token, 0);
 			ft_token_add(&head, token);

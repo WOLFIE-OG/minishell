@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/12 20:46:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/16 18:25:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL,
 */
 static void	ft_builtin_test(t_root *root)
 {
-	// char	**tmp;
+	char	**tmp;
+	char	*tmp2;
+	t_token	*head;
 
 	if (!ft_token_size(root->tokens))
 		return ;
@@ -85,13 +87,22 @@ static void	ft_builtin_test(t_root *root)
 		ft_echo(root);
 	else if (!ft_strcmp(root->tokens->str, "pwd"))
 		ft_pwd(root);
-	
-	// tmp = ft_strarrayappend2(NULL, ft_strdup("/bin/ls"));
-	// tmp = ft_strarrayappend2(tmp, ft_strdup(ft_get_var(root, "HOME")->value));
-	// tmp = ft_strarrayappend2(tmp, ft_strdup("-la"));
-	// ft_runner_process(root, tmp);
-	// ft_free_array(tmp, ft_strarraylen(tmp));
-	// free(tmp);
+	else
+	{
+		head = root->tokens;
+		tmp2 = ft_strjoin("/bin/", head->str);
+		tmp = ft_strarrayappend2(NULL, ft_strdup(tmp2));
+		free(tmp2);
+		head = head->next;
+		while (head)
+		{
+			tmp = ft_strarrayappend2(tmp, ft_strdup(head->str));
+			head = head->next;
+		}
+		ft_runner_process(root, tmp);
+		ft_free_array(tmp, ft_strarraylen(tmp));
+		free(tmp);
+	}
 }
 
 static void	print_tokens(t_token *head)
@@ -144,12 +155,13 @@ int	main(int ac, char **av, char **envp)
 	char	*tmp;
 	t_root	root;
 
+	g_var_signal = 0;
 	ft_init_shell(&root, ac, av, envp);
 	tokenizer_tester(ac, av);
+	ft_config_siginit();
+	// ft_config_sigquit();
 	while (true)
 	{
-		g_var_signal = 0;
-		ft_config_siginit();
 		tmp = ft_set_prompt(&root);
 		input = readline(tmp);
 		ft_free_array(root.prompt, ft_strarraylen(root.prompt));
