@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/18 17:34:21 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/18 17:57:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static void	ft_worker(t_root *root, char *cmd, char **args)
 		execve(cmd, args, env);
 		ft_free_array(env, ft_strarraylen(env));
 		free(env);
-		free(cmd);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -96,7 +95,11 @@ static char	*ft_cmd_path(t_root *root, char *cmd)
 		path = ft_strjoin(part_paths, cmd);
 		free(part_paths);
 		if (access(path, F_OK) == 0)
+		{
+			ft_free_array(dir_paths, ft_strarraylen(dir_paths));
+			free(dir_paths);
 			return (path);
+		}
 		free(path);
 	}
 	ft_free_array(dir_paths, ft_strarraylen(dir_paths));
@@ -119,7 +122,10 @@ static void	ft_exec(t_root *root)
 		head = head->next;
 	}
 	if (cmd)
+	{
 		ft_worker(root, cmd, tmp);
+		free(cmd);
+	}
 	else
 		printf("minishell: No Such Command: \n");
 	if (tmp)
