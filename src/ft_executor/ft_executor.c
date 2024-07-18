@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/18 17:57:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/18 18:05:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static char	*ft_cmd_path(t_root *root, char *cmd)
 	return (NULL);
 }
 
-static void	ft_exec(t_root *root)
+static int	ft_exec(t_root *root)
 {
 	char	*cmd;
 	char	**tmp;
@@ -135,14 +135,14 @@ static void	ft_exec(t_root *root)
 	}
 }
 
-void	ft_executor(t_root *root)
+int	ft_executor(t_root *root)
 {
 	if (root->tokens)
 	{
 		if (ft_is_builtin(root, root->tokens->str))
-			ft_builtins(root);
+			return (ft_builtins(root));
 		else
-			ft_exec(root);
+			return (ft_exec(root));
 	}
 }
 
