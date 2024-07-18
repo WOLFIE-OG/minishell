@@ -6,13 +6,13 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/12 20:50:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/18 16:56:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_echo(t_root *root)
+int	ft_echo(t_root *root)
 {
 	int		arg_n;
 	bool	has_flag;
@@ -23,7 +23,7 @@ void	ft_echo(t_root *root)
 	has_flag = false;
 	flag = ft_find_token_by_index(root, 1);
 	if (!flag)
-		return ;
+		return (EXIT_FAILURE);
 	if (flag->str[0] == '-')
 	{
 		if (ft_strrep(&flag->str[1], 'n'))
@@ -35,11 +35,12 @@ void	ft_echo(t_root *root)
 	arg = ft_find_token_by_index(root, arg_n);
 	while (arg)
 	{
-		ft_putstr(arg->str);
+		ft_putstr_fd(arg->str, STDOUT_FILENO);
 		if (arg->next)
-			ft_putchar(' ');
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		arg = arg->next;
 	}
 	if (has_flag)
-		ft_putstr("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }

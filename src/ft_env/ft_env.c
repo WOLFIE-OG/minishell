@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/07 20:49:36 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:35:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	**ft_env_to_array(t_root *root)
 		tmp = ft_strarrayappend2(tmp, ft_strdup(var->value));
 		str = ft_strarraytostr(tmp);
 		ft_free_array(tmp, ft_strarraylen(tmp));
+		free(tmp);
 		str_env = ft_strarrayappend2(str_env, ft_strdup(str));
 		free(str);
 		head = head->next;

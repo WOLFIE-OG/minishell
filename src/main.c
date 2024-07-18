@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/16 18:25:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/18 17:35:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,54 +55,6 @@ static char	*ft_set_prompt(t_root *root)
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("$ "));
 	return (ft_strarraytostr(root->prompt));
-}
-
-/*
-ft_echo(ft_strarrayappend2(ft_strarrayappend2(NULL,
-	"/usr/bin"), get_var(root, "PWD")->value));
-	printf("%d\n", is_builtin(root, "cd"));
-	ft_pwd(root);
-	ft_unset(root, "TESTVAR");
-	ft_env(root);
-*/
-static void	ft_builtin_test(t_root *root)
-{
-	char	**tmp;
-	char	*tmp2;
-	t_token	*head;
-
-	if (!ft_token_size(root->tokens))
-		return ;
-	if (!ft_strcmp(root->tokens->str, "cd"))
-		ft_cd(root);
-	else if (!ft_strcmp(root->tokens->str, "export"))
-		ft_export(root);
-	else if (!ft_strcmp(root->tokens->str, "env"))
-		ft_env(root);
-	else if (!ft_strcmp(root->tokens->str, "unset"))
-		ft_unset(root);
-	else if (!ft_strcmp(root->tokens->str, "exit"))
-		ft_exit(root, EXIT_SUCCESS);
-	else if (!ft_strcmp(root->tokens->str, "echo"))
-		ft_echo(root);
-	else if (!ft_strcmp(root->tokens->str, "pwd"))
-		ft_pwd(root);
-	else
-	{
-		head = root->tokens;
-		tmp2 = ft_strjoin("/bin/", head->str);
-		tmp = ft_strarrayappend2(NULL, ft_strdup(tmp2));
-		free(tmp2);
-		head = head->next;
-		while (head)
-		{
-			tmp = ft_strarrayappend2(tmp, ft_strdup(head->str));
-			head = head->next;
-		}
-		ft_runner_process(root, tmp);
-		ft_free_array(tmp, ft_strarraylen(tmp));
-		free(tmp);
-	}
 }
 
 static void	print_tokens(t_token *head)
@@ -175,7 +127,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		root.tokens = ft_tokenizer(input);
 		print_tokens(root.tokens);
-		ft_builtin_test(&root);
+		ft_executor(&root);
 		free_tokens(root.tokens);
 		add_history(input);
 		free(input);
