@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/18 18:05:23 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/21 20:03:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ static int	ft_exec(t_root *root)
 		ft_free_array(tmp, ft_strarraylen(tmp));
 		free(tmp);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	ft_executor(t_root *root)
@@ -144,5 +145,6 @@ int	ft_executor(t_root *root)
 		else
 			return (ft_exec(root));
 	}
+	return (EXIT_FAILURE);
 }
 
