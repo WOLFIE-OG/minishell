@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 17:20:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/12 20:35:54 by otodd            ###   ########.fr       */
+/*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
+/*   Updated: 2024/07/21 19:29:44 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char	*ft_tokenstr(const char *input, int start, int end)
 
 int	ft_parsetokens(const char *input, int i, t_token **head)
 {
-	t_token	*token = NULL;
+	t_token	*token;
+	
+	token = NULL;
 	char	tok_str[3] = {input[i], '\0', '\0'};
 
 	if (input[i] == '>' && input[i + 1] == '>')

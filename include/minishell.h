@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/18 16:50:21 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/21 20:09:57 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 # include <sys/ioctl.h>
 # include <signal.h>
 # define SUCCESS 0
+
+typedef enum e_state
+{
+	NORMAL,
+	SINGLE_Q,
+	DOUBLE_Q,
+}	t_state;
 
 typedef enum e_token_type
 {
@@ -61,11 +68,14 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct	s_command
+typedef struct	s_cmd
 {
 	int				post_action;
 	struct s_token	*cmd_tokens;
-}	t_command;
+	char			*input_file;
+	char			*output_file;
+	struct s_cmd *next;
+}	t_cmd;
 
 /* These are the environment variables of the shell stored
 via a bi-directional linked list*/
@@ -96,6 +106,7 @@ t_token		*ft_token_pop(t_token *node);
 size_t		ft_token_size(t_token *lst);
 void		ft_token_type(t_token *token, int div);
 t_token		*ft_find_token_by_index(t_root *root, int index);
+t_state		ft_handle_state(char c, t_state current_state);
 
 // src/ft_env.c - Env
 
