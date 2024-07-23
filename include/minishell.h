@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/23 14:35:40 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:28:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ typedef enum e_state
 	SINGLE_Q,
 	DOUBLE_Q,
 }	t_state;
-
-typedef enum e_token_type
-{
+/*
 	EMPTY, 
 	CMD,
 	ARG,
@@ -45,18 +43,41 @@ typedef enum e_token_type
 	INPUT, // <
 	PIPE, // |
 	END // ;
+*/
+typedef enum e_token_type
+{
+	EMPTY,
+	CMD,
+	ARG,
+	TRUNC,
+	APPEND,
+	INPUT,
+	PIPE,
+	END
 }	t_token_type;
 
 extern int	g_var_signal;
 // This is the main data struct of the shell
+typedef struct s_cmd
+{
+	int				post_action;
+	struct s_token	*cmd_tokens;
+	int				io_in[2];
+	int				io_err[2];
+	int				io_out[2];
+	struct s_cmd	*next;
+}	t_cmd;
 typedef struct s_root
 {
 	t_list			*env;
 	struct s_token	*tokens;
+	struct s_cmd	*cmds;
 	char			**builtin_array;
 	char			**prompt;
 	char			*args;
 	char			*name;
+	int				last_return_code;
+	struct s_cmd	*last_executed_cmd;
 }	t_root;
 
 typedef struct s_token
@@ -67,15 +88,6 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
-
-typedef struct	s_cmd
-{
-	int				post_action;
-	struct s_token	*cmd_tokens;
-	char			*input_file;
-	char			*output_file;
-	struct s_cmd *next;
-}	t_cmd;
 
 /* These are the environment variables of the shell stored
 via a bi-directional linked list*/
@@ -132,14 +144,17 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 // src/ft_executor.c - Executor Functions
 
 int			ft_executor(t_root *root);
+int			ft_executor_2(t_root *root, t_cmd *cmds);
 
 // src/ft_lexer.c - Lexer
 
 void		ft_test_token(void);
 t_token		*ft_tokenizer(char *input);
+int			ft_process_tokens(char *input,
+				t_token **head, t_state *state, int start);
 int			ft_issep(char *input, int i);
 int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
-int			ft_parsetokens(const char *input, int i, t_token **head);
+int			ft_parse_tokens(const char *input, int i, t_token **head);
 
 #endif

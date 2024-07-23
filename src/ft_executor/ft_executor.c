@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/21 20:03:28 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/23 18:31:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ static void	ft_worker(t_root *root, char *cmd, char **args)
 {
 	pid_t		child;
 	int			pipefd[2];
+	int			pipefd2[2];
 	char		*line;
 	char		**env;
 
 	pipe(pipefd);
+	pipe(pipefd2);
 	child = fork();
 	ft_config_sigquit();
 	if (child == 0)
@@ -61,6 +63,9 @@ static void	ft_worker(t_root *root, char *cmd, char **args)
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
+		close(pipefd2[0]);
+		dup2(pipefd2[1], STDERR_FILENO);
+		close(pipefd2[1]);
 		execve(cmd, args, env);
 		ft_free_array(env, ft_strarraylen(env));
 		free(env);
@@ -69,12 +74,19 @@ static void	ft_worker(t_root *root, char *cmd, char **args)
 	else
 	{
 		close(pipefd[1]);
+		close(pipefd2[1]);
 		while ((line = ft_get_next_line(pipefd[0])))
 		{
 			printf("%s", line);
 			free(line);
 		}
+		while ((line = ft_get_next_line(pipefd2[0])))
+		{
+			printf("%s", line);
+			free(line);
+		}
 		close(pipefd[0]);
+		close(pipefd2[0]);
 	}
 }
 
@@ -148,3 +160,19 @@ int	ft_executor(t_root *root)
 	return (EXIT_FAILURE);
 }
 
+int	ft_executor_2(t_root *root, t_cmd *cmds)
+{
+	t_cmd	*head;
+
+	head = cmds;
+	while (head)
+	{
+		root->tokens = head->cmd_tokens;
+		if (ft_is_builtin(root, root->tokens->str))
+			return (ft_builtins(root));
+		else
+			return (ft_exec(root));
+		head = head->next;
+	}
+	return (EXIT_FAILURE);
+}

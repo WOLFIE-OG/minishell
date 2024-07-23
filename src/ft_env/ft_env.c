@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/18 16:35:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/23 17:16:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	ft_free_var(void *node)
 	t_env_var	*var;
 
 	var = (t_env_var *)node;
-	//ft_printf("Free'd: %s\n", var->key);
 	free(var->key);
 	free(var->value);
 }

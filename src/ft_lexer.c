@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/21 19:32:57 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:17:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -21,7 +20,6 @@ t_token	*ft_tokenizer(char *input)
 {
 	t_state	state;
 	t_token	*head;
-	t_token	*token;
 	int		i;
 
 	i = 0;
@@ -53,12 +51,13 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 		tok_str = ft_tokenstr(input, start, i);
 		token = ft_token_new(tok_str);
 		ft_token_type(token, 0);
-		ft_token_add(&head, token);
+		ft_token_add(head, token);
 	}
 	if (input[i] && ft_issep(input, i))
-		i = ft_parsetokens(input, i, &head);
+		i = ft_parse_tokens(input, i, head);
 	else if (input[i])
 		i++;
+	return (i);
 }
 //TO DO: mak sure the last token is added if the input ends without a sep
 
@@ -67,16 +66,14 @@ void	ft_test_token(void)
 	char *testtokens[] = {"", ">", ">>", "<", "|", ";", "cmd", "arg"};
 	int num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
 
-		for (int i = 0; i < num_tests; i++)
-		{
-			t_token *token = ft_token_new(ft_strdup(testtokens[i]));
-			ft_token_type(token, 0);
-
-			printf("Token value: '%s' -> Token type: %d\n", token->str, token->type);
-
-			free(token->str);
-			free(token);
-		}
+	for (int i = 0; i < num_tests; i++)
+	{
+		t_token *token = ft_token_new(ft_strdup(testtokens[i]));
+		ft_token_type(token, 0);
+		printf("Token value: '%s' -> Token type: %d\n", token->str, token->type);
+		free(token->str);
+		free(token);
+	}
 }
 
 /* Using finite state machine to handle quotes, so tokens are created
