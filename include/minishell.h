@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/21 20:09:57 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:35:40 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 // src/ft_executor.c - Executor Functions
 
-void		ft_executor(t_root *root);
+int			ft_executor(t_root *root);
 
 // src/ft_lexer.c - Lexer
 
