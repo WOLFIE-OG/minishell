@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/24 16:14:44 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/24 22:28:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ static bool	ft_is_builtin(t_root *root, char *cmd)
 static int	ft_builtins(t_root *root)
 {
 	static int	ret = EXIT_SUCCESS;
+	int 		og_fd;
 	char		*cmd;
 
-	if (!ft_token_size(root->tokens))
-		return (ret);
+	og_fd = dup(STDOUT_FILENO);
+	dup2(root->current_cmd->io_out[1], STDOUT_FILENO);
+	close(root->current_cmd->io_out[1]);
 	cmd = root->tokens->str;
 	if (!ft_strcmp(cmd, "cd"))
 		ret = ft_cd(root);
@@ -42,6 +44,10 @@ static int	ft_builtins(t_root *root)
 		ret = ft_echo(root);
 	else if (!ft_strcmp(cmd, "pwd"))
 		ret = ft_pwd(root);
+	dup2(og_fd, STDOUT_FILENO);
+	close(og_fd);
+	root->last_executed_cmd = root->current_cmd;
+	root->current_cmd = root->current_cmd->next;
 	return (ret);
 }
 
@@ -51,39 +57,29 @@ static void	ft_worker(t_root *root, char *cmd, char **args)
 	char		**env;
 
 	child = fork();
-	ft_config_sigquit();
 	if (child == 0)
 	{
+		ft_config_sigquit();
 		env = ft_env_to_array(root);
-
 		if (root->last_executed_cmd)
 		{
-			close(root->last_executed_cmd->io_in[0]);
-			dup2(root->last_executed_cmd->io_in[1], STDIN_FILENO);
-			close(root->last_executed_cmd->io_in[1]);
+			close(root->last_executed_cmd->io_out[1]);
+			dup2(root->last_executed_cmd->io_out[0], STDIN_FILENO);
+			close(root->last_executed_cmd->io_out[0]);
 		}
 		close(root->current_cmd->io_out[0]);
 		dup2(root->current_cmd->io_out[1], STDOUT_FILENO);
 		close(root->current_cmd->io_out[1]);
-		close(root->current_cmd->io_err[0]);
-		dup2(root->current_cmd->io_err[1], STDERR_FILENO);
-		close(root->current_cmd->io_err[1]);
-		execve(cmd, args, env);
+		if (execve(cmd, args, env) == -1)
+			printf("%s\n", "error in execve");
 		ft_free_array(env, ft_strarraylen(env));
 		free(env);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
+		wait(NULL);
 		close(root->current_cmd->io_out[1]);
-		close(root->current_cmd->io_out[0]);
-		close(root->current_cmd->io_err[1]);
-		close(root->current_cmd->io_err[0]);
-		if (root->last_executed_cmd)
-		{
-			close(root->last_executed_cmd->io_in[1]);
-			close(root->last_executed_cmd->io_in[0]);
-		}
 		root->last_executed_cmd = root->current_cmd;
 		root->current_cmd = root->current_cmd->next;
 	}
@@ -125,7 +121,7 @@ static int	ft_exec(t_root *root)
 	t_token	*head;
 
 	tmp = NULL;
-	head = root->tokens;
+	head = root->current_cmd->cmd_tokens;
 	cmd = ft_cmd_path(root, head->str);
 	while (head)
 	{
@@ -147,32 +143,29 @@ static int	ft_exec(t_root *root)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_executor(t_root *root)
-{
-	if (root->tokens)
-	{
-		if (ft_is_builtin(root, root->tokens->str))
-			return (ft_builtins(root));
-		else
-			return (ft_exec(root));
-	}
-	return (EXIT_FAILURE);
-}
-
-int	ft_executor_2(t_root *root, t_cmd *cmds)
+int	ft_executor(t_root *root, t_cmd *cmds)
 {
 	t_cmd	*head;
+	char	*line;
 
 	head = cmds;
 	root->current_cmd = head;
 	while (head)
 	{
+		if (!root->current_cmd->cmd_tokens)
+			return (EXIT_FAILURE);
 		root->tokens = head->cmd_tokens;
-		if (ft_is_builtin(root, root->tokens->str))
-			return (ft_builtins(root));
+		if (ft_is_builtin(root, root->current_cmd->cmd_tokens->str))
+			ft_builtins(root);
 		else
-			return (ft_exec(root));
+			ft_exec(root);
 		head = head->next;
 	}
+	if (root->last_executed_cmd)
+		while ((line = ft_get_next_line(root->last_executed_cmd->io_out[0])))
+		{
+			printf("%s", line);
+			free(line);
+		}
 	return (EXIT_FAILURE);
 }

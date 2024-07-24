@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/24 16:15:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/24 22:28:57 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	*tmp;
+	t_cmd	*cmds;
+	t_cmd	*cmds2;
 	t_root	root;
 
 	g_var_signal = 0;
@@ -127,7 +129,23 @@ int	main(int ac, char **av, char **envp)
 		}
 		root.tokens = ft_tokenizer(input);
 		print_tokens(root.tokens);
-		ft_executor(&root);
+
+		/*TEMP STUFF!!!!*/
+		cmds = malloc(sizeof(t_cmd) * 1);
+		pipe(cmds->io_out);
+		cmds->post_action = PIPE;
+		cmds->cmd_tokens = root.tokens;
+
+		cmds2 = malloc(sizeof(t_cmd) * 1);
+		pipe(cmds2->io_out);
+		cmds2->post_action = 0;
+		cmds2->cmd_tokens = ft_tokenizer("cat");
+		cmds2->next = NULL;
+		cmds->next = cmds2;
+		ft_executor(&root, cmds);
+		free(cmds);
+		free(cmds2);
+
 		free_tokens(root.tokens);
 		add_history(input);
 		free(input);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/24 17:14:17 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/24 22:28:35 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ typedef struct s_cmd
 {
 	int				post_action;
 	struct s_token	*cmd_tokens;
-	int				io_in[2];
-	int				io_err[2];
 	int				io_out[2];
 	struct s_cmd	*next;
 }	t_cmd;
@@ -145,8 +143,7 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 // src/ft_executor.c - Executor Functions
 
-int			ft_executor(t_root *root);
-int			ft_executor_2(t_root *root, t_cmd *cmds);
+int			ft_executor(t_root *root, t_cmd *cmds);
 
 // src/ft_lexer.c - Lexer
 
