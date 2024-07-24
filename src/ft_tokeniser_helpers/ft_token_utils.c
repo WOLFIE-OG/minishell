@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/23 18:03:18 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/24 17:13:46 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,32 @@ t_token	*ft_find_token_by_index(t_root *root, int index)
 	return (NULL);
 }
 
+void	ft_token_retype(t_token *token)
+{
+	if (!token->prev)
+	{
+		if (token->next)
+		{
+			if (token->next->type == ARG)
+				token->type = CMD;
+		}
+		else
+			token->type = CMD;
+	}
+	else
+		if (
+			token->prev->type == INPUT
+			|| token->prev->type == PIPE
+			|| token->prev->type == END
+			|| token->prev->type == TRUNC
+			|| token->prev->type == APPEND
+		)
+			token->type = CMD;
+}
+
 void	ft_token_type(t_token *token, int div)
 {
-	if (ft_strcmp(token->str, "") == 0 && div == 0)
-		token->type = EMPTY;
-	else if (ft_strcmp(token->str, ">") == 0 && div == 0)
+	if (ft_strcmp(token->str, ">") == 0 && div == 0)
 		token->type = TRUNC;
 	else if (ft_strcmp(token->str, ">>") == 0 && div == 0)
 		token->type = APPEND;
@@ -40,8 +61,6 @@ void	ft_token_type(t_token *token, int div)
 		token->type = PIPE;
 	else if (ft_strcmp(token->str, ";") == 0 && div == 0)
 		token->type = END;
-	else if (token->prev == NULL || token->prev->type >= TRUNC)
-		token->type = CMD;
 	else
 		token->type = ARG;
 }
@@ -72,7 +91,6 @@ int	ft_parse_tokens(const char *input, int i, t_token **head)
 		i++;
 	}
 	token = ft_token_new(ft_strdup(tok_str));
-	ft_token_type(token, 0);
 	ft_token_add(head, token);
 	return (i + 1);
 }

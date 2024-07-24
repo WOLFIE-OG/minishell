@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/23 17:17:45 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/24 17:16:02 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 /*
 parse input string and convert to linked list of tokens 
 each token should correspond to a type*/
+
+static void	ft_type_helper(t_token *head)
+{
+	t_token	*tmp;
+
+	tmp = head;
+	while (tmp)
+	{
+		ft_token_type(tmp, 0);
+		tmp = tmp->next;
+	}
+	tmp = head;
+	while (tmp)
+	{
+		ft_token_retype(tmp);
+		tmp = tmp->next;
+	}
+}
 
 t_token	*ft_tokenizer(char *input)
 {
@@ -31,6 +49,7 @@ t_token	*ft_tokenizer(char *input)
 		if (input[i])
 			i = ft_process_tokens(input, &head, &state, i);
 	}
+	ft_type_helper(head);
 	return (head);
 }
 
@@ -50,7 +69,6 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	{
 		tok_str = ft_tokenstr(input, start, i);
 		token = ft_token_new(tok_str);
-		ft_token_type(token, 0);
 		ft_token_add(head, token);
 	}
 	if (input[i] && ft_issep(input, i))

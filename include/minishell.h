@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/23 18:28:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/24 17:14:17 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_root
 	char			*name;
 	int				last_return_code;
 	struct s_cmd	*last_executed_cmd;
+	struct s_cmd	*current_cmd;
 }	t_root;
 
 typedef struct s_token
@@ -117,6 +118,7 @@ t_token		*ft_token_new(char *str);
 t_token		*ft_token_pop(t_token *node);
 size_t		ft_token_size(t_token *lst);
 void		ft_token_type(t_token *token, int div);
+void		ft_token_retype(t_token *token);
 t_token		*ft_find_token_by_index(t_root *root, int index);
 t_state		ft_handle_state(char c, t_state current_state);
 
