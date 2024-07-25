@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 16:46:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 18:06:39 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_cmd
 	int				post_action;
 	struct s_token	*cmd_tokens;
 	int				io_out[2];
-	int				io_err[2];
 	struct s_cmd	*next;
 }	t_cmd;
 typedef struct s_root
@@ -174,5 +173,12 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 // src/ft_utils - General Utils
 
 char		*ft_set_prompt(t_root *root);
+
+
+
+// src/ft_tests.c - Test functions
+
+int			tokenizer_tester(int ac, char **av);
+void		print_tokens(t_token *head);
 
 #endif

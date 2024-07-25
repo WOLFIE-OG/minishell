@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 15:04:20 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:12:32 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	t_token	*token;
 
 	i = start;
-	while (input[i] &&  (*state != NORMAL || !ft_iswhitespace(input[i])) && !ft_issep(input, i))
+	while (input[i] && (*state != NORMAL
+			|| !ft_iswhitespace(input[i])) && !ft_issep(input, i))
 	{
 		*state = ft_handle_state(input[i], *state);
 		i++;
@@ -70,7 +71,8 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	if (start != i)
 	{
 		tok_str = ft_tokenstr(input, start, i);
-		token = ft_token_new(tok_str);
+		token = ft_token_new(ft_strtrim(tok_str, "\"'"));
+		free(tok_str);
 		ft_token_add(head, token);
 	}
 	if (input[i] && ft_issep(input, i))
@@ -80,35 +82,6 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	return (i);
 }
 //TO DO: mak sure the last token is added if the input ends without a sep
-
-void	ft_test_token(void)
-{
-	char *testtokens[] = {"", ">", ">>", "<", "|", ";", "cmd", "arg"};
-	int num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
-
-	for (int i = 0; i < num_tests; i++)
-	{
-		t_token *token = ft_token_new(ft_strdup(testtokens[i]));
-		ft_token_type(token, 0);
-		printf("Token value: '%s' -> Token type: %s\n", token->str, token_type_str(token->type));
-		free(token->str);
-		free(token);
-	}
-}
-
-const char *token_type_str(t_token_type type) {
-	switch (type) {
-		case EMPTY: return ("EMPTY");
-		case CMD: return ("CMD");
-		case ARG: return ("ARG");
-		case TRUNC: return ("TRUNC");
-		case APPEND: return ("APPEND");
-		case INPUT: return ("INPUT");
-		case PIPE: return ("PIPE");
-		case END: return ("END");
-		default: return ("UNKNOWN");
-	}
-}
 
 /* Using finite state machine to handle quotes, so tokens are created
 ONLY when in NORMAL state or when closing quotes are encountered in
