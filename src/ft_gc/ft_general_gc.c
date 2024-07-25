@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_general_gc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 16:34:48 by otodd            ###   ########.fr       */
+/*   Created: 2024/07/25 15:59:54 by otodd             #+#    #+#             */
+/*   Updated: 2024/07/25 16:32:44 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_exit(t_root *root, int code)
+void	ft_gc_str_array(char **arr)
 {
-	ft_gc_shell(root);
-	write(1, "\n", 1);
-	exit(code);
+	if (arr)
+	{
+		ft_free_array(arr, ft_strarraylen(arr));
+		free(arr);
+	}
+}
+
+void	ft_gc_shell(t_root *root)
+{
+	ft_free_env(root);
+	ft_gc_str_array(root->builtin_array);
 }

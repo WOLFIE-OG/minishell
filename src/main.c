@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 15:04:55 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:18:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,49 +16,6 @@ int	g_var_signal;
 
 const char *token_type_str(t_token_type type);
 
-static void	ft_create_builtin_array(t_root *root)
-{
-	root->builtin_array = ft_strarrayappend2(NULL,
-			ft_strdup("cd"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("pwd"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("export"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("unset"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("env"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("exit"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("echo"));
-}
-
-void	ft_init_shell(t_root *root, int ac, char **av, char **env)
-{
-	(void)ac;
-	(void)av;
-	//ft_config_siginit();
-	root->env = ft_init_env(env);
-	ft_create_builtin_array(root);
-}
-
-static char	*ft_set_prompt(t_root *root)
-{
-	root->prompt = ft_strarrayappend2(NULL, ft_strdup(BGRN));
-	root->prompt = ft_strarrayappend2(root->prompt,
-			ft_strdup(ft_get_var(root, "USER")->value));
-	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("@"));
-	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("minishell:"));
-	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
-	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(BBLU));
-	root->prompt = ft_strarrayappend2(root->prompt,
-			ft_strdup(ft_get_var(root, "PWD")->value));
-	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
-	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("$ "));
-	return (ft_strarraytostr(root->prompt));
-}
-
 static void	print_tokens(t_token *head)
 {
 	t_token *current = head;
@@ -66,20 +23,6 @@ static void	print_tokens(t_token *head)
 	{
 		printf("token value = '%s' -> token type = %s | index = %d\n", current->str, token_type_str(current->type), current->index);
 		current = current->next;
-	}
-}
-
-static void	free_tokens(t_token *head)
-{
-	t_token *current = head;
-	t_token *next;
-
-	while (current)
-	{
-		next = current->next;
-		free(current->str);
-		free(current);
-		current = next;
 	}
 }
 
@@ -95,7 +38,7 @@ static int	tokenizer_tester(int ac, char **av)
 			printf("input = %s\n", av[i]);
 			tokens = ft_tokenizer(av[i]);
 			print_tokens(tokens);
-			free_tokens(tokens);
+			ft_gc_tokens(tokens);
 			printf("\n");
 			i++;
 		}
@@ -109,19 +52,19 @@ int	main(int ac, char **av, char **envp)
 	char	*tmp;
 	t_cmd	*cmds;
 	t_cmd	*cmds2;
+	t_cmd	*cmds3;
 	t_root	root;
 
 	g_var_signal = 0;
 	ft_init_shell(&root, ac, av, envp);
 	tokenizer_tester(ac, av);
 	ft_config_siginit();
-	// ft_config_sigquit();
+	ft_config_sigquit();
 	while (true)
 	{
 		tmp = ft_set_prompt(&root);
 		input = readline(tmp);
-		ft_free_array(root.prompt, ft_strarraylen(root.prompt));
-		free(root.prompt);
+		ft_gc_str_array(root.prompt);
 		free(tmp);
 		// ft_test_token();
 		if (!input)
@@ -133,24 +76,34 @@ int	main(int ac, char **av, char **envp)
 		print_tokens(root.tokens);
 
 		/*TEMP STUFF!!!!*/
-		cmds = malloc(sizeof(t_cmd) * 1);
+		cmds = (t_cmd *)malloc(sizeof(t_cmd) * 1);
 		pipe(cmds->io_out);
 		cmds->post_action = PIPE;
 		cmds->cmd_tokens = root.tokens;
+		cmds->next = NULL;
 
-		cmds2 = malloc(sizeof(t_cmd) * 1);
+		cmds2 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
 		pipe(cmds2->io_out);
-		cmds2->post_action = 0;
-		cmds2->cmd_tokens = ft_tokenizer("cat");
+		cmds2->post_action = END;
+		cmds2->cmd_tokens = ft_tokenizer("wc -l");
 		cmds2->next = NULL;
 		cmds->next = cmds2;
-		ft_executor(&root, cmds);
-		free(cmds);
-		free(cmds2);
 
-		free_tokens(root.tokens);
+		cmds3 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+		pipe(cmds3->io_out);
+		cmds3->post_action = EMPTY;
+		cmds3->cmd_tokens = ft_tokenizer("ifconfig");
+		cmds3->next = NULL;
+		cmds2->next = cmds3;
+		ft_executor(&root, cmds);
+		ft_gc_tokens(cmds2->cmd_tokens);
+		free(cmds2);
+		ft_gc_tokens(cmds->cmd_tokens);
+		free(cmds);
+		ft_gc_tokens(cmds3->cmd_tokens);
+		free(cmds3);
 		add_history(input);
 		free(input);
 	}
-	ft_kill_shell(&root, EXIT_SUCCESS);
+	ft_exit(&root, EXIT_SUCCESS);
 }

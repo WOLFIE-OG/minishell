@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/24 22:28:35 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 16:46:38 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_cmd
 	int				post_action;
 	struct s_token	*cmd_tokens;
 	int				io_out[2];
+	int				io_err[2];
 	struct s_cmd	*next;
 }	t_cmd;
 typedef struct s_root
@@ -120,13 +121,13 @@ void		ft_token_retype(t_token *token);
 t_token		*ft_find_token_by_index(t_root *root, int index);
 t_state		ft_handle_state(char c, t_state current_state);
 
-// src/ft_env.c - Env
+// src/ft_env/ft_env.c - Env
 
 t_list		*ft_init_env(char **envp);
 char		**ft_env_to_array(t_root *root);
 void		ft_free_env(t_root *root);
 
-// src/ft_env_helpers.c - Env Helpers
+// src/ft_env/ft_env_helpers.c - Env Helpers
 
 t_env_var	*ft_find_var_by_key(t_root *root, char *key);
 t_env_var	*ft_set_var(t_root *root, char *key, char *value);
@@ -134,16 +135,20 @@ t_env_var	*ft_get_var(t_root *root, char *key);
 t_list		*ft_find_node_by_var_key(t_root *root, char *key);
 bool		ft_unset_var(t_root *root, char *key);
 
-// src/ft_kill.c - Shell kill
+// src/ft_signals.c - Signal handler
 
 void		ft_config_siginit(void);
 void		ft_config_sigquit(void);
-void		ft_kill_shell(t_root *root, int code);
-void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
-// src/ft_executor.c - Executor Functions
+// src/ft_executor/ft_executor.c - Executor Functions
 
 int			ft_executor(t_root *root, t_cmd *cmds);
+
+// src/ft_executor/ft_executor_helpers.c = Executor Helper Functions
+
+bool		ft_is_builtin(t_root *root, char *cmd);
+bool		ft_handle_worker_pipes(t_root *root);
+char		*ft_build_pipe_output(int fd);
 
 // src/ft_lexer.c - Lexer
 
@@ -155,5 +160,19 @@ int			ft_issep(char *input, int i);
 int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
 int			ft_parse_tokens(const char *input, int i, t_token **head);
+
+// src/ft_gc/ft_general_gc.c - General garbage collection functions
+
+void		ft_gc_str_array(char **arr);
+void		ft_gc_tokens(t_token *head);
+void		ft_gc_shell(t_root *root);
+
+// src/ft_init.c - Init functions
+
+void		ft_init_shell(t_root *root, int ac, char **av, char **env);
+
+// src/ft_utils - General Utils
+
+char		*ft_set_prompt(t_root *root);
 
 #endif

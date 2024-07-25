@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_tokeniser_gc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 16:34:48 by otodd            ###   ########.fr       */
+/*   Created: 2024/07/25 16:25:45 by otodd             #+#    #+#             */
+/*   Updated: 2024/07/25 16:31:11 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_exit(t_root *root, int code)
+void	ft_gc_tokens(t_token *head)
 {
-	ft_gc_shell(root);
-	write(1, "\n", 1);
-	exit(code);
+	t_token *current = head;
+	t_token *next;
+
+	while (current)
+	{
+		next = current->next;
+		free(current->str);
+		free(current);
+		current = next;
+	}
 }

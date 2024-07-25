@@ -6,11 +6,11 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/23 17:16:22 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 16:08:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_list	*ft_init_env(char **envp)
 {
@@ -33,8 +33,7 @@ t_list	*ft_init_env(char **envp)
 		}
 		else
 			ft_lstadd_back(&env, ft_lstnew(var));
-		ft_free_array(temp, ft_strarraylen(temp));
-		free(temp);
+		ft_gc_str_array(temp);
 		envp++;
 	}
 	return (head);
@@ -56,8 +55,7 @@ char	**ft_env_to_array(t_root *root)
 		tmp = ft_strarrayappend2(tmp, ft_strdup("="));
 		tmp = ft_strarrayappend2(tmp, ft_strdup(var->value));
 		str = ft_strarraytostr(tmp);
-		ft_free_array(tmp, ft_strarraylen(tmp));
-		free(tmp);
+		ft_gc_str_array(tmp);
 		str_env = ft_strarrayappend2(str_env, ft_strdup(str));
 		free(str);
 		head = head->next;
