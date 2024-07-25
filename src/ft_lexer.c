@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 18:12:32 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 20:19:06 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_token	*ft_tokenizer(char *input)
 		if (input[i])
 			i = ft_process_tokens(input, &head, &state, i);
 	}
+	if (ft_unclosed_quote(input))
+		ft_print_err("Syntax error: unclosed quote\n");
 	ft_type_helper(head);
 	return (head);
 }
@@ -100,4 +102,23 @@ t_state	ft_handle_state(char c, t_state current_state)
 	else if (current_state == DOUBLE_Q && c == '\"')
 		return (NORMAL);
 	return (current_state);
+}
+
+int	ft_unclosed_quote(char *str)
+{
+	int		i;
+	t_state	state;
+
+	i = 0;
+	state = NORMAL;
+	while (str[i])
+	{
+		state = ft_handle_state(str[i], state);
+		i++;
+	}
+	if (state != NORMAL)
+	{
+		ft_print_err("Syntax error: unclosed quote\n");
+	}
+	return (state != NORMAL);
 }

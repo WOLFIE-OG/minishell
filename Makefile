@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
+#    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/25 18:06:57 by otodd            ###   ########.fr        #
+#    Updated: 2024/07/25 20:12:54 by ssottori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_utils.c \
 				$(SRC_DIR)/ft_init.c \
 				$(SRC_DIR)/ft_tests.c \
+				$(SRC_DIR)/ft_errs.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_helpers.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \

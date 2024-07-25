@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 18:06:39 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 20:12:02 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		ft_token_type(t_token *token, int div);
 void		ft_token_retype(t_token *token);
 t_token		*ft_find_token_by_index(t_root *root, int index);
 t_state		ft_handle_state(char c, t_state current_state);
+int			ft_unclosed_quote(char *str);
 
 // src/ft_env/ft_env.c - Env
 
@@ -173,6 +174,10 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 // src/ft_utils - General Utils
 
 char		*ft_set_prompt(t_root *root);
+
+// errs
+
+void		ft_print_err(const char *message);
 
 
 
