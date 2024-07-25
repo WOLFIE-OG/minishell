@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/24 22:28:57 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 15:04:55 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_var_signal;
+
+const char *token_type_str(t_token_type type);
 
 static void	ft_create_builtin_array(t_root *root)
 {
@@ -62,7 +64,7 @@ static void	print_tokens(t_token *head)
 	t_token *current = head;
 	while (current)
 	{
-		printf("token value = '%s' -> token type = %d | index = %d\n", current->str, current->type, current->index);
+		printf("token value = '%s' -> token type = %s | index = %d\n", current->str, token_type_str(current->type), current->index);
 		current = current->next;
 	}
 }

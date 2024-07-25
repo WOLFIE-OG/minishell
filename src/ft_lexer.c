@@ -6,11 +6,13 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 14:36:29 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:04:20 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+const char *token_type_str(t_token_type type);
 
 /*
 parse input string and convert to linked list of tokens 
@@ -88,9 +90,23 @@ void	ft_test_token(void)
 	{
 		t_token *token = ft_token_new(ft_strdup(testtokens[i]));
 		ft_token_type(token, 0);
-		printf("Token value: '%s' -> Token type: %d\n", token->str, token->type);
+		printf("Token value: '%s' -> Token type: %s\n", token->str, token_type_str(token->type));
 		free(token->str);
 		free(token);
+	}
+}
+
+const char *token_type_str(t_token_type type) {
+	switch (type) {
+		case EMPTY: return ("EMPTY");
+		case CMD: return ("CMD");
+		case ARG: return ("ARG");
+		case TRUNC: return ("TRUNC");
+		case APPEND: return ("APPEND");
+		case INPUT: return ("INPUT");
+		case PIPE: return ("PIPE");
+		case END: return ("END");
+		default: return ("UNKNOWN");
 	}
 }
 
