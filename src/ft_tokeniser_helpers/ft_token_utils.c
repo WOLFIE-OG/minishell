@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/24 17:13:46 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 14:29:14 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_token_type(t_token *token, int div)
 
 int	ft_skip_whitespace(const char *input, int i)
 {
-	while (input[i] && ft_iswhitespace(input[i]))
+	while (input[i] && ft_iswspace(input[i]))
 		i++;
 	return (i);
 }
