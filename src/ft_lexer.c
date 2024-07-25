@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/24 17:16:02 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/25 14:18:26 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	t_token	*token;
 
 	i = start;
-	while (input[i] && !ft_iswhitespace(input[i]) && !ft_issep(input, i))
+	while (input[i] &&  (*state != NORMAL || !ft_iswhitespace(input[i])) && !ft_issep(input, i))
 	{
 		*state = ft_handle_state(input[i], *state);
 		i++;
