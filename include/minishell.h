@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 23:54:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 00:49:52 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cmd
 	t_token_type	post_action;
 	struct s_token	*cmd_tokens;
 	int				pipe[2];
+	bool			is_builtin;
 	struct s_cmd	*next;
 }	t_cmd;
 

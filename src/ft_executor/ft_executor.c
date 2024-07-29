@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 00:36:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 00:54:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,10 @@ int	ft_executor(t_root *root, t_cmd *cmds)
 		if (!head->cmd_tokens)
 			return (EXIT_FAILURE);
 		root->tokens = head->cmd_tokens;
-		if (ft_is_builtin(root, head->cmd_tokens->str))
+		if (head->is_builtin)
 			ft_builtins(root);
 		else
 			ft_exec(root);
-		head = head->next;
 		if (root->last_executed_cmd)
 		{
 			if (root->last_executed_cmd->post_action == TRUNC
@@ -127,7 +126,10 @@ int	ft_executor(t_root *root, t_cmd *cmds)
 				head = head->next;
 				ft_cmd_trunc_append(root);
 			}
+			else if (head->is_builtin)
+				ft_cmd_output(root);
 		}
+		head = head->next;
 	}
 	root->tokens = NULL;
 	root->last_executed_cmd = NULL;

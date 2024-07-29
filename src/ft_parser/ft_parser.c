@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 00:41:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 00:51:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static t_cmd	*ft_new_cmd(void)
 	cmd->post_action = EMPTY;
 	cmd->next = NULL;
 	cmd->cmd_tokens = NULL;
+	cmd->is_builtin = false;
 	return (cmd);
 }
 
@@ -45,7 +46,10 @@ t_cmd	*ft_parser(t_root *root)
 			|| token->type == INPUT_FILE)
 		{
 			if (!cmd->cmd_tokens)
+			{
 				cmd->cmd_tokens = ft_token_dup(token);
+				cmd->is_builtin = ft_is_builtin(root, cmd->cmd_tokens->str);
+			}
 			else
 				ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
 		}
