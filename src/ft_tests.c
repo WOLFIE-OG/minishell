@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:09 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 18:32:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 23:57:37 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static const char *token_type_str(t_token_type type) {
 		case INPUT: return ("INPUT");
 		case PIPE: return ("PIPE");
 		case END: return ("END");
+		case INPUT_FILE: return ("INPUT_FILE");
 		default: return ("UNKNOWN");
 	}
 }

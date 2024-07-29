@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/29 17:25:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 00:12:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,20 @@ void	ft_token_retype(t_token *token)
 	{
 		if (token->next)
 		{
-			if (token->next->type == ARG)
+			if (token->next->type == ARG || token->next->type == PIPE)
 				token->type = CMD;
 		}
 		else
 			token->type = CMD;
 	}
 	else
-		if (
-			token->prev->type == INPUT
-			|| token->prev->type == PIPE
-			|| token->prev->type == END
-			|| token->prev->type == TRUNC
-			|| token->prev->type == APPEND
-		)
+		if (token->prev->type == PIPE
+			|| token->prev->type == END)
 			token->type = CMD;
+	else if (token->prev->type == INPUT
+		|| token->prev->type == TRUNC
+		|| token->prev->type == APPEND)
+		token->type = INPUT_FILE;
 }
 
 void	ft_token_type(t_token *token, int div)

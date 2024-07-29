@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 18:37:15 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 23:54:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ typedef enum e_token_type
 	APPEND,
 	INPUT,
 	PIPE,
-	END
+	END,
+	INPUT_FILE
 }	t_token_type;
 
 extern int	g_var_signal;
@@ -115,6 +116,7 @@ void		ft_token_clear(t_token **lst, void (*del)(void *));
 void		ft_token_delone(t_token *lst, void (*del)(void *));
 t_token		*ft_token_last(t_token *lst);
 t_token		*ft_token_new(char *str);
+t_token		*ft_token_dup(t_token *token);
 t_token		*ft_token_pop(t_token *node);
 size_t		ft_token_size(t_token *lst);
 void		ft_token_type(t_token *token, int div);
@@ -203,5 +205,9 @@ int			tokenizer_tester(int ac, char **av);
 void		print_tokens(t_token *head);
 void		cmd_list_test(t_root *root);
 void		cmd_list_test_2(t_root *root);
+
+// src/ft_parser/ft_*.c - Parser stuff
+
+t_cmd		*ft_parser(t_root *root);
 
 #endif

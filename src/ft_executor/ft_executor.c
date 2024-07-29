@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 18:41:26 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 00:36:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,10 @@ static int	ft_builtins(t_root *root)
 bool	ft_exec(t_root *root)
 {
 	char	*cmd;
-	t_token	*cmd_token;
 	char	**args;
 
-	cmd_token = ft_get_token_by_type_at_i(root->current_cmd->cmd_tokens,
-			CMD, 0);
 	args = ft_exec_arg_str(root);
-	cmd = ft_cmd_path(root, cmd_token->str);
+	cmd = ft_cmd_path(root, root->current_cmd->cmd_tokens->str);
 	if (cmd)
 	{
 		if (ft_worker(root, cmd, args))
@@ -64,7 +61,11 @@ bool	ft_exec(t_root *root)
 		free(cmd);
 	}
 	else
-		printf("no such command: %s\n", cmd_token->str);
+	{
+		printf("no such command: %s\n", root->current_cmd->cmd_tokens->str);
+		ft_gc_str_array(args);
+		return (false);
+	}
 	ft_gc_str_array(args);
 	return (true);
 }
@@ -91,8 +92,11 @@ int	ft_worker(t_root *root, char *cmd, char **args)
 	}
 	else
 	{
-		wait(&ret_code);
 		close(root->current_cmd->pipe[1]);
+		if (root->current_cmd->post_action == EMPTY
+			|| root->current_cmd->post_action == END)
+			ft_print_pipe_output(root->current_cmd->pipe[0]);
+		wait(&ret_code);
 		root->last_executed_cmd = root->current_cmd;
 		root->current_cmd = root->current_cmd->next;
 	}
@@ -102,18 +106,15 @@ int	ft_worker(t_root *root, char *cmd, char **args)
 int	ft_executor(t_root *root, t_cmd *cmds)
 {
 	t_cmd	*head;
-	t_token	*cmd_token;
 
 	head = cmds;
 	root->current_cmd = head;
 	while (head)
 	{
-		if (!root->current_cmd->cmd_tokens)
+		if (!head->cmd_tokens)
 			return (EXIT_FAILURE);
-		cmd_token = ft_get_token_by_type_at_i(root->current_cmd->cmd_tokens,
-				CMD, 0);
 		root->tokens = head->cmd_tokens;
-		if (ft_is_builtin(root, cmd_token->str))
+		if (ft_is_builtin(root, head->cmd_tokens->str))
 			ft_builtins(root);
 		else
 			ft_exec(root);
@@ -122,11 +123,13 @@ int	ft_executor(t_root *root, t_cmd *cmds)
 		{
 			if (root->last_executed_cmd->post_action == TRUNC
 				|| root->last_executed_cmd->post_action == APPEND)
+			{
+				head = head->next;
 				ft_cmd_trunc_append(root);
-			else if (root->last_executed_cmd->post_action != PIPE)
-				ft_cmd_output(root);
+			}
 		}
 	}
+	root->tokens = NULL;
 	root->last_executed_cmd = NULL;
 	return (EXIT_SUCCESS);
 }
