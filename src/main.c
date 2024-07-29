@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 18:14:10 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 17:43:13 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	char	*tmp;
 	t_cmd	*cmds;
-	// t_cmd	*cmds2;
-	// t_cmd	*cmds3;
-	// t_cmd	*cmds2;
-	// t_cmd	*cmds3;
+	t_cmd	*cmds2;
+	t_cmd	*cmds3;
 	t_root	root;
 
 	g_var_signal = 0;
@@ -50,35 +48,30 @@ int	main(int ac, char **av, char **envp)
 		/*TEMP STUFF!!!!*/
 		cmds = (t_cmd *)malloc(sizeof(t_cmd) * 1);
 		pipe(cmds->io_out);
-		cmds->post_action = EMPTY;
-		cmds->post_action = EMPTY;
+		cmds->post_action = PIPE;
 		cmds->cmd_tokens = root.tokens;
 		cmds->next = NULL;
 
-		// cmds2 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
-		// pipe(cmds2->io_out);
-		// cmds2->post_action = END;
-		// cmds2->cmd_tokens = ft_tokenizer("wc -l");
-		// cmds2->next = NULL;
-		// cmds->next = cmds2;
+		cmds2 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+		pipe(cmds2->io_out);
+		cmds2->post_action = APPEND;
+		cmds2->cmd_tokens = ft_tokenizer("lolcat");
+		cmds2->next = NULL;
+		cmds->next = cmds2;
 
-		// cmds3 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
-		// pipe(cmds3->io_out);
-		// cmds3->post_action = EMPTY;
-		// cmds3->cmd_tokens = ft_tokenizer("ifconfig");
-		// cmds3->next = NULL;
-		// cmds2->next = cmds3;
+		cmds3 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+		pipe(cmds3->io_out);
+		cmds3->post_action = EMPTY;
+		cmds3->cmd_tokens = ft_tokenizer("ifconfig");
+		cmds3->next = NULL;
+		cmds2->next = cmds3;
 		ft_executor(&root, cmds);
-		// ft_gc_tokens(cmds2->cmd_tokens);
-		// free(cmds2);
-		// ft_gc_tokens(cmds2->cmd_tokens);
-		// free(cmds2);
+		ft_gc_tokens(cmds2->cmd_tokens);
+		free(cmds2);
 		ft_gc_tokens(cmds->cmd_tokens);
 		free(cmds);
-		// ft_gc_tokens(cmds3->cmd_tokens);
-		// free(cmds3);
-		// ft_gc_tokens(cmds3->cmd_tokens);
-		// free(cmds3);
+		ft_gc_tokens(cmds3->cmd_tokens);
+		free(cmds3);
 		add_history(input);
 		free(input);
 	}

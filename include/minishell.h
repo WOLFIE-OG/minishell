@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/26 00:54:49 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:23:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ extern int	g_var_signal;
 // This is the main data struct of the shell
 typedef struct s_cmd
 {
-	int				post_action;
+	t_token_type	post_action;
 	struct s_token	*cmd_tokens;
 	int				io_out[2];
 	struct s_cmd	*next;
@@ -83,7 +83,7 @@ typedef struct s_token
 {
 	int				index;
 	char			*str;
-	int				type;
+	t_token_type	type;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -106,7 +106,7 @@ int			ft_unset(t_root *root);
 int			ft_env(t_root *root);
 void		ft_exit(t_root *root, int code);
 
-// src/ft_tokeniser_helpers/ft_*.c - Tonkeniser Helper Functions
+// src/ft_tokeniser_helpers/ft_*.c - Tonkeniser helper functions
 
 void		ft_token_add(t_token **lst, t_token *new_l);
 void		ft_token_clear(t_token **lst, void (*del)(void *));
@@ -120,6 +120,8 @@ void		ft_token_retype(t_token *token);
 t_token		*ft_find_token_by_index(t_root *root, int index);
 t_state		ft_handle_state(char c, t_state current_state);
 int			ft_unclosed_quote(char *str);
+t_token		*ft_get_token_by_type_at_i(t_token *tkns,
+				t_token_type type, int index);
 
 // src/ft_env/ft_env.c - Env
 
@@ -127,7 +129,7 @@ t_list		*ft_init_env(char **envp);
 char		**ft_env_to_array(t_root *root);
 void		ft_free_env(t_root *root);
 
-// src/ft_env/ft_env_helpers.c - Env Helpers
+// src/ft_env/ft_env_helpers.c - Env helpers
 
 t_env_var	*ft_find_var_by_key(t_root *root, char *key);
 t_env_var	*ft_set_var(t_root *root, char *key, char *value);
@@ -140,15 +142,28 @@ bool		ft_unset_var(t_root *root, char *key);
 void		ft_config_siginit(void);
 void		ft_config_sigquit(void);
 
-// src/ft_executor/ft_executor.c - Executor Functions
+// src/ft_executor/ft_executor.c - Executor functions
 
 int			ft_executor(t_root *root, t_cmd *cmds);
+bool		ft_exec(t_root *root);
+int			ft_worker(t_root *root, char *cmd, char **args);
 
-// src/ft_executor/ft_executor_helpers.c = Executor Helper Functions
+// src/ft_executor/ft_executor_io.c - Executor I/O functions
+
+void		ft_cmd_output(t_root *root);
+void		ft_cmd_trunc_append(t_root *root);
+char		*ft_build_pipe_output(int fd);
+bool		ft_write_to_file(char *data, bool append, char *path);
+char		*ft_cmd_path(t_root *root, char *cmd);
+
+// src/ft_executor/ft_executor_utils.c - Executor utils
 
 bool		ft_is_builtin(t_root *root, char *cmd);
+char		**ft_exec_arg_str(t_root *root);
+
+// src/ft_executor/ft_executor_redirs.c - Executor redir
+
 bool		ft_handle_worker_pipes(t_root *root);
-char		*ft_build_pipe_output(int fd);
 
 // src/ft_lexer.c - Lexer
 
@@ -178,8 +193,6 @@ char		*ft_set_prompt(t_root *root);
 // errs
 
 void		ft_print_err(const char *message);
-
-
 
 // src/ft_tests.c - Test functions
 

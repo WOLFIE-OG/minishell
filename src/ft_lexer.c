@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 20:19:06 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:23:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-const char *token_type_str(t_token_type type);
+const char	*token_type_str(t_token_type type);
 
 /*
 parse input string and convert to linked list of tokens 

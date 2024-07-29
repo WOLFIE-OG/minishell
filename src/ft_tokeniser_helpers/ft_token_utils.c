@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/25 14:36:29 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:25:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,11 @@ char	*ft_tokenstr(const char *input, int start, int end)
 int	ft_parse_tokens(const char *input, int i, t_token **head)
 {
 	t_token	*token;
-	char	tok_str[3] = {input[i], '\0', '\0'};
+	char	tok_str[3];
 
+	tok_str[0] = input[i];
+	tok_str[1] = '\0';
+	tok_str[2] = '\0';
 	token = NULL;
 	if (input[i] == '>' && input[i + 1] == '>')
 	{
@@ -94,9 +97,8 @@ int	ft_parse_tokens(const char *input, int i, t_token **head)
 	ft_token_add(head, token);
 	return (i + 1);
 }
-/*
-	add quotes checker - line 86
-*/
+
+/* add quotes checker */
 int	ft_issep(char *input, int i)
 {
 	if (i > 0 && input[i - 1] == '\\' && ft_strchr("<>|;", input[i]))
@@ -105,4 +107,18 @@ int	ft_issep(char *input, int i)
 		return (1);
 	else
 		return (0);
+}
+
+t_token	*ft_get_token_by_type_at_i(t_token *tkns, t_token_type type, int index)
+{
+	t_token	*head;
+
+	head = tkns;
+	while (head)
+	{
+		if (head->type == type && head->index == index)
+			return (head);
+		head = head->next;
+	}
+	return (NULL);
 }

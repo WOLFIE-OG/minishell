@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 17:18:13 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 17:54:52 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,33 @@ static int	ft_builtins(t_root *root)
 	return (ret);
 }
 
-static int	ft_worker(t_root *root, char *cmd, char **args)
+bool	ft_exec(t_root *root)
+{
+	char	*cmd;
+	t_token	*cmd_token;
+	char	**args;
+
+	cmd_token = ft_get_token_by_type_at_i(root->current_cmd->cmd_tokens,
+			CMD, 0);
+	args = ft_exec_arg_str(root);
+	cmd = ft_cmd_path(root, cmd_token->str);
+	if (cmd)
+	{
+		if (ft_worker(root, cmd, args))
+		{
+			ft_gc_str_array(args);
+			free(cmd);
+			return (false);
+		}
+		free(cmd);
+	}
+	else
+		printf("no such command: %s\n", cmd_token->str);
+	ft_gc_str_array(args);
+	return (true);
+}
+
+int	ft_worker(t_root *root, char *cmd, char **args)
 {
 	pid_t		child;
 	int			ret_code;
@@ -58,7 +84,7 @@ static int	ft_worker(t_root *root, char *cmd, char **args)
 		env = ft_env_to_array(root);
 		if (execve(cmd, args, env) == -1)
 		{
-			perror("error in execve");
+			perror(cmd);
 			ft_gc_str_array(env);
 			exit(EXIT_FAILURE);
 		}
@@ -73,75 +99,10 @@ static int	ft_worker(t_root *root, char *cmd, char **args)
 	return (WEXITSTATUS(ret_code));
 }
 
-static char	*ft_cmd_path(t_root *root, char *cmd)
-{
-	char		**dir_paths;
-	char		*path;
-	char		*part_paths;
-	t_env_var	*var;
-	int			i;
-
-	var = ft_get_var(root, "PATH");
-	dir_paths = ft_split(var->value, ':');
-	i = -1;
-	while (dir_paths[++i])
-	{
-		part_paths = ft_strjoin(dir_paths[i], "/");
-		path = ft_strjoin(part_paths, cmd);
-		free(part_paths);
-		if (access(path, F_OK) == 0)
-		{
-			ft_gc_str_array(dir_paths);
-			return (path);
-		}
-		free(path);
-	}
-	ft_gc_str_array(dir_paths);
-	return (NULL);
-}
-
-static char	**ft_exec_arg_str(t_root *root)
-{
-	char	**arg;
-	t_token	*head;
-
-	arg = NULL;
-	head = root->current_cmd->cmd_tokens;
-	while (head)
-	{
-		arg = ft_strarrayappend2(arg, ft_strdup(head->str));
-		head = head->next;
-	}
-	return (arg);
-}
-
-static int	ft_exec(t_root *root)
-{
-	char	*cmd;
-	char	**args;
-
-	args = ft_exec_arg_str(root);
-	cmd = ft_cmd_path(root, root->current_cmd->cmd_tokens->str);
-	if (cmd)
-	{
-		if (ft_worker(root, cmd, args))
-		{
-			ft_gc_str_array(args);
-			free(cmd);
-			return (EXIT_FAILURE);
-		}
-		free(cmd);
-	}
-	else
-		printf("minishell: No Such Command: \n");
-	ft_gc_str_array(args);
-	return (EXIT_SUCCESS);
-}
-
 int	ft_executor(t_root *root, t_cmd *cmds)
 {
 	t_cmd	*head;
-	char	*result;
+	t_token	*cmd_token;
 
 	head = cmds;
 	root->current_cmd = head;
@@ -149,23 +110,21 @@ int	ft_executor(t_root *root, t_cmd *cmds)
 	{
 		if (!root->current_cmd->cmd_tokens)
 			return (EXIT_FAILURE);
+		cmd_token = ft_get_token_by_type_at_i(root->current_cmd->cmd_tokens,
+				CMD, 0);
 		root->tokens = head->cmd_tokens;
-		if (ft_is_builtin(root, root->current_cmd->cmd_tokens->str))
+		if (ft_is_builtin(root, cmd_token->str))
 			ft_builtins(root);
 		else
 			ft_exec(root);
 		head = head->next;
 		if (root->last_executed_cmd)
 		{
-			if (root->last_executed_cmd->post_action != PIPE)
-			{
-				result = ft_build_pipe_output(root->last_executed_cmd->io_out[0]);
-				if (result)
-				{
-					ft_putstr(result);
-					free(result);
-				}
-			}
+			if (root->last_executed_cmd->post_action == TRUNC
+				|| root->last_executed_cmd->post_action == APPEND)
+				ft_cmd_trunc_append(root);
+			else if (root->last_executed_cmd->post_action != PIPE)
+				ft_cmd_output(root);
 		}
 	}
 	root->last_executed_cmd = NULL;
