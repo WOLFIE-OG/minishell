@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/29 17:04:17 by otodd            ###   ########.fr        #
+#    Updated: 2024/07/29 18:01:54 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ OBJ_DIRS	=	$(OBJ_DIR) \
 				$(OBJ_DIR)/ft_tokeniser_helpers \
 				$(OBJ_DIR)/ft_env \
 				$(OBJ_DIR)/ft_executor \
-				$(OBJ_DIR)/ft_gc
+				$(OBJ_DIR)/ft_gc \
+				$(OBJ_DIR)/ft_parser
 
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
@@ -42,6 +43,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_init.c \
 				$(SRC_DIR)/ft_tests.c \
 				$(SRC_DIR)/ft_errs.c \
+				$(SRC_DIR)/ft_parser/ft_parser.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \
@@ -111,6 +113,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/ft_gc/%.c $(INC_DIR)/minishell.h | dir
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/ft_env/%.c $(INC_DIR)/minishell.h | dir
+	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
+	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_parser/%.c $(INC_DIR)/minishell.h | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
 
