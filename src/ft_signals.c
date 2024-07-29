@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/18 14:46:39 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:27:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,21 @@ static void	ft_sigint_input(int signum)
 	signal(SIGINT, ft_sigint_input);
 }
 
-static void	ft_sigquit_exec(int signum)
+static void	ft_sigint_cmd(int signum)
 {
-	write(STDIN_FILENO, "\n", 1);
-	(void)signum;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	exit(signum);
 }
 
-void	ft_config_siginit(void)
+void	ft_config_sigint(void)
 {
 	signal(SIGINT, ft_sigint_input);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_config_sigquit(void)
+void	ft_config_sigint_cmd(void)
 {
-	signal(SIGQUIT, ft_sigquit_exec);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ft_sigint_cmd);
 }

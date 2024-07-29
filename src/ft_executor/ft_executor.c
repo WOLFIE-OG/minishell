@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 17:54:52 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:41:26 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	ft_builtins(t_root *root)
 	char		*cmd;
 
 	og_fd = dup(STDOUT_FILENO);
-	dup2(root->current_cmd->io_out[1], STDOUT_FILENO);
-	close(root->current_cmd->io_out[1]);
+	dup2(root->current_cmd->pipe[1], STDOUT_FILENO);
+	close(root->current_cmd->pipe[1]);
 	cmd = root->tokens->str;
 	if (!ft_strcmp(cmd, "cd"))
 		ret = ft_cd(root);
@@ -76,9 +76,10 @@ int	ft_worker(t_root *root, char *cmd, char **args)
 	char		**env;
 
 	child = fork();
+	ret_code = 0;
 	if (child == 0)
 	{
-		ft_config_sigquit();
+		ft_config_sigint_cmd();
 		if (!ft_handle_worker_pipes(root))
 			exit(EXIT_FAILURE);
 		env = ft_env_to_array(root);
@@ -86,13 +87,12 @@ int	ft_worker(t_root *root, char *cmd, char **args)
 		{
 			perror(cmd);
 			ft_gc_str_array(env);
-			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
 		wait(&ret_code);
-		close(root->current_cmd->io_out[1]);
+		close(root->current_cmd->pipe[1]);
 		root->last_executed_cmd = root->current_cmd;
 		root->current_cmd = root->current_cmd->next;
 	}

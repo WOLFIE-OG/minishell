@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:09 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 18:07:22 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:32:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,50 @@ int	tokenizer_tester(int ac, char **av)
 		}
 	}
 	return (0);
+}
+
+void	cmd_list_test(t_root *root)
+{
+	t_cmd	*cmds;
+	t_cmd	*cmds2;
+	t_cmd	*cmds3;
+
+	cmds = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+	pipe(cmds->pipe);
+	cmds->post_action = PIPE;
+	cmds->cmd_tokens = root->tokens;
+	cmds->next = NULL;
+	cmds2 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+	pipe(cmds2->pipe);
+	cmds2->post_action = APPEND;
+	cmds2->cmd_tokens = ft_tokenizer("lolcat");
+	cmds2->next = NULL;
+	cmds->next = cmds2;
+	cmds3 = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+	pipe(cmds3->pipe);
+	cmds3->post_action = EMPTY;
+	cmds3->cmd_tokens = ft_tokenizer("ifconfig");
+	cmds3->next = NULL;
+	cmds2->next = cmds3;
+	ft_executor(root, cmds);
+	ft_gc_tokens(cmds2->cmd_tokens);
+	free(cmds2);
+	ft_gc_tokens(cmds->cmd_tokens);
+	free(cmds);
+	ft_gc_tokens(cmds3->cmd_tokens);
+	free(cmds3);
+}
+
+void	cmd_list_test_2(t_root *root)
+{
+	t_cmd	*cmds;
+
+	cmds = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+	pipe(cmds->pipe);
+	cmds->post_action = EMPTY;
+	cmds->cmd_tokens = root->tokens;
+	cmds->next = NULL;
+	ft_executor(root, cmds);
+	ft_gc_tokens(cmds->cmd_tokens);
+	free(cmds);
 }

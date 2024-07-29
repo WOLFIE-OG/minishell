@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 17:58:29 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:36:53 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_cmd_output(t_root *root)
 {
 	char	*result;
 
-	result = ft_build_pipe_output(root->last_executed_cmd->io_out[0]);
+	result = ft_build_pipe_output(root->last_executed_cmd->pipe[0]);
 	if (result)
 	{
 		ft_putstr(result);
@@ -32,7 +32,7 @@ void	ft_cmd_trunc_append(t_root *root)
 	append = false;
 	if (root->last_executed_cmd->post_action == APPEND)
 		append = true;
-	result = ft_build_pipe_output(root->last_executed_cmd->io_out[0]);
+	result = ft_build_pipe_output(root->last_executed_cmd->pipe[0]);
 	if (!ft_write_to_file(result, append, "test.txt"))
 		perror("permission denied");
 	free(result);
@@ -55,6 +55,19 @@ char	*ft_build_pipe_output(int fd)
 	line = ft_strarraytostr(arr);
 	ft_gc_str_array(arr);
 	return (line);
+}
+
+void	ft_print_pipe_output(int fd)
+{
+	char	*line;
+
+	while (true)
+	{
+		line = ft_get_next_line(fd);
+		if (!line)
+			break ;
+		ft_putstr(line);
+	}
 }
 
 bool	ft_write_to_file(char *data, bool append, char *path)

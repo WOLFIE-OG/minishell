@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 17:23:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:37:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,16 @@ typedef enum e_token_type
 }	t_token_type;
 
 extern int	g_var_signal;
+
 // This is the main data struct of the shell
 typedef struct s_cmd
 {
 	t_token_type	post_action;
 	struct s_token	*cmd_tokens;
-	int				io_out[2];
+	int				pipe[2];
 	struct s_cmd	*next;
 }	t_cmd;
+
 typedef struct s_root
 {
 	t_list			*env;
@@ -139,8 +141,8 @@ bool		ft_unset_var(t_root *root, char *key);
 
 // src/ft_signals.c - Signal handler
 
-void		ft_config_siginit(void);
-void		ft_config_sigquit(void);
+void		ft_config_sigint(void);
+void		ft_config_sigint_cmd(void);
 
 // src/ft_executor/ft_executor.c - Executor functions
 
@@ -155,6 +157,7 @@ void		ft_cmd_trunc_append(t_root *root);
 char		*ft_build_pipe_output(int fd);
 bool		ft_write_to_file(char *data, bool append, char *path);
 char		*ft_cmd_path(t_root *root, char *cmd);
+void		ft_print_pipe_output(int fd);
 
 // src/ft_executor/ft_executor_utils.c - Executor utils
 
@@ -198,5 +201,7 @@ void		ft_print_err(const char *message);
 
 int			tokenizer_tester(int ac, char **av);
 void		print_tokens(t_token *head);
+void		cmd_list_test(t_root *root);
+void		cmd_list_test_2(t_root *root);
 
 #endif
