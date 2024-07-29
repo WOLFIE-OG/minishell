@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/29 17:23:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/29 20:14:27 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,10 @@ int	ft_unclosed_quote(char *str)
 	while (str[i])
 	{
 		state = ft_handle_state(str[i], state);
+		printf("char: %c -- state rn: %d\n", str[i], state);
 		i++;
 	}
 	if (state != NORMAL)
-	{
 		ft_print_err("Syntax error: unclosed quote\n");
-	}
 	return (state != NORMAL);
 }
