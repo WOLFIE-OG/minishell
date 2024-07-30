@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 00:54:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:43:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_builtins(t_root *root)
 	og_fd = dup(STDOUT_FILENO);
 	dup2(root->current_cmd->pipe[1], STDOUT_FILENO);
 	close(root->current_cmd->pipe[1]);
-	cmd = root->tokens->str;
+	cmd = root->current_cmd->cmd_tokens->str;
 	if (!ft_strcmp(cmd, "cd"))
 		ret = ft_cd(root);
 	else if (!ft_strcmp(cmd, "export"))
@@ -43,7 +43,7 @@ static int	ft_builtins(t_root *root)
 	return (ret);
 }
 
-bool	ft_exec(t_root *root)
+int	ft_exec(t_root *root)
 {
 	char	*cmd;
 	char	**args;
@@ -56,7 +56,7 @@ bool	ft_exec(t_root *root)
 		{
 			ft_gc_str_array(args);
 			free(cmd);
-			return (false);
+			return (errno);
 		}
 		free(cmd);
 	}
@@ -64,10 +64,10 @@ bool	ft_exec(t_root *root)
 	{
 		printf("no such command: %s\n", root->current_cmd->cmd_tokens->str);
 		ft_gc_str_array(args);
-		return (false);
+		return (EXIT_FAILURE);
 	}
 	ft_gc_str_array(args);
-	return (true);
+	return (EXIT_FAILURE);
 }
 
 int	ft_worker(t_root *root, char *cmd, char **args)
@@ -103,27 +103,36 @@ int	ft_worker(t_root *root, char *cmd, char **args)
 	return (WEXITSTATUS(ret_code));
 }
 
-int	ft_executor(t_root *root, t_cmd *cmds)
+int	ft_executor(t_root *root)
 {
+	char	*data;
 	t_cmd	*head;
 
-	head = cmds;
+	head = root->preped_cmds;
 	root->current_cmd = head;
 	while (head)
 	{
-		if (!head->cmd_tokens)
-			return (EXIT_FAILURE);
-		root->tokens = head->cmd_tokens;
-		if (head->is_builtin)
-			ft_builtins(root);
-		else
-			ft_exec(root);
+		if (root->current_cmd->post_action == INPUT)
+		{
+			data = ft_read_from_file(root->current_cmd->cmd_tokens->str);
+			if (data)
+				ft_putstr_fd(data, root->current_cmd->pipe[1]);
+			close(root->current_cmd->pipe[1]);
+			root->last_executed_cmd = root->current_cmd;
+			root->current_cmd = root->current_cmd->next;
+		}
+		if (root->current_cmd->execute)
+		{
+			if (root->current_cmd->is_builtin)
+				root->last_return_code = ft_builtins(root);
+			else
+				root->last_return_code = ft_exec(root);
+		}
 		if (root->last_executed_cmd)
 		{
 			if (root->last_executed_cmd->post_action == TRUNC
 				|| root->last_executed_cmd->post_action == APPEND)
 			{
-				head = head->next;
 				ft_cmd_trunc_append(root);
 			}
 			else if (head->is_builtin)
@@ -131,7 +140,6 @@ int	ft_executor(t_root *root, t_cmd *cmds)
 		}
 		head = head->next;
 	}
-	root->tokens = NULL;
 	root->last_executed_cmd = NULL;
 	return (EXIT_SUCCESS);
 }

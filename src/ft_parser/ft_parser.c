@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 00:51:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:05:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static t_cmd	*ft_new_cmd(void)
 	cmd->next = NULL;
 	cmd->cmd_tokens = NULL;
 	cmd->is_builtin = false;
+	cmd->execute = true;
+	
 	return (cmd);
 }
 
@@ -30,16 +32,25 @@ t_cmd	*ft_parser(t_root *root)
 	t_token	*token;
 	t_cmd	*cmd;
 	t_cmd	*head;
-	t_cmd	*prev_cmd;
 
-	token = root->tokens;
+	token = root->ctx_tokens;
 	if (!token)
 		return (NULL);
 	cmd = ft_new_cmd();
 	head = cmd;
-	prev_cmd = NULL;
 	while (token)
 	{
+		if (token->type == CMD)
+		{
+			if (token->next && token->next->next)
+			{
+				if (token->next->type == INPUT && token->next->next->type == INPUT_FILE)
+				{
+					ft_token_swap(token, token->next->next);
+					token = token->prev->prev;
+				}
+			}
+		}
 		if (token->type == CMD
 			|| token->type == ARG
 			|| token->type == EMPTY
@@ -55,16 +66,17 @@ t_cmd	*ft_parser(t_root *root)
 		}
 		else
 		{
-			if (prev_cmd)
-				prev_cmd->next = cmd;
 			cmd->post_action = token->type;
-			prev_cmd = cmd;
-			cmd = ft_new_cmd();
+			if (cmd->cmd_tokens->type == INPUT_FILE)
+				cmd->execute = false;
+			if (token->next)
+			{
+				cmd->next = ft_new_cmd();
+				cmd = cmd->next;
+			}
 		}
 		token = token->next;
 	}
-	if (prev_cmd)
-		prev_cmd->next = cmd;
 	if (!head)
 		return (NULL);
 	return (head);

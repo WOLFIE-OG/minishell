@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 00:49:52 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 18:05:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ typedef struct s_cmd
 	struct s_token	*cmd_tokens;
 	int				pipe[2];
 	bool			is_builtin;
+	bool			execute;
 	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_root
 {
 	t_list			*env;
-	struct s_token	*tokens;
-	struct s_cmd	*cmds;
+	struct s_token	*ctx_tokens;
+	struct s_cmd	*preped_cmds;
 	char			**builtin_array;
 	char			**prompt;
 	char			*args;
@@ -120,9 +121,10 @@ t_token		*ft_token_new(char *str);
 t_token		*ft_token_dup(t_token *token);
 t_token		*ft_token_pop(t_token *node);
 size_t		ft_token_size(t_token *lst);
+void		ft_token_swap(t_token *token1, t_token *token2);
 void		ft_token_type(t_token *token, int div);
 void		ft_token_retype(t_token *token);
-t_token		*ft_find_token_by_index(t_root *root, int index);
+t_token		*ft_find_token_by_index(t_token *tokens, int index);
 t_state		ft_handle_state(char c, t_state current_state);
 int			ft_unclosed_quote(char *str);
 t_token		*ft_get_token_by_type_at_i(t_token *tkns,
@@ -149,18 +151,19 @@ void		ft_config_sigint_cmd(void);
 
 // src/ft_executor/ft_executor.c - Executor functions
 
-int			ft_executor(t_root *root, t_cmd *cmds);
-bool		ft_exec(t_root *root);
+int			ft_executor(t_root *root);
+int			ft_exec(t_root *root);
 int			ft_worker(t_root *root, char *cmd, char **args);
 
 // src/ft_executor/ft_executor_io.c - Executor I/O functions
 
 void		ft_cmd_output(t_root *root);
 void		ft_cmd_trunc_append(t_root *root);
-char		*ft_build_pipe_output(int fd);
+char		*ft_fd_to_str(int fd);
 bool		ft_write_to_file(char *data, bool append, char *path);
 char		*ft_cmd_path(t_root *root, char *cmd);
 void		ft_print_pipe_output(int fd);
+char		*ft_read_from_file(char *path);
 
 // src/ft_executor/ft_executor_utils.c - Executor utils
 
@@ -182,11 +185,13 @@ int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
 int			ft_parse_tokens(const char *input, int i, t_token **head);
 
-// src/ft_gc/ft_general_gc.c - General garbage collection functions
+// src/ft_gc/ft_*.c - Garbage collection functions
 
 void		ft_gc_str_array(char **arr);
 void		ft_gc_tokens(t_token *head);
 void		ft_gc_shell(t_root *root);
+void		ft_gc_preped_cmds(t_root *root);
+
 
 // src/ft_init.c - Init functions
 

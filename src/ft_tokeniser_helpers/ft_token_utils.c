@@ -6,17 +6,17 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/30 00:12:28 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 16:48:52 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_token	*ft_find_token_by_index(t_root *root, int index)
+t_token	*ft_find_token_by_index(t_token *tokens, int index)
 {
 	t_token	*head;
 
-	head = root->tokens;
+	head = tokens;
 	while (head)
 	{
 		if (head->index == index)
@@ -32,7 +32,12 @@ void	ft_token_retype(t_token *token)
 	{
 		if (token->next)
 		{
-			if (token->next->type == ARG || token->next->type == PIPE)
+			if (
+				token->next->type == ARG
+				|| token->next->type == PIPE
+				|| token->next->type == INPUT
+				|| token->next->type == TRUNC
+				|| token->next->type == APPEND)
 				token->type = CMD;
 		}
 		else

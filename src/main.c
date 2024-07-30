@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/29 21:45:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 13:09:14 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	*tmp;
-	t_cmd	*cmd;
 	t_root	root;
 
 	g_var_signal = 0;
@@ -37,10 +36,11 @@ int	main(int ac, char **av, char **envp)
 			printf("exit\n"); //handling EOF
 			break ;
 		}
-		root.tokens = ft_tokenizer(input);
-		print_tokens(root.tokens);
-		cmd = ft_parser(&root);
-		ft_executor(&root, cmd);
+		root.ctx_tokens = ft_tokenizer(input);
+		print_tokens(root.ctx_tokens);
+		root.preped_cmds = ft_parser(&root);
+		ft_executor(&root);
+		ft_gc_preped_cmds(&root);
 		// cmd_list_test_2(&root);
 		// cmd_list_test(&root);
 		add_history(input);

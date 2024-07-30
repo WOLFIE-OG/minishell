@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:56 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/29 18:31:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 14:36:00 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	ft_handle_worker_pipes(t_root *root)
 {
 	if (root->last_executed_cmd)
 	{
-		if (root->last_executed_cmd->post_action == PIPE)
+		if (root->last_executed_cmd->post_action == PIPE || root->last_executed_cmd->post_action == INPUT)
 		{
 			if (dup2(root->last_executed_cmd->pipe[0], STDIN_FILENO) == -1)
 			{
