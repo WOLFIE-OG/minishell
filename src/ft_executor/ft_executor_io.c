@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 21:30:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:47:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_cmd_output(t_root *root)
 {
 	char	*result;
 
-	result = ft_fd_to_str(root->last_executed_cmd->pipe[0]);
+	result = ft_fd_to_str(root->current_cmd->pipe[0]);
 	if (result)
 	{
 		ft_putstr(result);

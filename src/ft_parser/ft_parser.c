@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 21:11:15 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:43:49 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ t_cmd	*ft_parser(t_root *root)
 				}
 			}
 		}
+
+		 if (token->type == PIPE || token->type == TRUNC)
+		{
+			if (!token->next)
+			{
+				printf("syntax error: separator must be followed by a command or argument\n");
+				return (NULL);
+			}
+		}
+
 		if (token->type == CMD
 			|| token->type == ARG
 			|| token->type == EMPTY

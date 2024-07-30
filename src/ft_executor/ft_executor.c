@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 21:29:52 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:50:20 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ static int	ft_builtins(t_root *root)
 		ret = ft_pwd(root);
 	dup2(og_fd, STDOUT_FILENO);
 	close(og_fd);
+	if (root->current_cmd->post_action == EMPTY
+		|| root->current_cmd->post_action == END)
+		ft_cmd_output(root);
 	root->last_executed_cmd = root->current_cmd;
 	return (ret);
 }
@@ -129,14 +132,7 @@ int	ft_executor(t_root *root)
 		{
 			if (root->last_executed_cmd->post_action == TRUNC
 				|| root->last_executed_cmd->post_action == APPEND)
-			{
 				ft_cmd_trunc_append(root);
-			}
-			else if (root->current_cmd->is_builtin)
-			{
-				ft_cmd_output(root);
-				root->last_executed_cmd = root->current_cmd;
-			}
 		}
 		root->current_cmd = root->current_cmd->next;
 	}
