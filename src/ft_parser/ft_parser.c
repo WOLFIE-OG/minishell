@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 18:05:22 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:11:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ t_cmd	*ft_parser(t_root *root)
 			}
 			else
 				ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
+			if (cmd->cmd_tokens->type == INPUT_FILE)
+				cmd->execute = false;
 		}
 		else
 		{
 			cmd->post_action = token->type;
-			if (cmd->cmd_tokens->type == INPUT_FILE)
-				cmd->execute = false;
 			if (token->next)
 			{
 				cmd->next = ft_new_cmd();

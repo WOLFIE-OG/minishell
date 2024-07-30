@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 18:43:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:29:52 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	ft_builtins(t_root *root)
 	dup2(og_fd, STDOUT_FILENO);
 	close(og_fd);
 	root->last_executed_cmd = root->current_cmd;
-	root->current_cmd = root->current_cmd->next;
 	return (ret);
 }
 
@@ -98,7 +97,6 @@ int	ft_worker(t_root *root, char *cmd, char **args)
 			ft_print_pipe_output(root->current_cmd->pipe[0]);
 		wait(&ret_code);
 		root->last_executed_cmd = root->current_cmd;
-		root->current_cmd = root->current_cmd->next;
 	}
 	return (WEXITSTATUS(ret_code));
 }
@@ -110,7 +108,7 @@ int	ft_executor(t_root *root)
 
 	head = root->preped_cmds;
 	root->current_cmd = head;
-	while (head)
+	while (root->current_cmd)
 	{
 		if (root->current_cmd->post_action == INPUT)
 		{
@@ -119,7 +117,6 @@ int	ft_executor(t_root *root)
 				ft_putstr_fd(data, root->current_cmd->pipe[1]);
 			close(root->current_cmd->pipe[1]);
 			root->last_executed_cmd = root->current_cmd;
-			root->current_cmd = root->current_cmd->next;
 		}
 		if (root->current_cmd->execute)
 		{
@@ -135,10 +132,13 @@ int	ft_executor(t_root *root)
 			{
 				ft_cmd_trunc_append(root);
 			}
-			else if (head->is_builtin)
+			else if (root->current_cmd->is_builtin)
+			{
 				ft_cmd_output(root);
+				root->last_executed_cmd = root->current_cmd;
+			}
 		}
-		head = head->next;
+		root->current_cmd = root->current_cmd->next;
 	}
 	root->last_executed_cmd = NULL;
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 18:40:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/30 21:30:50 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_cmd_trunc_append(t_root *root)
 	bool	append;
 	char	*result;
 
+	root->current_cmd = root->current_cmd->next;
 	append = false;
 	if (root->last_executed_cmd->post_action == APPEND)
 		append = true;
@@ -36,6 +37,7 @@ void	ft_cmd_trunc_append(t_root *root)
 	if (!ft_write_to_file(result, append, root->current_cmd->cmd_tokens->str))
 		perror("permission denied");
 	free(result);
+	root->last_executed_cmd = root->current_cmd;
 }
 
 char	*ft_fd_to_str(int fd)
