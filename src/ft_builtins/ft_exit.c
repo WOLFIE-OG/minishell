@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 16:34:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/31 15:26:33 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,5 @@
 void	ft_exit(t_root *root, int code)
 {
 	ft_gc_shell(root);
-	write(1, "\n", 1);
 	exit(code);
 }

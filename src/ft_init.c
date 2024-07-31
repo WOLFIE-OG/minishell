@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 12:01:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/31 18:22:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static void	ft_create_builtin_array(t_root *root)
 void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
 	(void)ac;
-	root->last_executed_cmd = NULL;
-	root->last_return_code = 0;
+	root->prev_cmd = NULL;
+	root->prev_cmd_status = EXIT_SUCCESS;
 	root->preped_cmds = NULL;
 	root->current_cmd = NULL;
 	root->env = ft_init_env(env);
-	root->name = "minishell";
-	root->args = *av;
+	root->shell_name = "minishell";
+	root->init_args = *av;
 	ft_create_builtin_array(root);
 }

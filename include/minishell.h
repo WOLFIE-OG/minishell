@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 18:05:28 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/31 18:21:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <signal.h>
-# define SUCCESS 0
 
 typedef enum e_state
 {
@@ -77,10 +76,10 @@ typedef struct s_root
 	struct s_cmd	*preped_cmds;
 	char			**builtin_array;
 	char			**prompt;
-	char			*args;
-	char			*name;
-	int				last_return_code;
-	struct s_cmd	*last_executed_cmd;
+	char			*init_args;
+	char			*shell_name;
+	int				prev_cmd_status;
+	struct s_cmd	*prev_cmd;
 	struct s_cmd	*current_cmd;
 }	t_root;
 
@@ -151,9 +150,10 @@ void		ft_config_sigint_cmd(void);
 
 // src/ft_executor/ft_executor.c - Executor functions
 
-int			ft_executor(t_root *root);
-int			ft_exec(t_root *root);
-int			ft_worker(t_root *root, char *cmd, char **args);
+void		ft_executor(t_root *root);
+void		ft_worker_launcher(t_root *root);
+void		ft_worker(t_root *root, char *cmd, char **args);
+void		ft_builtins(t_root *root);
 
 // src/ft_executor/ft_executor_io.c - Executor I/O functions
 
@@ -162,13 +162,12 @@ void		ft_cmd_trunc_append(t_root *root);
 char		*ft_fd_to_str(int fd);
 bool		ft_write_to_file(char *data, bool append, char *path);
 char		*ft_cmd_path(t_root *root, char *cmd);
-void		ft_print_pipe_output(int fd);
 char		*ft_read_from_file(char *path);
 
 // src/ft_executor/ft_executor_utils.c - Executor utils
 
 bool		ft_is_builtin(t_root *root, char *cmd);
-char		**ft_exec_arg_str(t_root *root);
+char		**ft_worker_arg_str(t_root *root);
 
 // src/ft_executor/ft_executor_redirs.c - Executor redir
 

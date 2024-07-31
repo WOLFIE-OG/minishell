@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 12:02:25 by otodd            ###   ########.fr       */
+/*   Updated: 2024/07/31 18:28:05 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	ft_cd(t_root *root)
 {
 	char	*res;
 
-	res = ft_cd_internal(root, ft_find_token_by_index(root->current_cmd->cmd_tokens, 1));
+	res = ft_cd_internal(root,
+			ft_find_token_by_index(root->current_cmd->cmd_tokens, 1));
 	if (res)
 	{
 		printf("cd: %s: %s\n", strerror(errno), res);

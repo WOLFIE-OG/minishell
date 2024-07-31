@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/30 15:55:08 by otodd            ###   ########.fr        #
+#    Updated: 2024/07/31 17:34:02 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,9 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \
 				$(SRC_DIR)/ft_executor/ft_executor_redirs.c \
+				$(SRC_DIR)/ft_executor/ft_executor_worker.c \
+				$(SRC_DIR)/ft_executor/ft_executor_builtins.c \
+				$(SRC_DIR)/ft_executor/ft_executor_worker_launcher.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \
 				$(SRC_DIR)/ft_gc/ft_general_gc.c \
 				$(SRC_DIR)/ft_gc/ft_tokeniser_gc.c \
