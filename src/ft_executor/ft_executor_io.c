@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:22:15 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 18:19:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*ft_read_from_file(char *path)
 	int		fd;
 	char	*data;
 
+	if (!ft_is_path_valid(path, false, true))
+		return (NULL);
 	fd = open(path, O_RDONLY, 0644);
 	if (fd == -1)
 		return (NULL);

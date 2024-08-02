@@ -6,68 +6,11 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/30 16:48:52 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 16:42:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-t_token	*ft_find_token_by_index(t_token *tokens, int index)
-{
-	t_token	*head;
-
-	head = tokens;
-	while (head)
-	{
-		if (head->index == index)
-			return (head);
-		head = head->next;
-	}
-	return (NULL);
-}
-
-void	ft_token_retype(t_token *token)
-{
-	if (!token->prev)
-	{
-		if (token->next)
-		{
-			if (
-				token->next->type == ARG
-				|| token->next->type == PIPE
-				|| token->next->type == INPUT
-				|| token->next->type == TRUNC
-				|| token->next->type == APPEND)
-				token->type = CMD;
-		}
-		else
-			token->type = CMD;
-	}
-	else
-		if (token->prev->type == PIPE
-			|| token->prev->type == END)
-			token->type = CMD;
-	else if (token->prev->type == INPUT
-		|| token->prev->type == TRUNC
-		|| token->prev->type == APPEND)
-		token->type = INPUT_FILE;
-}
-
-void	ft_token_type(t_token *token, int div)
-{
-	if (ft_strcmp(token->str, ">") == 0 && div == 0)
-		token->type = TRUNC;
-	else if (ft_strcmp(token->str, ">>") == 0 && div == 0)
-		token->type = APPEND;
-	else if (ft_strcmp(token->str, "<") == 0 && div == 0)
-		token->type = INPUT;
-	else if (ft_strcmp(token->str, "|") == 0 && div == 0)
-		token->type = PIPE;
-	else if (ft_strcmp(token->str, ";") == 0 && div == 0)
-		token->type = END;
-	else
-		token->type = ARG;
-}
 
 int	ft_skip_whitespace(const char *input, int i)
 {
@@ -111,18 +54,4 @@ int	ft_issep(char *input, int i)
 		return (1);
 	else
 		return (0);
-}
-
-t_token	*ft_get_token_by_type_at_i(t_token *tkns, t_token_type type, int index)
-{
-	t_token	*head;
-
-	head = tkns;
-	while (head)
-	{
-		if (head->type == type && head->index == index)
-			return (head);
-		head = head->next;
-	}
-	return (NULL);
 }

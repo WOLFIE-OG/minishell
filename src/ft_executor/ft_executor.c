@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:34:35 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:17:17 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ static void	ft_executor_input_check(t_root *root)
 	{
 		data = ft_read_from_file(root->current_cmd->cmd_tokens->str);
 		if (data)
+		{
 			ft_putstr_fd(data, root->current_cmd->pipe[1]);
+			ft_putchar_fd('\n', root->current_cmd->pipe[1]);
+			free(data);
+		}
 		close(root->current_cmd->pipe[1]);
 		root->prev_cmd = root->current_cmd;
 	}

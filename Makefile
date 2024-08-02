@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/07/31 17:34:02 by otodd            ###   ########.fr        #
+#    Updated: 2024/08/02 16:43:19 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,11 @@ SRC_DIR 	= 	src
 OBJ_DIR 	= 	obj
 OBJ_DIRS	=	$(OBJ_DIR) \
 				$(OBJ_DIR)/ft_builtins \
-				$(OBJ_DIR)/ft_tokeniser_helpers \
 				$(OBJ_DIR)/ft_env \
 				$(OBJ_DIR)/ft_executor \
 				$(OBJ_DIR)/ft_gc \
-				$(OBJ_DIR)/ft_parser
+				$(OBJ_DIR)/ft_parser \
+				$(OBJ_DIR)/ft_tokeniser_helpers 
 
 INC_DIR 	= 	include
 LIBFT_DIR 	= 	libft
@@ -44,6 +44,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_tests.c \
 				$(SRC_DIR)/ft_errs.c \
 				$(SRC_DIR)/ft_parser/ft_parser.c \
+				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \
@@ -65,14 +66,17 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_add.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_clear.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_delone.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_dup.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_finders.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_last.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_move_before.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_new.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_pop.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_reindex.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_size.c \
-				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_swap.c \
-				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_utils.c \
-				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_dup.c
-				
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_typers.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_utils.c
+
 
 OBJS 		= 	$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

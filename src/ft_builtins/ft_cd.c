@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:28:05 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:44:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*ft_process_arg(t_root *root, t_token *arg, t_env_var **var)
 {
-	if (!ft_strlen(arg->str) || !ft_strcmp(arg->str, "~/"))
+	if (!ft_strlen(arg->str))
 	{
 		*var = ft_get_var(root, "HOME");
 		arg->str = (*var)->value;
@@ -58,13 +58,16 @@ static char	*ft_cd_internal(t_root *root, t_token *arg)
 int	ft_cd(t_root *root)
 {
 	char	*res;
+	char	*err;
 
 	res = ft_cd_internal(root,
 			ft_find_token_by_index(root->current_cmd->cmd_tokens, 1));
 	if (res)
 	{
-		printf("cd: %s: %s\n", strerror(errno), res);
+		err = ft_strjoin("minishell: cd: ", res);
+		perror(err);
 		free(res);
+		free(err);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

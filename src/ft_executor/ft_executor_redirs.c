@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:56 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 17:53:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:33:06 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ static bool	ft_handler_additonal_worker_pipes(t_root *root)
 {
 	if (close(root->current_cmd->pipe[0]) == -1)
 	{
-		perror("error closing pipe[0]");
+		perror("pipe[0]: Error closing pipe: ");
 		return (false);
 	}
 	if (dup2(root->current_cmd->pipe[1], STDOUT_FILENO) == -1)
 	{
-		perror("error duplicating pipe[1] to STDIN");
+		perror("pipe[1]: Error duplicating to STDIN: ");
 		return (false);
 	}
 	if (close(root->current_cmd->pipe[1]) == -1)
 	{
-		perror("error closing pipe[1]");
+		perror("pipe[1]: Error closing pipe: ");
 		return (false);
 	}
 	return (true);
@@ -41,12 +41,12 @@ bool	ft_handle_worker_pipes(t_root *root)
 		{
 			if (dup2(root->prev_cmd->pipe[0], STDIN_FILENO) == -1)
 			{
-				perror("error duplicating last pipe[0] to STDIN");
+				perror("pipe[0]: Error duplicating to STDIN: ");
 				return (false);
 			}
 			if (close(root->prev_cmd->pipe[0]) == -1)
 			{
-				perror("error closing last pipe[0]");
+				perror("pipe[0]: Error closing pipe: ");
 				return (false);
 			}
 		}

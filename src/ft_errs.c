@@ -6,11 +6,16 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:44:46 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/30 00:12:46 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:18:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// void	ft_print_bash_err(char *init, char )
+// {
+// 	ft_fprintf(STDERR_FILENO, "%s: %s: %s", init, );
+// }
 
 void	ft_print_err(const char *message)
 {

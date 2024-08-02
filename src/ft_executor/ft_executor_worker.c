@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:21:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:50:11 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_worker(t_root *root, char *cmd, char **args)
 	child = fork();
 	if (child == -1)
 	{
-		perror("fork failure");
+		perror("fork");
 		root->prev_cmd_status = EXIT_FAILURE;
 		return ;
 	}

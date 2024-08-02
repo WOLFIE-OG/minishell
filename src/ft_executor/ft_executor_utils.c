@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:48:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:22:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 18:16:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_cmd_path(t_root *root, char *cmd)
 	t_env_var	*var;
 	int			i;
 
-	if (access(cmd, F_OK) == 0 && access(cmd, X_OK) == 0)
+	if (ft_is_path_valid(cmd, true, false))
 		return (ft_strdup(cmd));
 	var = ft_get_var(root, "PATH");
 	dir_paths = ft_split(var->value, ':');
@@ -53,7 +53,7 @@ char	*ft_cmd_path(t_root *root, char *cmd)
 		part_paths = ft_strjoin(dir_paths[i], "/");
 		path = ft_strjoin(part_paths, cmd);
 		free(part_paths);
-		if (access(path, F_OK) == 0)
+		if (ft_is_path_valid(path, true, false))
 		{
 			ft_gc_str_array(dir_paths);
 			return (path);
@@ -62,4 +62,15 @@ char	*ft_cmd_path(t_root *root, char *cmd)
 	}
 	ft_gc_str_array(dir_paths);
 	return (NULL);
+}
+
+bool	ft_is_path_valid(char *path, bool check_exec, bool check_read)
+{
+	if (access(path, F_OK) != 0)
+		return (false);
+	if (check_read && access(path, R_OK) != 0)
+		return (false);
+	if (check_exec && access(path, X_OK) != 0)
+		return (false);
+	return (true);
 }

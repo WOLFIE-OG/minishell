@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_general_gc.c                                    :+:      :+:    :+:   */
+/*   ft_token_finders.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 15:59:54 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/01 19:20:06 by otodd            ###   ########.fr       */
+/*   Created: 2024/08/02 16:11:29 by otodd             #+#    #+#             */
+/*   Updated: 2024/08/02 16:11:51 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_gc_str_array(char **arr)
+t_token	*ft_get_token_by_type_at_i(t_token *tkns, t_token_type type, int index)
 {
-	if (arr)
+	t_token	*head;
+
+	head = tkns;
+	while (head)
 	{
-		ft_free_array(arr, ft_strarraylen(arr));
-		free(arr);
+		if (head->type == type && head->index == index)
+			return (head);
+		head = head->next;
 	}
+	return (NULL);
 }
 
-void	ft_gc_shell(t_root *root)
+t_token	*ft_find_token_by_index(t_token *tokens, int index)
 {
-	rl_clear_history();
-	ft_free_env(root);
-	ft_gc_str_array(root->builtin_array);
+	t_token	*head;
+
+	head = tokens;
+	while (head)
+	{
+		if (head->index == index)
+			return (head);
+		head = head->next;
+	}
+	return (NULL);
 }

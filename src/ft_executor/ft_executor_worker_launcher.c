@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:33:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:19:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 17:49:44 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static bool	ft_worker_exec(t_root *root, char *cmd, char **args)
 
 static void	ft_worker_no_cmd(t_root *root, char **args)
 {
-	printf("no such command: %s\n", root->current_cmd->cmd_tokens->str);
+	ft_fprintf(STDERR_FILENO, "minishell: command not found: %s\n",
+		root->current_cmd->cmd_tokens->str);
 	ft_gc_str_array(args);
 	root->prev_cmd_status = EXIT_FAILURE;
 }
@@ -45,4 +46,6 @@ void	ft_worker_launcher(t_root *root)
 	}
 	else
 		return (ft_worker_no_cmd(root, args));
+	ft_gc_str_array(args);
+	return ;
 }

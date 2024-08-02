@@ -6,25 +6,33 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/30 21:43:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/02 15:31:06 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_cmd	*ft_new_cmd(void)
+static void	ft_parser_handle_tokens(t_root *root, t_token *token, t_cmd *cmd)
 {
-	t_cmd	*cmd;
+	if (!cmd->cmd_tokens)
+	{
+		cmd->cmd_tokens = ft_token_dup(token);
+		cmd->is_builtin = ft_is_builtin(root, cmd->cmd_tokens->str);
+	}
+	else
+		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
+	if (cmd->cmd_tokens->type == INPUT_FILE)
+		cmd->execute = false;
+}
 
-	cmd = malloc(sizeof(t_cmd));
-	pipe(cmd->pipe);
-	cmd->post_action = EMPTY;
-	cmd->next = NULL;
-	cmd->cmd_tokens = NULL;
-	cmd->is_builtin = false;
-	cmd->execute = true;
-	
-	return (cmd);
+static void	ft_parser_handle_cmds(t_token *token, t_cmd **cmd)
+{
+	(*cmd)->post_action = token->type;
+	if (token->next)
+	{
+		(*cmd)->next = ft_new_cmd();
+		*cmd = (*cmd)->next;
+	}
 }
 
 t_cmd	*ft_parser(t_root *root)
@@ -33,61 +41,22 @@ t_cmd	*ft_parser(t_root *root)
 	t_cmd	*cmd;
 	t_cmd	*head;
 
-	token = root->ctx_tokens;
-	if (!token)
+	if (!ft_parser_adjust_tokens(root))
 		return (NULL);
+	token = root->ctx_tokens;
 	cmd = ft_new_cmd();
 	head = cmd;
 	while (token)
 	{
-		if (token->type == CMD)
-		{
-			if (token->next && token->next->next)
-			{
-				if (token->next->type == INPUT && token->next->next->type == INPUT_FILE)
-				{
-					ft_token_swap(token, token->next->next);
-					token = token->prev->prev;
-				}
-			}
-		}
-
-		 if (token->type == PIPE || token->type == TRUNC)
-		{
-			if (!token->next)
-			{
-				printf("syntax error: separator must be followed by a command or argument\n");
-				return (NULL);
-			}
-		}
-
-		if (token->type == CMD
-			|| token->type == ARG
-			|| token->type == EMPTY
+		if (token->type == CMD || token->type == ARG || token->type == EMPTY
 			|| token->type == INPUT_FILE)
-		{
-			if (!cmd->cmd_tokens)
-			{
-				cmd->cmd_tokens = ft_token_dup(token);
-				cmd->is_builtin = ft_is_builtin(root, cmd->cmd_tokens->str);
-			}
-			else
-				ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
-			if (cmd->cmd_tokens->type == INPUT_FILE)
-				cmd->execute = false;
-		}
+			ft_parser_handle_tokens(root, token, cmd);
 		else
-		{
-			cmd->post_action = token->type;
-			if (token->next)
-			{
-				cmd->next = ft_new_cmd();
-				cmd = cmd->next;
-			}
-		}
+			ft_parser_handle_cmds(token, &cmd);
 		token = token->next;
 	}
 	if (!head)
 		return (NULL);
+	ft_gc_tokens(root->ctx_tokens);
 	return (head);
 }

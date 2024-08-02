@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_general_gc.c                                    :+:      :+:    :+:   */
+/*   ft_token_reindex.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 15:59:54 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/01 19:20:06 by otodd            ###   ########.fr       */
+/*   Created: 2024/08/02 15:08:32 by otodd             #+#    #+#             */
+/*   Updated: 2024/08/02 15:11:05 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_gc_str_array(char **arr)
+void	ft_token_reindex(t_token *token)
 {
-	if (arr)
-	{
-		ft_free_array(arr, ft_strarraylen(arr));
-		free(arr);
-	}
-}
+	int	index;
 
-void	ft_gc_shell(t_root *root)
-{
-	rl_clear_history();
-	ft_free_env(root);
-	ft_gc_str_array(root->builtin_array);
+	index = -1;
+	while (token)
+	{
+		token->index = ++index;
+		token = token->next;
+	}
 }
