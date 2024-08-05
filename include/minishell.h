@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/02 18:05:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/05 14:11:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum e_token_type
 	TRUNC,
 	APPEND,
 	INPUT,
+	HEREDOC,
 	PIPE,
 	END,
 	INPUT_FILE
@@ -226,6 +227,7 @@ int			ft_parse_tokens(const char *input, int i, t_token **head);
 // src/ft_utils - General Utils
 
 char		*ft_set_prompt(t_root *root);
+char		*ft_handle_heredoc(char *delim);
 
 // src/ft_tests.c - Test functions
 

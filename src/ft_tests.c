@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:09 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/01 16:04:56 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/05 13:12:39 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static const char *token_type_str(t_token_type type) {
 		case ARG: return ("ARG");
 		case TRUNC: return ("TRUNC");
 		case APPEND: return ("APPEND");
+		case HEREDOC: return ("HEREDOC");
 		case INPUT: return ("INPUT");
 		case PIPE: return ("PIPE");
 		case END: return ("END");
@@ -29,7 +30,7 @@ static const char *token_type_str(t_token_type type) {
 
 void	ft_test_token(void)
 {
-	char *testtokens[] = {"", ">", ">>", "<", "|", ";", "cmd", "arg"};
+	char *testtokens[] = {"", ">", "<<", ">>", "<", "|", ";", "cmd", "arg"};
 	int num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
 
 	for (int i = 0; i < num_tests; i++)

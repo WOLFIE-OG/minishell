@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/07/29 18:27:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/05 13:14:50 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	ft_sigint_cmd(int signum)
 {
 	rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_redisplay();
 	exit(signum);
 }
 
