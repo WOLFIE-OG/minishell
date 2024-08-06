@@ -6,13 +6,21 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 15:03:14 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 18:32:49 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_var_signal;
+// int	g_var_signal;
+
+static void	ft_shell_post_input(t_root *root, char *input)
+{
+	root->ctx_tokens = ft_tokenizer(input);
+	print_tokens(root->ctx_tokens);
+	root->preped_cmds = ft_parser(root);
+	ft_executor(root);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -20,7 +28,6 @@ int	main(int ac, char **av, char **envp)
 	char	*tmp;
 	t_root	root;
 
-	g_var_signal = 0;
 	ft_init_shell(&root, ac, av, envp);
 	tokenizer_tester(ac, av);
 	ft_config_sigint();
@@ -35,10 +42,7 @@ int	main(int ac, char **av, char **envp)
 			printf("exit\n");
 			break ;
 		}
-		root.ctx_tokens = ft_tokenizer(input);
-		print_tokens(root.ctx_tokens);
-		root.preped_cmds = ft_parser(&root);
-		ft_executor(&root);
+		ft_shell_post_input(&root, input);
 		add_history(input);
 		free(input);
 	}

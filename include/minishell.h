@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/06 16:24:21 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 18:30:32 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef enum e_token_type
 	INPUT_FILE
 }	t_token_type;
 
-extern int	g_var_signal;
+// extern int	g_var_signal;
 
 // This is the main data struct of the shell
 typedef struct s_cmd
