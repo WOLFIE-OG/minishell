@@ -33,10 +33,10 @@ jobs:
       run: norminette src include
 
     - name: Make program
-      run: make -f OlliesMake
+      run: make
 
     - name: Re-make program
-      run: make -f OlliesMake re
+      run: make re
 
     - name: View Contents of Libft
       run: nm -C libft/build/libft.a
