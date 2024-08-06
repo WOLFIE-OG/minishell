@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 17:29:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 17:38:01 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ void	ft_config_sigint(void)
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
-
