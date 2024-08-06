@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/05 18:18:01 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 16:24:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_set_prompt(t_root *root)
 	return (ft_strarraytostr(root->prompt));
 }
 
-static char	*ft_set_heredoc_prompt(void)
+char	*ft_set_heredoc_prompt(void)
 {
 	char	**prompt;
 	char	*prompt2;
@@ -52,39 +52,25 @@ static char	*ft_set_heredoc_prompt(void)
 	return (prompt2);
 }
 
-char	*ft_handle_heredoc(char *delim)
+char	*ft_trim_start_end(char *s1, char *set)
 {
-	bool	end;
-	char	*input;
-	char	*prompt;
-	char	**data;
-	char	*match;
+	size_t	start;
+	size_t	end;
+	size_t	len;
+	char	*new_string;
 
-	end = false;
-	data = NULL;
-	while (!end)
-	{
-		prompt = ft_set_heredoc_prompt();
-		input = readline(prompt);
-		free(prompt);
-		if (!input)
-			break ;
-		match = ft_strnstr(input, delim, ft_strlen(input));
-		if (match)
-		{
-			if ((ft_strcmp(input, delim) == 0
-					|| ft_strcmp(&input[ft_strlen(input) - ft_strlen(delim)],
-						delim) == 0)
-				|| (ft_iswhitespace(input[(match - input) - 1])
-					&& ft_iswhitespace(input[(match - input)
-							+ ft_strlen(delim)])))
-				data = ft_strarrayappend2(data,
-						ft_substr(input, 0, match - input));
-			end = true;
-		}
-		else
-			data = ft_strarrayappend2(data, ft_strdup(input));
-		free(input);
-	}
-	return (ft_strarraytostr(data));
+	if (!s1)
+		return (NULL);
+	start = 0;
+	if (ft_strchr(set, s1[start]))
+		start++;
+	end = ft_strlen(s1);
+	if (ft_strchr(set, s1[end - 1]))
+		end--;
+	len = end - start;
+	new_string = ft_substr(s1, start, len);
+	if (!new_string)
+		return (NULL);
+	new_string[len] = '\0';
+	return (new_string);
 }

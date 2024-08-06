@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/05 13:14:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 17:29:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,19 @@ static void	ft_sigint_input(int signum)
 	(void)signum;
 	g_var_signal = 130;
 	write(STDIN_FILENO, "\n", 1);
-	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_redisplay();
-	signal(SIGINT, ft_sigint_input);
-}
-
-static void	ft_sigint_cmd(int signum)
-{
 	rl_replace_line("", 0);
-	rl_on_new_line();
 	rl_redisplay();
-	exit(signum);
 }
 
 void	ft_config_sigint(void)
 {
-	signal(SIGINT, ft_sigint_input);
+	struct sigaction	sa;
+
+	sa.sa_handler = ft_sigint_input;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_config_sigint_cmd(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGQUIT, ft_sigint_cmd);
-}

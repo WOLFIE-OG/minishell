@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Minishell",
+            "includePath": [
+                "${default}"
+            ],
+            "defines": [
+                "_POSIX_C_SOURCE=200809L",
+                "${default}"
+            ],
+            "forcedInclude": [
+                "${default}"
+            ],
+            "compileCommands": "${default}",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": "${default}",
+                "path": [
+                    "${default}"
+                ]
+            },
+            "intelliSenseMode": "${default}",
+            "cStandard": "${default}",
+            "cppStandard": "${default}",
+            "compilerPath": "${default}"
+        }
+    ],
+    "version": 4
+}

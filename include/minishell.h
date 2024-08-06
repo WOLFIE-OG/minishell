@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/05 14:11:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 16:24:21 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,9 @@ int			ft_parse_tokens(const char *input, int i, t_token **head);
 // src/ft_utils - General Utils
 
 char		*ft_set_prompt(t_root *root);
+char		*ft_set_heredoc_prompt(void);
 char		*ft_handle_heredoc(char *delim);
+char		*ft_trim_start_end(char *s1, char *set);
 
 // src/ft_tests.c - Test functions
 

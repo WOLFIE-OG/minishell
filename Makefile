@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/08/02 16:43:19 by otodd            ###   ########.fr        #
+#    Updated: 2024/08/06 16:48:19 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 
-CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -fPIC
+CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -fPIC -D_POSIX_C_SOURCE=200809L
 NAME		= 	minishell
 
 SRC_DIR 	= 	src
@@ -45,6 +45,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_errs.c \
 				$(SRC_DIR)/ft_parser/ft_parser.c \
 				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
+				$(SRC_DIR)/ft_parser/ft_parser_heredoc.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/02 16:42:54 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 12:43:34 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ int	ft_parse_tokens(const char *input, int i, t_token **head)
 	if (input[i] == '>' && input[i + 1] == '>')
 	{
 		tok_str[1] = '>';
+		tok_str[2] = '\0';
+		i++;
+	}
+	else if (input[i] == '<' && input[i + 1] == '<')
+	{
+		tok_str[1] = '<';
 		tok_str[2] = '\0';
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/02 16:44:17 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 12:22:01 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	if (start != i)
 	{
 		tok_str = ft_tokenstr(input, start, i);
-		token = ft_token_new(ft_strtrim(tok_str, "\"'"));
+		token = ft_token_new(ft_trim_start_end(tok_str, "\"'"));
 		free(tok_str);
 		ft_token_add(head, token);
 	}

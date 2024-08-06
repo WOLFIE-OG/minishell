@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/02 16:22:24 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/06 13:31:49 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,37 @@ t_cmd	*ft_new_cmd(void)
 	return (cmd);
 }
 
-void	ft_parser_check_for_input(t_root *root, t_token **token)
+static void	ft_parser_reorder_tokens(
+	t_root *rt, t_token *i_tkn, t_token **tkn, t_token *if_tkn)
+{
+	ft_token_move_before(i_tkn, *tkn);
+	ft_token_move_before(if_tkn, i_tkn);
+	*tkn = if_tkn;
+	if (!(*tkn)->prev)
+		rt->ctx_tokens = *tkn;
+}
+
+static void	ft_parser_do_checks(
+	t_root *rt, t_token *i_tkn, t_token **tkn)
+{
+	t_token	*if_tkn;
+
+	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE)
+	{
+		if_tkn = i_tkn->next;
+		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
+	}
+	else if (i_tkn->type == HEREDOC && i_tkn->next->type == INPUT_FILE)
+	{
+		if_tkn = i_tkn->next;
+		if_tkn->str = ft_handle_heredoc(if_tkn->str);
+		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
+	}
+}
+
+void	ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token)
 {
 	t_token	*input_token;
-	t_token	*input_file_token;
 
 	if ((*token)->type != CMD)
 		return ;
@@ -43,15 +70,7 @@ void	ft_parser_check_for_input(t_root *root, t_token **token)
 			input_token = input_token->next;
 			continue ;
 		}
-		if (input_token->type == INPUT && input_token->next->type == INPUT_FILE)
-		{
-			input_file_token = input_token->next;
-			ft_token_move_before(input_token, *token);
-			ft_token_move_before(input_file_token, input_token);
-			*token = input_file_token;
-			if (!(*token)->prev)
-				root->ctx_tokens = *token;
-		}
+		ft_parser_do_checks(root, input_token, token);
 		break ;
 	}
 }
@@ -65,7 +84,7 @@ bool	ft_parser_adjust_tokens(t_root *root)
 		return (false);
 	while (token)
 	{
-		ft_parser_check_for_input(root, &token);
+		ft_parser_check_for_input_or_heredoc(root, &token);
 		token = token->next;
 	}
 	ft_token_reindex(root->ctx_tokens);
