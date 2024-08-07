@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/02 18:19:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:30:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	ft_cmd_trunc_append(t_root *root)
 	if (root->prev_cmd->post_action == APPEND)
 		append = true;
 	result = ft_fd_to_str(root->prev_cmd->pipe[0]);
-	if (!ft_write_to_file(result, append, root->current_cmd->cmd_tokens->str))
-		perror("permission denied");
+	ft_write_to_file(result, append, root->current_cmd->cmd_tokens->str);
 	free(result);
 	root->prev_cmd = root->current_cmd;
 }
@@ -59,11 +58,16 @@ char	*ft_fd_to_str(int fd)
 	return (line);
 }
 
-bool	ft_write_to_file(char *data, bool append, char *path)
+void	ft_write_to_file(char *data, bool append, char *path)
 {
 	int	fd;
 	int	perms;
 
+	if (!ft_is_path_valid(path, false, false, true))
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
+		return ;
+	}
 	perms = O_WRONLY | O_CREAT;
 	if (append)
 		perms = perms | O_APPEND;
@@ -71,11 +75,11 @@ bool	ft_write_to_file(char *data, bool append, char *path)
 		perms = perms | O_TRUNC;
 	fd = open(path, perms, 0644);
 	if (fd == -1)
-		return (false);
+		return ;
 	if (data)
 		ft_putstr_fd(data, fd);
 	close(fd);
-	return (true);
+	return ;
 }
 
 char	*ft_read_from_file(char *path)
@@ -83,8 +87,11 @@ char	*ft_read_from_file(char *path)
 	int		fd;
 	char	*data;
 
-	if (!ft_is_path_valid(path, false, true))
+	if (!ft_is_path_valid(path, false, true, false))
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
 		return (NULL);
+	}
 	fd = open(path, O_RDONLY, 0644);
 	if (fd == -1)
 		return (NULL);

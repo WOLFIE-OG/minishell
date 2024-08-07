@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 18:32:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:20:44 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static void	ft_shell_post_input(t_root *root, char *input)
 {
-	root->ctx_tokens = ft_tokenizer(input);
-	print_tokens(root->ctx_tokens);
+	root->preped_tokens = ft_tokenizer(input);
+	print_tokens(root->preped_tokens);
 	root->preped_cmds = ft_parser(root);
 	ft_executor(root);
 }

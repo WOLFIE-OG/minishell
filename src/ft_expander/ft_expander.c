@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 16:39:46 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 17:04:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,17 @@ static void	ft_expansion_loop(t_root *root, t_str_expansion *vars)
 	{
 		vars->str = ft_strchr(*vars->split, '$');
 		if (vars->str)
+		{
+			if (!*(vars->str + 1))
+			{
+				vars->split++;
+				continue ;
+			}
 			ft_expansion(root, vars);
-		vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(*vars->split));
-		if (*(vars->split + 1))
-			vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(" "));
+			vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(*vars->split));
+			if (*(vars->split + 1))
+				vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(" "));
+		}
 		vars->split++;
 	}
 }
@@ -62,7 +69,10 @@ char	*ft_expand_str(t_root *root, char *str)
 	vars.head = vars.split;
 	vars.arr = NULL;
 	ft_expansion_loop(root, &vars);
-	expanded_str = ft_strarraytostr(vars.arr);
+	if (vars.arr)
+		expanded_str = ft_strarraytostr(vars.arr);
+	else
+		expanded_str = ft_strdup(str);
 	ft_gc_str_array(vars.arr);
 	ft_gc_str_array(vars.head);
 	free(str);

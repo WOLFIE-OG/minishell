@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:48:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/02 18:16:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:28:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,38 +37,38 @@ char	**ft_worker_arg_str(t_root *root)
 
 char	*ft_cmd_path(t_root *root, char *cmd)
 {
-	char		**dir_paths;
-	char		*path;
-	char		*part_paths;
-	t_env_var	*var;
-	int			i;
+	t_cmd_path	vars;
 
-	if (ft_is_path_valid(cmd, true, false))
+	if (ft_is_path_valid(cmd, true, false, false) || !ft_strlen(cmd))
 		return (ft_strdup(cmd));
-	var = ft_get_var(root, "PATH");
-	dir_paths = ft_split(var->value, ':');
-	i = -1;
-	while (dir_paths[++i])
+	vars.var = ft_get_var(root, "PATH");
+	vars.dir_paths = ft_split(vars.var->value, ':');
+	vars.dir_paths_head = vars.dir_paths;
+	while (*vars.dir_paths)
 	{
-		part_paths = ft_strjoin(dir_paths[i], "/");
-		path = ft_strjoin(part_paths, cmd);
-		free(part_paths);
-		if (ft_is_path_valid(path, true, false))
+		vars.part_paths = ft_strjoin(*vars.dir_paths, "/");
+		vars.path = ft_strjoin(vars.part_paths, cmd);
+		free(vars.part_paths);
+		if (ft_is_path_valid(vars.path, true, false, false))
 		{
-			ft_gc_str_array(dir_paths);
-			return (path);
+			ft_gc_str_array(vars.dir_paths_head);
+			return (vars.path);
 		}
-		free(path);
+		free(vars.path);
+		vars.dir_paths++;
 	}
-	ft_gc_str_array(dir_paths);
+	ft_gc_str_array(vars.dir_paths_head);
 	return (NULL);
 }
 
-bool	ft_is_path_valid(char *path, bool check_exec, bool check_read)
+bool	ft_is_path_valid(char *path, bool check_exec, bool check_read,
+	bool check_write)
 {
 	if (access(path, F_OK) != 0)
 		return (false);
 	if (check_read && access(path, R_OK) != 0)
+		return (false);
+	if (check_write && access(path, W_OK) != 0)
 		return (false);
 	if (check_exec && access(path, X_OK) != 0)
 		return (false);

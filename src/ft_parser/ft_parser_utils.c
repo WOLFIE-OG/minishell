@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 15:30:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:20:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ft_parser_reorder_tokens(
 	ft_token_move_before(if_tkn, i_tkn);
 	*tkn = if_tkn;
 	if (!(*tkn)->prev)
-		rt->ctx_tokens = *tkn;
+		rt->preped_tokens = *tkn;
 }
 
 static void	ft_parser_do_checks(
@@ -79,7 +79,7 @@ bool	ft_parser_adjust_tokens(t_root *root)
 {
 	t_token	*token;
 
-	token = root->ctx_tokens;
+	token = root->preped_tokens;
 	if (!token)
 		return (false);
 	while (token)
@@ -87,6 +87,6 @@ bool	ft_parser_adjust_tokens(t_root *root)
 		ft_parser_check_for_input_or_heredoc(root, &token);
 		token = token->next;
 	}
-	ft_token_reindex(root->ctx_tokens);
+	ft_token_reindex(root->preped_tokens);
 	return (true);
 }

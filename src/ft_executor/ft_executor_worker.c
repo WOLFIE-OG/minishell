@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/06 17:22:37 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 17:38:13 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static void	ft_worker_handle_child(t_root *root, char *cmd, char **args)
 	env = ft_env_to_array(root);
 	if (execve(cmd, args, env) == -1)
 	{
-		perror(cmd);
+		free(cmd);
 		ft_gc_str_array(env);
+		exit(127);
 	}
 }
 
@@ -38,21 +39,26 @@ static void	ft_worker_handle_parent(t_root *root, pid_t pid, int *ret_code)
 
 void	ft_worker(t_root *root, char *cmd, char **args)
 {
-	pid_t		child;
 	int			ret_code;
 
 	ret_code = 0;
-	child = fork();
-	if (child == -1)
+	root->current_cmd->pid = fork();
+	if (root->current_cmd->pid == -1)
 	{
 		perror("fork");
 		root->prev_cmd_status = EXIT_FAILURE;
 		return ;
 	}
-	if (child == 0)
+	if (root->current_cmd->pid == 0)
 		ft_worker_handle_child(root, cmd, args);
 	else
-		ft_worker_handle_parent(root, child, &ret_code);
-	root->prev_cmd_status = WEXITSTATUS(ret_code);
-	ft_config_sigint();
+		ft_worker_handle_parent(root, root->current_cmd->pid, &ret_code);
+	root->prev_cmd_status_signaled = false;
+	if (WIFEXITED(ret_code))
+		root->prev_cmd_status = WEXITSTATUS(ret_code);
+	else if (WIFSIGNALED(ret_code))
+	{
+		root->prev_cmd_status = WTERMSIG(ret_code);
+		root->prev_cmd_status_signaled = true;
+	}
 }

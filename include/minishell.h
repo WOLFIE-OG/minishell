@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 16:17:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 18:30:57 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,21 @@ typedef struct s_cmd
 	int				pipe[2];
 	bool			is_builtin;
 	bool			execute;
+	pid_t			pid;
 	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_root
 {
 	t_list			*env;
-	struct s_token	*ctx_tokens;
+	struct s_token	*preped_tokens;
 	struct s_cmd	*preped_cmds;
 	char			**builtin_array;
 	char			**prompt;
 	char			*init_args;
 	char			*shell_name;
 	int				prev_cmd_status;
+	bool			prev_cmd_status_signaled;
 	struct s_cmd	*prev_cmd;
 	struct s_cmd	*current_cmd;
 }	t_root;
@@ -122,6 +124,15 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
+typedef struct s_cmd_path
+{
+	char		**dir_paths;
+	char		**dir_paths_head;
+	char		*path;
+	char		*part_paths;
+	t_env_var	*var;
+}	t_cmd_path;
+
 // src/ft_builtins/ft_*.c - Bultins
 
 int			ft_pwd(t_root *root);
@@ -159,7 +170,7 @@ void		ft_builtins(t_root *root);
 void		ft_cmd_output(t_root *root);
 void		ft_cmd_trunc_append(t_root *root);
 char		*ft_fd_to_str(int fd);
-bool		ft_write_to_file(char *data, bool append, char *path);
+void		ft_write_to_file(char *data, bool append, char *path);
 char		*ft_read_from_file(char *path);
 
 // src/ft_executor/ft_executor_redirs.c - Executor redir
@@ -171,7 +182,8 @@ bool		ft_handle_worker_pipes(t_root *root);
 bool		ft_is_builtin(t_root *root, char *cmd);
 char		**ft_worker_arg_str(t_root *root);
 char		*ft_cmd_path(t_root *root, char *cmd);
-bool		ft_is_path_valid(char *path, bool check_exec, bool check_read);
+bool		ft_is_path_valid(char *path, bool check_exec, bool check_read,
+				bool check_write);
 
 // src/ft_executor/ft_executor_worker_launcher.c - Executor worker launcher
 
