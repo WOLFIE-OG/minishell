@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 16:24:57 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 16:39:46 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_expansion(t_root *root, t_str_expansion *vars)
 {
 	vars->pre = ft_substr(*vars->split, 0, (vars->str - *vars->split));
 	vars->post = vars->str + 1;
-	while (*vars->post && *vars->post != '$' && *vars->post != '/')
+	while (*vars->post && ft_isalnum(*vars->post))
 		vars->post++;
 	vars->tmp = ft_strdup(vars->post);
 	vars->str = ft_substr((vars->str + 1), 0, ((vars->post - vars->str) - 1));
