@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/06 17:23:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 15:37:08 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,25 @@ static bool	ft_heredoc_start_end_check(char *input, char *delim)
 	return (false);
 }
 
-static void	ft_heredoc_do_checks(
-	char *input, char *delim, char ***data, bool *end)
+static void	ft_heredoc_do_checks(t_root *root, t_heredoc_data *vars)
 {
 	char	*match;
 
-	match = ft_strnstr(input, delim, ft_strlen(input));
+	match = ft_strnstr(vars->input, vars->delim, ft_strlen(vars->input));
 	if (match)
 	{
-		if (ft_heredoc_start_end_check(input, delim)
-			|| ft_heredoc_whitespace_check(input, match, delim))
-			*data = ft_strarrayappend2(*data,
-					ft_substr(input, 0, match - input));
-		*end = true;
+		if (ft_heredoc_start_end_check(vars->input, vars->delim)
+			|| ft_heredoc_whitespace_check(vars->input, match, vars->delim))
+			vars->data = ft_strarrayappend2(vars->data,
+					ft_substr(vars->input, 0, match - vars->input));
+		free(vars->input);
+		vars->end = true;
 	}
 	else
 	{
-		*data = ft_strarrayappend2(*data, ft_strdup(input));
-		*data = ft_strarrayappend2(*data, ft_strdup("\n"));
+		vars->data = ft_strarrayappend2(vars->data,
+				ft_expand_str(root, vars->input));
+		vars->data = ft_strarrayappend2(vars->data, ft_strdup("\n"));
 	}
 }
 
@@ -66,25 +67,22 @@ static char	*ft_heredoc_result_clean_up(char **data)
 	return (result);
 }
 
-char	*ft_handle_heredoc(char *delim)
+char	*ft_handle_heredoc(t_root *root, char *delim)
 {
-	char	*input;
-	char	**data;
-	char	*prompt;
-	bool	end;
+	t_heredoc_data	vars;
 
-	data = NULL;
-	end = false;
-	while (!end)
+	vars.data = NULL;
+	vars.end = false;
+	vars.delim = delim;
+	while (!vars.end)
 	{
-		prompt = ft_set_heredoc_prompt();
-		input = readline(prompt);
-		free(prompt);
-		if (!input)
+		vars.prompt = ft_set_heredoc_prompt();
+		vars.input = readline(vars.prompt);
+		free(vars.prompt);
+		if (!vars.input)
 			break ;
-		ft_heredoc_do_checks(input, delim, &data, &end);
-		free(input);
+		ft_heredoc_do_checks(root, &vars);
 	}
 	free(delim);
-	return (ft_heredoc_result_clean_up(data));
+	return (ft_heredoc_result_clean_up(vars.data));
 }

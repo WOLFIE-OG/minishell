@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/02 15:31:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 15:31:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_cmd	*ft_parser(t_root *root)
 	head = cmd;
 	while (token)
 	{
+		token->str = ft_expand_str(root, token->str);
 		if (token->type == CMD || token->type == ARG || token->type == EMPTY
 			|| token->type == INPUT_FILE)
 			ft_parser_handle_tokens(root, token, cmd);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 16:24:25 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 16:32:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_set_heredoc_prompt(void)
 	prompt = ft_strarrayappend2(NULL, ft_strdup(BBLU));
 	prompt = ft_strarrayappend2(prompt, ft_strdup("heredoc"));
 	prompt = ft_strarrayappend2(prompt, ft_strdup(RESET));
-	prompt = ft_strarrayappend2(prompt, ft_strdup("$ "));
+	prompt = ft_strarrayappend2(prompt, ft_strdup("> "));
 	prompt2 = ft_strarraytostr(prompt);
 	ft_gc_str_array(prompt);
 	return (prompt2);

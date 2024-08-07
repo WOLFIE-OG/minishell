@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/06 18:30:32 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 16:17:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,27 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct s_heredoc_data
+{
+	char	*input;
+	char	**data;
+	char	*prompt;
+	char	*delim;
+	bool	end;
+}	t_heredoc_data;
+
+typedef struct s_str_expansion
+{
+	char				**split;
+	char				**head;
+	char				*str;
+	char				*tmp;
+	char				*pre;
+	char				*post;
+	char				**arr;
+	struct s_env_var	*var;
+}	t_str_expansion;
+
 /* These are the environment variables of the shell stored
 via a bi-directional linked list*/
 typedef struct s_env_var
@@ -128,7 +149,6 @@ bool		ft_unset_var(t_root *root, char *key);
 // src/ft_signals.c - Signal handler
 
 void		ft_config_sigint(void);
-void		ft_config_sigint_cmd(void);
 
 // src/ft_executor/ft_executor_builtins.c - Executor builtin functions
 
@@ -165,6 +185,10 @@ void		ft_worker(t_root *root, char *cmd, char **args);
 
 void		ft_executor(t_root *root);
 
+// src/ft_expander/ft_expander.c - Expander functions
+
+char		*ft_expand_str(t_root *root, char *str);
+
 // src/ft_gc/ft_executor_gc.c - Garbage executor functions
 
 void		ft_gc_str_array(char **arr);
@@ -181,7 +205,7 @@ void		ft_gc_tokens(t_token *head);
 // src/ft_parser/ft_*.c - Parser stuff
 
 t_cmd		*ft_new_cmd(void);
-void		ft_parser_check_for_input(t_root *root, t_token **token);
+void		ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token);
 bool		ft_parser_adjust_tokens(t_root *root);
 t_cmd		*ft_parser(t_root *root);
 
@@ -228,7 +252,7 @@ int			ft_parse_tokens(const char *input, int i, t_token **head);
 
 char		*ft_set_prompt(t_root *root);
 char		*ft_set_heredoc_prompt(void);
-char		*ft_handle_heredoc(char *delim);
+char		*ft_handle_heredoc(t_root *root, char *delim);
 char		*ft_trim_start_end(char *s1, char *set);
 
 // src/ft_tests.c - Test functions

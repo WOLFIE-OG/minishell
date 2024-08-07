@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/06 13:31:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/07 15:30:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	ft_parser_do_checks(
 	else if (i_tkn->type == HEREDOC && i_tkn->next->type == INPUT_FILE)
 	{
 		if_tkn = i_tkn->next;
-		if_tkn->str = ft_handle_heredoc(if_tkn->str);
+		if_tkn->str = ft_handle_heredoc(rt, if_tkn->str);
 		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
 	}
 }

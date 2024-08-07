@@ -28,6 +28,9 @@
 		"stat.h": "c",
 		"wait.h": "c",
 		"cstdlib": "c",
-		"ioctl.h": "c"
+		"ioctl.h": "c",
+		"deque": "c",
+		"unordered_map": "c",
+		"vector": "c"
 	}
 }
