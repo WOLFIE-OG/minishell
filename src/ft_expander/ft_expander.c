@@ -6,26 +6,39 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 17:04:04 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/12 17:26:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static void	ft_expansion_helper(t_root *root, t_str_expansion *vars)
+{
+	free(*vars->split);
+	if (ft_strcmp(vars->pre, "\\") == 0)
+		*vars->split = ft_strjoin("$", vars->str);
+	else if (vars->var)
+		*vars->split = ft_strjoin(vars->pre, vars->var->value);
+	else
+	{
+		if (ft_strcmp(vars->str, "?") == 0)
+			*vars->split = ft_itoa(root->prev_cmd_status);
+		else
+			*vars->split = ft_strdup("");
+	}
+}
+
 static void	ft_expansion(t_root *root, t_str_expansion *vars)
 {
 	vars->pre = ft_substr(*vars->split, 0, (vars->str - *vars->split));
 	vars->post = vars->str + 1;
-	while (*vars->post && ft_isalnum(*vars->post))
+	while ((*vars->post && ft_isalnum(*vars->post))
+		|| *vars->post == '?')
 		vars->post++;
 	vars->tmp = ft_strdup(vars->post);
 	vars->str = ft_substr((vars->str + 1), 0, ((vars->post - vars->str) - 1));
 	vars->var = ft_get_var(root, vars->str);
-	free(*vars->split);
-	if (vars->var)
-		*vars->split = ft_strjoin(vars->pre, vars->var->value);
-	else
-		*vars->split = ft_strdup("");
+	ft_expansion_helper(root, vars);
 	free(vars->str);
 	free(vars->pre);
 	if (vars->tmp)
@@ -50,10 +63,10 @@ static void	ft_expansion_loop(t_root *root, t_str_expansion *vars)
 				continue ;
 			}
 			ft_expansion(root, vars);
-			vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(*vars->split));
-			if (*(vars->split + 1))
-				vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(" "));
 		}
+		vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(*vars->split));
+		if (*(vars->split + 1))
+			vars->arr = ft_strarrayappend2(vars->arr, ft_strdup(" "));
 		vars->split++;
 	}
 }

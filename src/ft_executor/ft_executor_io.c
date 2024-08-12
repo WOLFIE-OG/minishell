@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 18:30:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/12 17:05:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ void	ft_write_to_file(char *data, bool append, char *path)
 	int	fd;
 	int	perms;
 
-	if (!ft_is_path_valid(path, false, false, true))
-	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
-		return ;
-	}
 	perms = O_WRONLY | O_CREAT;
 	if (append)
 		perms = perms | O_APPEND;
@@ -75,7 +70,10 @@ void	ft_write_to_file(char *data, bool append, char *path)
 		perms = perms | O_TRUNC;
 	fd = open(path, perms, 0644);
 	if (fd == -1)
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
 		return ;
+	}
 	if (data)
 		ft_putstr_fd(data, fd);
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 18:30:57 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/12 19:21:03 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ typedef enum e_token_type
 }	t_token_type;
 
 // extern int	g_var_signal;
+
+/* These are the environment variables of the shell stored
+via a bi-directional linked list*/
+typedef struct s_env_var
+{
+	char	*key;
+	char	*value;
+}	t_env_var;
 
 // This is the main data struct of the shell
 typedef struct s_cmd
@@ -115,15 +123,6 @@ typedef struct s_str_expansion
 	char				**arr;
 	struct s_env_var	*var;
 }	t_str_expansion;
-
-/* These are the environment variables of the shell stored
-via a bi-directional linked list*/
-typedef struct s_env_var
-{
-	char	*key;
-	char	*value;
-}	t_env_var;
-
 typedef struct s_cmd_path
 {
 	char		**dir_paths;
@@ -182,6 +181,7 @@ bool		ft_handle_worker_pipes(t_root *root);
 bool		ft_is_builtin(t_root *root, char *cmd);
 char		**ft_worker_arg_str(t_root *root);
 char		*ft_cmd_path(t_root *root, char *cmd);
+bool		ft_is_path_binary(char *path);
 bool		ft_is_path_valid(char *path, bool check_exec, bool check_read,
 				bool check_write);
 

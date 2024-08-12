@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:48:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 18:28:28 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/12 20:45:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ char	*ft_cmd_path(t_root *root, char *cmd)
 {
 	t_cmd_path	vars;
 
-	if (ft_is_path_valid(cmd, true, false, false) || !ft_strlen(cmd))
-		return (ft_strdup(cmd));
 	vars.var = ft_get_var(root, "PATH");
 	vars.dir_paths = ft_split(vars.var->value, ':');
 	vars.dir_paths_head = vars.dir_paths;
@@ -59,6 +57,23 @@ char	*ft_cmd_path(t_root *root, char *cmd)
 	}
 	ft_gc_str_array(vars.dir_paths_head);
 	return (NULL);
+}
+
+bool	ft_is_path_binary(char *path)
+{
+	char	*start;
+	int		len;
+
+	len = ft_strlen(path);
+	start = ft_strrchr(path, '/');
+	if (start)
+	{
+		if (path[len] == *start)
+			return (false);
+		else
+			return (true);
+	}
+	return (false);
 }
 
 bool	ft_is_path_valid(char *path, bool check_exec, bool check_read,

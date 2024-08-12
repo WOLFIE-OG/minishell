@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:33:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 18:11:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/12 20:44:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,16 @@ static void	ft_worker_exec(t_root *root, char *cmd, char **args)
 	ft_worker_error_handler(root, cmd, args);
 }
 
-static void	ft_worker_no_cmd(t_root *root, char **args)
+static void	ft_worker_failure(t_root *root, char **args)
 {
-	ft_fprintf(STDERR_FILENO, "minishell: command not found: %s\n",
-		root->current_cmd->cmd_tokens->str);
+	if (errno == ENOENT)
+		ft_fprintf(STDERR_FILENO, "minishell: command not found: %s\n",
+			root->current_cmd->cmd_tokens->str);
+	else
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n",
+			strerror(errno), root->current_cmd->cmd_tokens->str);
 	ft_gc_str_array(args);
-	root->prev_cmd_status = 127;
+	root->prev_cmd_status = errno;
 }
 
 void	ft_worker_launcher(t_root *root)
@@ -55,10 +59,18 @@ void	ft_worker_launcher(t_root *root)
 	char	**args;
 
 	args = ft_worker_arg_str(root);
-	cmd = ft_cmd_path(root, root->current_cmd->cmd_tokens->str);
+	cmd = root->current_cmd->cmd_tokens->str;
+	if (ft_is_path_binary(cmd))
+	{
+		if (!ft_is_path_valid(cmd, true, false, false))
+			cmd = NULL;
+		printf("%d\n", errno);
+	}
+	else
+		cmd = ft_cmd_path(root, root->current_cmd->cmd_tokens->str);
 	if (cmd)
 		ft_worker_exec(root, cmd, args);
 	else
-		return (ft_worker_no_cmd(root, args));
+		ft_worker_failure(root, args);
 	return ;
 }

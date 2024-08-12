@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 18:22:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/12 18:19:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 	root->env = ft_init_env(env);
 	root->shell_name = "minishell";
 	root->init_args = *av;
+	ft_set_var(root, "SHELL",
+		ft_strjoin(ft_get_var(root, "PWD")->value, "/minishell"));
 	ft_create_builtin_array(root);
 }
