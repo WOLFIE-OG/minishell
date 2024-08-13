@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/12 17:05:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 18:37:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_cmd_trunc_append(t_root *root)
 	bool	append;
 	char	*result;
 
-	root->current_cmd = root->current_cmd->next;
 	append = false;
 	if (root->prev_cmd->post_action == APPEND)
 		append = true;

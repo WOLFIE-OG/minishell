@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 18:20:51 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 16:36:13 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	ft_parser_handle_cmds(t_token *token, t_cmd **cmd)
 	if (token->next)
 	{
 		(*cmd)->next = ft_new_cmd();
+		(*cmd)->next->prev = *cmd;
 		*cmd = (*cmd)->next;
 	}
 }

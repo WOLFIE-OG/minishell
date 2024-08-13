@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 18:20:54 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 15:57:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_cmd	*ft_new_cmd(void)
 	pipe(cmd->pipe);
 	cmd->post_action = EMPTY;
 	cmd->next = NULL;
+	cmd->prev = NULL;
 	cmd->cmd_tokens = NULL;
 	cmd->is_builtin = false;
 	cmd->execute = true;

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/12 17:41:21 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 18:35:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,39 @@ static void	ft_executor_input_check(t_root *root)
 
 static void	ft_executor_post_exec(t_root *root)
 {
-	if (root->prev_cmd)
+	t_cmd	*current_cmd;
+
+	current_cmd = root->prev_cmd;
+	if (current_cmd)
 	{
-		if (root->prev_cmd->post_action == TRUNC
-			|| root->prev_cmd->post_action == APPEND)
-			ft_cmd_trunc_append(root);
+		if (current_cmd->post_action == TRUNC
+			|| current_cmd->post_action == APPEND)
+		{
+			if (current_cmd->next
+				&& (current_cmd->next->post_action != APPEND
+					&& current_cmd->next->post_action != TRUNC))
+			{
+				root->current_cmd = root->current_cmd->next;
+				ft_cmd_trunc_append(root);
+			}
+			else
+			{
+				while (current_cmd->next
+					&& (current_cmd->next->post_action == APPEND
+						|| current_cmd->next->post_action == TRUNC))
+				{
+					current_cmd = current_cmd->next;
+					ft_create_file(current_cmd->cmd_tokens->str);
+				}
+				if (current_cmd->next
+					&& (current_cmd->next->post_action == EMPTY
+						|| current_cmd->next->post_action == END))
+					current_cmd = current_cmd->next;
+				root->prev_cmd->post_action = current_cmd->prev->post_action;
+				root->current_cmd = current_cmd;
+				ft_cmd_trunc_append(root);
+			}
+		}
 	}
 }
 

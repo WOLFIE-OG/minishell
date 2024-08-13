@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/08/07 14:56:44 by otodd            ###   ########.fr        #
+#    Updated: 2024/08/13 18:38:18 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_parser/ft_parser.c \
 				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
 				$(SRC_DIR)/ft_parser/ft_parser_heredoc.c \
+				$(SRC_DIR)/ft_executor/ft_executor_io_ext.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \

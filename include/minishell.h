@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 00:00:22 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 18:39:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_cmd
 	bool			execute;
 	pid_t			pid;
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }	t_cmd;
 
 typedef struct s_root
@@ -163,6 +164,10 @@ void		ft_config_sigint(void);
 // src/ft_executor/ft_executor_builtins.c - Executor builtin functions
 
 void		ft_builtins(t_root *root);
+
+// src/ft_executor/ft_executor_io_ext.c - Executor ext I/O functions
+
+bool		ft_create_file(char *path);
 
 // src/ft_executor/ft_executor_io.c - Executor I/O functions
 
