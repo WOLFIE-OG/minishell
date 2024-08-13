@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:33:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/12 20:44:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 01:29:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,23 @@ static void	ft_worker_error_print(t_root *root)
 	}
 }
 
-static void	ft_worker_error_handler(t_root *root, char *cmd, char **args)
+static void	ft_worker_error_handler(t_root *root, char **args)
 {
 	if (root->prev_cmd_status != EXIT_SUCCESS)
 		ft_worker_error_print(root);
 	ft_gc_str_array(args);
-	free(cmd);
 	return ;
 }
 
 static void	ft_worker_exec(t_root *root, char *cmd, char **args)
 {
 	ft_worker(root, cmd, args);
-	ft_worker_error_handler(root, cmd, args);
+	ft_worker_error_handler(root, args);
 }
 
-static void	ft_worker_failure(t_root *root, char **args)
+static void	ft_worker_failure(t_root *root, char **args, bool is_binary)
 {
-	if (errno == ENOENT)
+	if (errno == ENOENT && !is_binary)
 		ft_fprintf(STDERR_FILENO, "minishell: command not found: %s\n",
 			root->current_cmd->cmd_tokens->str);
 	else
@@ -57,20 +56,34 @@ void	ft_worker_launcher(t_root *root)
 {
 	char	*cmd;
 	char	**args;
+	bool	is_binary;
 
+	is_binary = false;
 	args = ft_worker_arg_str(root);
 	cmd = root->current_cmd->cmd_tokens->str;
 	if (ft_is_path_binary(cmd))
 	{
-		if (!ft_is_path_valid(cmd, true, false, false))
+		if (ft_is_path_valid(cmd, false, false, false))
+		{
+			if (!ft_is_path_valid(cmd, true, false, false))
+			{
+				cmd = NULL;
+				is_binary = true;
+			}
+			if (ft_is_dir(cmd))
+				cmd = NULL;
+		}
+		else
+		{
 			cmd = NULL;
-		printf("%d\n", errno);
+			is_binary = true;
+		}
 	}
 	else
 		cmd = ft_cmd_path(root, root->current_cmd->cmd_tokens->str);
 	if (cmd)
 		ft_worker_exec(root, cmd, args);
 	else
-		ft_worker_failure(root, args);
+		ft_worker_failure(root, args, is_binary);
 	return ;
 }

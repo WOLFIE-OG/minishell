@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/02 17:44:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 01:44:44 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,16 @@ static char	*ft_process_arg(t_root *root, t_token *arg, t_env_var **var)
 		*var = ft_get_var(root, "HOME");
 		arg->str = (*var)->value;
 	}
-	else if (!ft_strcmp(arg->str, "-"))
+	else if (ft_strcmp(arg->str, "-") == 0)
+	{
+		free(arg->str);
 		*var = ft_get_var(root, "OLDPWD");
+		arg->str = ft_strdup((*var)->value);
+	}
 	else
 		*var = ft_get_var(root, "PWD");
-	if (arg->str[(ft_strlen(arg->str) - 1)] == '/')
+	if (ft_strcmp(arg->str, "/") != 0
+		&& arg->str[(ft_strlen(arg->str) - 1)] == '/')
 		return (ft_strndup(arg->str, (ft_strlen(arg->str) - 1)));
 	else
 		return (ft_strdup(arg->str));

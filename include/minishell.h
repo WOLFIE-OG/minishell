@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/12 19:21:03 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 00:00:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ char		*ft_set_prompt(t_root *root);
 char		*ft_set_heredoc_prompt(void);
 char		*ft_handle_heredoc(t_root *root, char *delim);
 char		*ft_trim_start_end(char *s1, char *set);
+int			ft_is_dir(char *path);
 
 // src/ft_tests.c - Test functions
 

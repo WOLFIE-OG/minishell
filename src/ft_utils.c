@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/07 16:32:04 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 00:03:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,18 @@ char	*ft_trim_start_end(char *s1, char *set)
 		return (NULL);
 	new_string[len] = '\0';
 	return (new_string);
+}
+
+int	ft_is_dir(char *path)
+{
+	struct stat	pth;
+
+	if (stat(path, &pth) != 0)
+		return (-1);
+	if (S_ISDIR(pth.st_mode))
+	{
+		errno = EISDIR;
+		return (true);
+	}
+	return (false);
 }

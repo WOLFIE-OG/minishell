@@ -4,7 +4,8 @@
             "name": "Minishell",
             "defines": [
                 "_POSIX_C_SOURCE=200809L"
-            ]
+            ],
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
