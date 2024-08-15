@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 12:43:34 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/13 16:05:04 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,10 @@ int	ft_issep(char *input, int i)
 		return (1);
 	else
 		return (0);
+}
+
+int	ft_separator(char c)
+{
+	// Adjust this function to check only when NOT inside quotes
+	return (c == '|' || c == '<' || c == '>' || c == ';');
 }

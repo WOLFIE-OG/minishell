@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 18:39:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/15 13:55:04 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,8 @@ int			ft_unclosed_quote(char *str);
 t_token		*ft_get_token_by_type_at_i(t_token *tkns,
 				t_token_type type, int index);
 void		ft_token_move_before(t_token *move_token, t_token *target);
+int			ft_separator(char c);
+bool		ft_check_state(t_state current_state);
 
 // src/ft_errs.c - Error functions
 

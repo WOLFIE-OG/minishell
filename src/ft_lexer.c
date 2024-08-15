@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 12:22:01 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/15 13:16:58 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 		free(tok_str);
 		ft_token_add(head, token);
 	}
-	if (input[i] && ft_issep(input, i))
+	if (*state == NORMAL && input[i] && ft_separator(input[i]))
 		i = ft_parse_tokens(input, i, head);
 	else if (input[i])
 		i++;
@@ -102,6 +102,18 @@ t_state	ft_handle_state(char c, t_state current_state)
 	else if (current_state == DOUBLE_Q && c == '\"')
 		return (NORMAL);
 	return (current_state);
+}
+
+bool	ft_check_state(t_state current_state)
+{
+	bool	state;
+
+	state = false;
+	if (current_state == NORMAL)
+		state = false;
+	else if (current_state == SINGLE_Q || current_state == DOUBLE_Q)
+		state = true;
+	return (state);
 }
 
 int	ft_unclosed_quote(char *str)
