@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 14:20:12 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:13:42 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	int		i;
 	char	*tok_str;
 	t_token	*token;
+	int		m_index;
 	//bool	quotes;
 
 	i = start;
@@ -71,11 +72,15 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 			|| !ft_iswhitespace(input[i])) && !ft_issep(input, i))
 	{
 		*state = ft_handle_state(input[i], *state);
+		if (ft_is_in_quotes(input, i, &m_index, input[i]))
+			i = m_index;
 		i++;
 	}
 	if (start != i)
 	{
 		tok_str = ft_tokenstr(input, start, i);
+		if (ft_isquote(tok_str[0]))
+			ft_rm_quotes(&tok_str, tok_str[0]);
 		token = ft_token_new(ft_strdup(tok_str));
 		free(tok_str);
 		ft_token_add(head, token);

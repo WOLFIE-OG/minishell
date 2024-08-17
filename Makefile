@@ -6,7 +6,7 @@
 #    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/08/17 14:21:57 by ssottori         ###   ########.fr        #
+#    Updated: 2024/08/17 15:02:17 by ssottori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_size.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_typers.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_utils.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_quotes.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_bool_checks.c \
 
 

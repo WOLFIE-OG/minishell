@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/17 14:27:45 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:06:00 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,11 @@ bool		ft_check_state(t_state current_state);
 void		ft_eof(char *input);
 bool		ft_tok_need(char *input);
 bool		ft_dollar_sign(char *input);
-
+bool		ft_matching(char *line, int i, int *match_index, char c);
+bool		ft_isquote(char c);
+bool		ft_singlequote(char c);
+bool		ft_is_in_quotes(char *line, int i, int *match_index, char c);
+void		ft_rm_quotes(char **value, char quote);
 
 // src/ft_errs.c - Error functions
 

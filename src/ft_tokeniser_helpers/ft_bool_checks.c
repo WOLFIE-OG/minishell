@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:51 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 14:27:49 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:52:51 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	ft_dollar_sign(char *input)
 		input++;
 	while (ft_iswhitespace(*input))
 		input++;
-	if (*input)
+	if (*input != '\0')
 		return (FALSE);
 	ft_putstr_fd("minishell: $: command not found\n", STDERR_FILENO);
 	return (TRUE);
@@ -57,3 +57,6 @@ bool	ft_tok_need(char *input)
 		return (TRUE);
 	return (FALSE);
 }
+
+//TODO
+//fix dollarsign error and tokneed
