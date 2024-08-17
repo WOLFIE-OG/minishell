@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 15:57:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/15 16:12:32 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_cmd	*ft_new_cmd(void)
 	cmd->cmd_tokens = NULL;
 	cmd->is_builtin = false;
 	cmd->execute = true;
+	cmd->pid = 0;
 	return (cmd);
 }
 

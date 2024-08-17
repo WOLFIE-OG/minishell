@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/31 17:53:54 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/15 19:15:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	ft_builtins_execute(t_root *root)
 {
 	char		*cmd;
 
-	root->prev_cmd_status = EXIT_SUCCESS;
 	cmd = root->current_cmd->cmd_tokens->str;
 	if (!ft_strcmp(cmd, "cd"))
 		root->prev_cmd_status = ft_cd(root);
@@ -27,7 +26,10 @@ static void	ft_builtins_execute(t_root *root)
 	else if (!ft_strcmp(cmd, "unset"))
 		root->prev_cmd_status = ft_unset(root);
 	else if (!ft_strcmp(cmd, "exit"))
+	{
+		ft_putstr("exit\n");
 		ft_exit(root, root->prev_cmd_status);
+	}
 	else if (!ft_strcmp(cmd, "echo"))
 		root->prev_cmd_status = ft_echo(root);
 	else if (!ft_strcmp(cmd, "pwd"))

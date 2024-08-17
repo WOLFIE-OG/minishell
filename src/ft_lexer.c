@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 15:13:42 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 16:59:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-const char	*token_type_str(t_token_type type);
 
 /*
 parse input string and convert to linked list of tokens 
@@ -42,6 +40,8 @@ t_token	*ft_tokenizer(char *input)
 	t_token	*head;
 	int		i;
 
+	if (!input)
+		return (NULL);
 	i = 0;
 	state = NORMAL;
 	head = NULL;
@@ -112,7 +112,7 @@ t_state	ft_handle_state(char c, t_state current_state)
 	return (current_state);
 }
 
-int		ft_unclosed_quote(char *str)
+int	ft_unclosed_quote(char *str)
 {
 	int		i;
 	t_state	state;

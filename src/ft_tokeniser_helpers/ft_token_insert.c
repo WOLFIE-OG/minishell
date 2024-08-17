@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_size.c                                    :+:      :+:    :+:   */
+/*   ft_token_insert.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 15:06:25 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/04 17:19:11 by otodd            ###   ########.fr       */
+/*   Created: 2024/07/01 14:08:10 by otodd             #+#    #+#             */
+/*   Updated: 2024/08/15 15:31:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-size_t	ft_token_size(t_token *lst)
+void	ft_token_insert(t_token *node, t_token *target_node)
 {
-	size_t	i;
+	int		new_index;
+	t_token	*current;
 
-	i = 0;
-	while (lst)
+	if (!node || !target_node)
+		return ;
+	node->next = target_node;
+	node->prev = target_node->prev;
+	if (target_node->prev)
+		target_node->prev->next = node;
+	target_node->prev = node;
+	new_index = node->index;
+	current = node->next;
+	while (current)
 	{
-		lst = lst->next;
-		i++;
+		current->index = new_index;
+		new_index++;
+		current = current->next;
 	}
-	return (i);
+	return ;
 }

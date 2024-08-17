@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 18:35:45 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/15 17:52:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ static void	ft_executor_input_check(t_root *root)
 	}
 }
 
+static void	ft_executor_post_exec_helper(t_cmd **current_cmd)
+{
+	while ((*current_cmd)->next
+		&& ((*current_cmd)->next->post_action == APPEND
+			|| (*current_cmd)->next->post_action == TRUNC))
+	{
+		*current_cmd = (*current_cmd)->next;
+		ft_create_file((*current_cmd)->cmd_tokens->str);
+	}
+	if ((*current_cmd)->next
+		&& ((*current_cmd)->next->post_action == EMPTY
+			|| (*current_cmd)->next->post_action == END))
+		*current_cmd = (*current_cmd)->next;
+}
+
 static void	ft_executor_post_exec(t_root *root)
 {
 	t_cmd	*current_cmd;
@@ -56,22 +71,39 @@ static void	ft_executor_post_exec(t_root *root)
 			}
 			else
 			{
-				while (current_cmd->next
-					&& (current_cmd->next->post_action == APPEND
-						|| current_cmd->next->post_action == TRUNC))
-				{
-					current_cmd = current_cmd->next;
-					ft_create_file(current_cmd->cmd_tokens->str);
-				}
-				if (current_cmd->next
-					&& (current_cmd->next->post_action == EMPTY
-						|| current_cmd->next->post_action == END))
-					current_cmd = current_cmd->next;
+				ft_executor_post_exec_helper(&current_cmd);
 				root->prev_cmd->post_action = current_cmd->prev->post_action;
 				root->current_cmd = current_cmd;
 				ft_cmd_trunc_append(root);
 			}
 		}
+	}
+}
+
+static void	ft_executor_wait_forpid(t_root *root)
+{
+	t_cmd	*head;
+	int		ret_code;
+
+	ret_code = 0;
+	head = root->preped_cmds;
+	while (head)
+	{
+		if (head->pid != 0)
+		{
+			waitpid(head->pid, &ret_code, 0);
+			root->prev_cmd_status_signaled = false;
+			if (WIFEXITED(ret_code))
+				root->prev_cmd_status = WEXITSTATUS(ret_code);
+			else if (WIFSIGNALED(ret_code))
+			{
+				root->prev_cmd_status = WTERMSIG(ret_code);
+				root->prev_cmd_status_signaled = true;
+			}
+			if (root->prev_cmd_status != EXIT_SUCCESS)
+				ft_worker_error_print(root);
+		}
+		head = head->next;
 	}
 }
 
@@ -91,6 +123,7 @@ void	ft_executor(t_root *root)
 		ft_executor_post_exec(root);
 		root->current_cmd = root->current_cmd->next;
 	}
+	ft_executor_wait_forpid(root);
 	ft_gc_preped_cmds(root);
 	root->prev_cmd = NULL;
 	return ;

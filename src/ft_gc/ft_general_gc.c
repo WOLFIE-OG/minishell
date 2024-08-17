@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:59:54 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/01 19:20:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/16 01:12:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,6 @@ void	ft_gc_shell(t_root *root)
 	rl_clear_history();
 	ft_free_env(root);
 	ft_gc_str_array(root->builtin_array);
+	if (root->interactive_str)
+		free(root->interactive_str);
 }

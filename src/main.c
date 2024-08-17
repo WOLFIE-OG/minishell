@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 14:21:55 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 16:54:57 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	main(int ac, char **av, char **envp)
 	ft_init_shell(&root, ac, av, envp);
 	tokenizer_tester(ac, av);
 	ft_config_sigint();
-	while (true)
+	if (!root.interactive)
+		ft_shell_post_input(&root, root.interactive_str);
+	while (true && root.interactive)
 	{
 		tmp = ft_set_prompt(&root);
 		input = readline(tmp);
@@ -39,12 +41,12 @@ int	main(int ac, char **av, char **envp)
 		free(tmp);
 		if (!input)
 		{
-			printf("exit\n");
+			ft_putstr("exit\n");
 			break ;
 		}
 		ft_shell_post_input(&root, input);
 		add_history(input);
 		free(input);
 	}
-	ft_exit(&root, EXIT_SUCCESS);
+	ft_exit(&root, root.prev_cmd_status);
 }

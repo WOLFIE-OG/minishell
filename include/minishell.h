@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/17 15:06:00 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:00:24 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@
 # include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <signal.h>
-
-# define TRUE 1
-# define FALSE 0
+# define SIG_SEGV 	"[%d] Segmentation fault (core dumped) %d\n"
+# define SIG_ILL	"[%d] Illegal instruction (core dumped) %d\n"
+# define SIG		"[%d] Process terminated by signal %d\n"
+# define SIG_INT 	"[%d] Interactive attention signal %d\n"
+# define SIG_TERM 	"[%d] Termination request %d\n"
+# define SIG_KILL 	"[%d] Killed %d\n"
+# define SIG_IOT	"[%d] Aborted (core dumped) %d\n"
 
 typedef enum e_state
 {
@@ -91,12 +95,13 @@ typedef struct s_root
 	struct s_cmd	*preped_cmds;
 	char			**builtin_array;
 	char			**prompt;
-	char			*init_args;
 	char			*shell_name;
 	int				prev_cmd_status;
 	bool			prev_cmd_status_signaled;
 	struct s_cmd	*prev_cmd;
 	struct s_cmd	*current_cmd;
+	bool			interactive;
+	char			*interactive_str;
 }	t_root;
 
 typedef struct s_token
@@ -196,6 +201,7 @@ bool		ft_is_path_valid(char *path, bool check_exec, bool check_read,
 
 // src/ft_executor/ft_executor_worker_launcher.c - Executor worker launcher
 
+void		ft_worker_error_print(t_root *root);
 void		ft_worker_launcher(t_root *root);
 
 // src/ft_executor/ft_executor_worker.c - Executor worker functions
@@ -238,8 +244,8 @@ void		ft_token_delone(t_token *lst, void (*del)(void *));
 t_token		*ft_token_last(t_token *lst);
 t_token		*ft_token_new(char *str);
 t_token		*ft_token_dup(t_token *token);
+void		ft_token_insert(t_token *node, t_token *target_node);
 t_token		*ft_token_pop(t_token *node);
-size_t		ft_token_size(t_token *lst);
 void		ft_token_reindex(t_token *token);
 void		ft_token_type(t_token *token, int div);
 void		ft_token_retype(t_token *token);
