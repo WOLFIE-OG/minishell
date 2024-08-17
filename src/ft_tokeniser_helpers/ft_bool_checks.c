@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:51 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 17:03:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/17 17:07:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ bool	ft_dollar_sign(char *input)
 bool	ft_tok_need(char *input)
 {
 	ft_eof(input);
-	if (input[0] == '\0')  // Empty line check
+	if (input[0] == '\0') // Empty line check
 		return (true);
-	if (ft_dollar_sign(input))  // Single dollar sign check
+	if (ft_dollar_sign(input)) // Single dollar sign check
 		return (true);
 	return (false);
 }
