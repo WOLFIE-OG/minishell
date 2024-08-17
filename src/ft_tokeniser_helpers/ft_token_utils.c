@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/13 16:05:04 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:20:34 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,5 @@ int	ft_issep(char *input, int i)
 
 int	ft_separator(char c)
 {
-	// Adjust this function to check only when NOT inside quotes
 	return (c == '|' || c == '<' || c == '>' || c == ';');
 }

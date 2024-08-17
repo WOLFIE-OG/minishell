@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/15 13:55:04 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:27:45 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <signal.h>
+
+# define TRUE 1
+# define FALSE 0
 
 typedef enum e_state
 {
@@ -78,6 +81,7 @@ typedef struct s_cmd
 	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
+	bool			state;
 }	t_cmd;
 
 typedef struct s_root
@@ -247,6 +251,10 @@ t_token		*ft_get_token_by_type_at_i(t_token *tkns,
 void		ft_token_move_before(t_token *move_token, t_token *target);
 int			ft_separator(char c);
 bool		ft_check_state(t_state current_state);
+void		ft_eof(char *input);
+bool		ft_tok_need(char *input);
+bool		ft_dollar_sign(char *input);
+
 
 // src/ft_errs.c - Error functions
 

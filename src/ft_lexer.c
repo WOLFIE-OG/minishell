@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/15 13:16:58 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:20:12 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_token	*ft_tokenizer(char *input)
 	i = 0;
 	state = NORMAL;
 	head = NULL;
+	if (ft_tok_need(input))
+		return (NULL);
 	while (input[i])
 	{
 		i = ft_skip_whitespace(input, i);
@@ -62,6 +64,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	int		i;
 	char	*tok_str;
 	t_token	*token;
+	//bool	quotes;
 
 	i = start;
 	while (input[i] && (*state != NORMAL
@@ -73,7 +76,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	if (start != i)
 	{
 		tok_str = ft_tokenstr(input, start, i);
-		token = ft_token_new(ft_trim_start_end(tok_str, "\"'"));
+		token = ft_token_new(ft_strdup(tok_str));
 		free(tok_str);
 		ft_token_add(head, token);
 	}
@@ -104,19 +107,7 @@ t_state	ft_handle_state(char c, t_state current_state)
 	return (current_state);
 }
 
-bool	ft_check_state(t_state current_state)
-{
-	bool	state;
-
-	state = false;
-	if (current_state == NORMAL)
-		state = false;
-	else if (current_state == SINGLE_Q || current_state == DOUBLE_Q)
-		state = true;
-	return (state);
-}
-
-int	ft_unclosed_quote(char *str)
+int		ft_unclosed_quote(char *str)
 {
 	int		i;
 	t_state	state;
