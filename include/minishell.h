@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/20 18:09:28 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/20 18:18:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ bool		ft_is_path_valid(char *path, bool check_exec, bool check_read,
 
 // src/ft_executor/ft_executor_worker_launcher.c - Executor worker launcher
 
-void		ft_worker_error_print(t_root *root);
 void		ft_worker_launcher(t_root *root);
 
 // src/ft_executor/ft_executor_worker.c - Executor worker functions
@@ -272,6 +271,8 @@ void		ft_rm_quotes(char **value, char quote);
 // src/ft_errs.c - Error functions
 
 void		ft_print_err(const char *message);
+void		ft_worker_error_print(t_root *root);
+void		ft_worker_failure(t_root *root, bool is_binary);
 
 // src/ft_init.c - Init functions
 
