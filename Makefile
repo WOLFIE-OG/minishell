@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/08/17 17:05:43 by otodd            ###   ########.fr        #
+#    Updated: 2024/08/20 17:00:40 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 
-CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -fPIC -D_POSIX_C_SOURCE=200809L
+CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -D_POSIX_C_SOURCE=200809L
 NAME		= 	minishell
 
 SRC_DIR 	= 	src
@@ -107,37 +107,37 @@ $(NAME): $(OBJS)
 	@echo "[$(BLUE)MINISH$(NC)]    Building $@..."
 	@$(CC) $(CFLAGS) $(OBJS) $(HEADERS) $(LIBS) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_builtins/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_builtins/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_tokeniser_helpers/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_tokeniser_helpers/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_executor/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_executor/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_gc/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_gc/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_env/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_env/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_parser/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_parser/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_expander/%.c $(INC_DIR)/minishell.h | dir
+$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_expander/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) $(LIBS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(LIBFT):
 	@$(MAKE) -s -C $(LIBFT_DIR)
