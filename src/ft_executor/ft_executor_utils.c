@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:48:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 13:53:23 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/20 14:31:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ char	*ft_cmd_path(t_root *root, char *cmd)
 	t_cmd_path	vars;
 
 	vars.var = ft_get_var(root, "PATH");
+	if (!vars.var)
+	{
+		errno = ENOENT;
+		return (NULL);
+	}
 	vars.dir_paths = ft_split(vars.var->value, ':');
 	vars.dir_paths_head = vars.dir_paths;
 	while (*vars.dir_paths)
