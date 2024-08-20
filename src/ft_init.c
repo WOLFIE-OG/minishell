@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/20 18:09:56 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/20 18:32:40 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static void	ft_create_builtin_array(t_root *root)
 static void	ft_interactive_check(t_root *root)
 {
 	char	**tmp;
-
+	
+	tokenizer_tester(root->init_args_c, root->init_args);
 	tmp = NULL;
 	if (root->init_args_c > 1)
 	{
@@ -58,6 +59,7 @@ static void	ft_interactive_check(t_root *root)
 
 void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
+	ft_config_sigint();
 	root->prev_cmd = NULL;
 	root->prev_cmd_status = EXIT_SUCCESS;
 	root->preped_cmds = NULL;

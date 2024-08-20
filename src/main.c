@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 16:54:57 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/20 18:32:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	main(int ac, char **av, char **envp)
 	t_root	root;
 
 	ft_init_shell(&root, ac, av, envp);
-	tokenizer_tester(ac, av);
-	ft_config_sigint();
 	if (!root.interactive)
 		ft_shell_post_input(&root, root.interactive_str);
 	while (true && root.interactive)
