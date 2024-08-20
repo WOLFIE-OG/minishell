@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/17 17:00:24 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/20 18:09:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ typedef struct s_root
 	struct s_cmd	*current_cmd;
 	bool			interactive;
 	char			*interactive_str;
+	char			**init_args;
+	int				init_args_c;
+	char			**init_env;
 }	t_root;
 
 typedef struct s_token
