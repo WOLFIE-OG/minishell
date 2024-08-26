@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/06 12:24:54 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/26 15:56:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 void	ft_token_retype(t_token *token)
 {
+	if (token->is_sep)
+		return ;
 	if (!token->prev)
 	{
 		if (token->next)
 		{
 			if (token->next->type == ARG
 				|| token->next->type == PIPE
-				|| token->next->type == INPUT
 				|| token->next->type == TRUNC
+				|| token->next->type == INPUT
 				|| token->next->type == APPEND
 				|| token->next->type == HEREDOC)
 				token->type = CMD;
@@ -31,7 +33,8 @@ void	ft_token_retype(t_token *token)
 	}
 	else
 		if (token->prev->type == PIPE
-			|| token->prev->type == END)
+			|| token->prev->type == END
+			|| token->prev->type == INPUT_FILE)
 			token->type = CMD;
 	else if (token->prev->type == INPUT
 		|| token->prev->type == TRUNC
@@ -42,6 +45,7 @@ void	ft_token_retype(t_token *token)
 
 void	ft_token_type(t_token *token, int div)
 {
+	token->is_sep = true;
 	if (ft_strcmp(token->str, ">") == 0 && div == 0)
 		token->type = TRUNC;
 	else if (ft_strcmp(token->str, ">>") == 0 && div == 0)
@@ -55,5 +59,8 @@ void	ft_token_type(t_token *token, int div)
 	else if (ft_strcmp(token->str, ";") == 0 && div == 0)
 		token->type = END;
 	else
+	{
+		token->is_sep = false;
 		token->type = ARG;
+	}
 }

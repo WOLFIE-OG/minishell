@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/20 18:18:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/26 15:54:32 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_root
 typedef struct s_token
 {
 	int				index;
+	bool			is_sep;
 	char			*str;
 	t_token_type	type;
 	struct s_token	*next;

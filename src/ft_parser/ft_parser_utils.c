@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/15 16:12:32 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/26 18:24:43 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void	ft_parser_do_checks(
 
 	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE)
 	{
+		if (i_tkn->next->next && i_tkn->next->next->type == CMD)
+			return ;
 		if_tkn = i_tkn->next;
 		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
 	}
@@ -54,14 +56,21 @@ static void	ft_parser_do_checks(
 		if_tkn->str = ft_handle_heredoc(rt, if_tkn->str);
 		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
 	}
+	else if (i_tkn->type == INPUT_FILE && i_tkn->next
+		&& i_tkn->next->type == CMD)
+	{
+		if_tkn = i_tkn->prev;
+		ft_token_move_before(i_tkn, *tkn);
+		*tkn = i_tkn;
+		if (!(*tkn)->prev)
+			rt->preped_tokens = *tkn;
+	}
 }
 
 void	ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token)
 {
 	t_token	*input_token;
 
-	if ((*token)->type != CMD)
-		return ;
 	if (!(*token)->next)
 		return ;
 	input_token = (*token)->next;
