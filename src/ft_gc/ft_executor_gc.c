@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:58:28 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/01 16:04:39 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/27 16:13:53 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ void	ft_gc_preped_cmds(t_root *root)
 		free(head);
 		head = next;
 	}
+	root->preped_cmds = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/26 15:54:32 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/27 15:54:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ void		ft_executor(t_root *root);
 // src/ft_expander/ft_expander.c - Expander functions
 
 char		*ft_expand_str(t_root *root, char *str);
+void		ft_expander(t_root *root);
 
 // src/ft_gc/ft_executor_gc.c - Garbage executor functions
 
@@ -237,7 +238,7 @@ void		ft_gc_tokens(t_token *head);
 t_cmd		*ft_new_cmd(void);
 void		ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token);
 bool		ft_parser_adjust_tokens(t_root *root);
-t_cmd		*ft_parser(t_root *root);
+void		ft_parser(t_root *root);
 
 // src/ft_tokeniser_helpers/ft_token_*.c - Tonkeniser helper functions
 

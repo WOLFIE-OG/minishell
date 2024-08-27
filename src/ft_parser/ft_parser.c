@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 16:36:13 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/27 13:24:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,19 @@ static void	ft_parser_handle_cmds(t_token *token, t_cmd **cmd)
 	}
 }
 
-t_cmd	*ft_parser(t_root *root)
+void	ft_parser(t_root *root)
 {
 	t_token	*token;
 	t_cmd	*cmd;
 	t_cmd	*head;
 
 	if (!ft_parser_adjust_tokens(root))
-		return (NULL);
+		return ;
 	token = root->preped_tokens;
 	cmd = ft_new_cmd();
 	head = cmd;
 	while (token)
 	{
-		token->str = ft_expand_str(root, token->str);
 		if (token->type == CMD || token->type == ARG || token->type == EMPTY
 			|| token->type == INPUT_FILE)
 			ft_parser_handle_tokens(root, token, cmd);
@@ -58,7 +57,8 @@ t_cmd	*ft_parser(t_root *root)
 		token = token->next;
 	}
 	if (!head)
-		return (NULL);
+		return ;
 	ft_gc_tokens(root->preped_tokens);
-	return (head);
+	root->preped_cmds = head;
+	return ;
 }
