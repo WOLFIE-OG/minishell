@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quotes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:59:28 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 17:07:34 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/28 15:19:20 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,20 @@ void	ft_rm_quotes(char **value, char quote)
 	temp = ft_strtrim(*value, &quote);
 	free(*value);
 	*value = temp;
+}
+
+void	ft_rm_quotes_in_str(char **value, int start, int end)
+{
+	char	*tmp;
+	char	*trimmed;
+
+	if (!*value || start >= end)
+		return ;
+	tmp = ft_substr(*value, start, end - start);
+	if (!tmp)
+		return ;
+	trimmed = ft_strtrim(tmp, "\"'");
+	free(tmp);
+	ft_memcpy(*value + start, trimmed, ft_strlen(trimmed));
+	free(trimmed);
 }

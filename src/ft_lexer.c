@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 17:07:13 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/28 15:11:54 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_token	*ft_tokenizer(char *input)
 	t_state	state;
 	t_token	*head;
 	int		i;
+	int		end_quote;
 
 	if (!input)
 		return (NULL);
@@ -51,7 +52,15 @@ t_token	*ft_tokenizer(char *input)
 	{
 		i = ft_skip_whitespace(input, i);
 		if (input[i])
+		{
+			if (ft_isquote(input[i]))
+			{
+				end_quote = i;
+				ft_rm_quotes(&input, input[i]);
+				i = end_quote;
+			}
 			i = ft_process_tokens(input, &head, &state, i);
+		}
 	}
 	if (ft_unclosed_quote(input))
 		ft_print_err("Syntax error: unclosed quote\n");
@@ -91,6 +100,8 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 		i++;
 	return (i);
 }
+
+
 //TO DO: mak sure the last token is added if the input ends without a sep
 
 /* Using finite state machine to handle quotes, so tokens are created
@@ -123,9 +134,12 @@ int	ft_unclosed_quote(char *str)
 	{
 		state = ft_handle_state(str[i], state);
 		printf("char: %c -- state rn: %d\n", str[i], state);
+		if (state != NORMAL && str[i + 1] == '\0')
+		{
+			ft_print_err("Syntax error: unclosed quote\n");
+			return (1);
+		}
 		i++;
 	}
-	if (state != NORMAL)
-		ft_print_err("Syntax error: unclosed quote\n");
-	return (state != NORMAL);
+	return (0);
 }
