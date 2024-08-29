@@ -6,19 +6,11 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:48:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/20 14:31:04 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 14:34:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-bool	ft_is_builtin(t_root *root, char *cmd)
-{
-	if (ft_is_in_strarray(root->builtin_array, cmd))
-		return (true);
-	else
-		return (false);
-}
 
 char	**ft_worker_arg_str(t_root *root)
 {

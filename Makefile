@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/08/20 17:00:40 by otodd            ###   ########.fr        #
+#    Updated: 2024/08/29 14:26:10 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ LIBFT_DIR 	= 	libft
 SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_utils.c \
 				$(SRC_DIR)/ft_tests.c \
+				$(SRC_DIR)/ft_syntax.c \
 				$(SRC_DIR)/ft_signals.c \
 				$(SRC_DIR)/ft_lexer.c \
 				$(SRC_DIR)/ft_init.c \
@@ -65,6 +66,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_gc/ft_general_gc.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \
 				$(SRC_DIR)/ft_expander/ft_expander.c \
+				$(SRC_DIR)/ft_expander/ft_expander_helpers.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io_ext.c \

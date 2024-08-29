@@ -6,34 +6,16 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/20 18:32:40 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 14:33:49 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	ft_create_builtin_array(t_root *root)
-{
-	root->builtin_array = ft_strarrayappend2(NULL,
-			ft_strdup("cd"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("pwd"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("export"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("unset"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("env"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("exit"));
-	root->builtin_array = ft_strarrayappend2(root->builtin_array,
-			ft_strdup("echo"));
-}
-
 static void	ft_interactive_check(t_root *root)
 {
 	char	**tmp;
-	
+
 	tokenizer_tester(root->init_args_c, root->init_args);
 	tmp = NULL;
 	if (root->init_args_c > 1)
@@ -74,5 +56,4 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 	ft_interactive_check(root);
 	ft_set_var(root, "SHELL",
 		ft_strjoin(ft_get_var(root, "PWD")->value, "/minishell"));
-	ft_create_builtin_array(root);
 }

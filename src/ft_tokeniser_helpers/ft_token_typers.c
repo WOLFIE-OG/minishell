@@ -6,11 +6,22 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/26 15:56:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 14:21:44 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static bool	ft_token_retype_check_type(t_token *token)
+{
+	if (token->next->type == ARG || token->next->type == PIPE
+		|| token->next->type == TRUNC
+		|| token->next->type == INPUT
+		|| token->next->type == APPEND
+		|| token->next->type == HEREDOC)
+		return (true);
+	return (false);
+}
 
 void	ft_token_retype(t_token *token)
 {
@@ -20,24 +31,17 @@ void	ft_token_retype(t_token *token)
 	{
 		if (token->next)
 		{
-			if (token->next->type == ARG
-				|| token->next->type == PIPE
-				|| token->next->type == TRUNC
-				|| token->next->type == INPUT
-				|| token->next->type == APPEND
-				|| token->next->type == HEREDOC)
+			if (ft_token_retype_check_type(token))
 				token->type = CMD;
 		}
 		else
 			token->type = CMD;
 	}
 	else
-		if (token->prev->type == PIPE
-			|| token->prev->type == END
+		if (token->prev->type == PIPE || token->prev->type == END
 			|| token->prev->type == INPUT_FILE)
 			token->type = CMD;
-	else if (token->prev->type == INPUT
-		|| token->prev->type == TRUNC
+	else if (token->prev->type == INPUT || token->prev->type == TRUNC
 		|| token->prev->type == APPEND
 		|| token->prev->type == HEREDOC)
 		token->type = INPUT_FILE;

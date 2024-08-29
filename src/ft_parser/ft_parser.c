@@ -6,18 +6,29 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/27 13:24:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 14:35:40 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_parser_handle_tokens(t_root *root, t_token *token, t_cmd *cmd)
+static bool	ft_parser_is_builtin(char *cmd)
+{
+	const char	*builtin_array[8] = {"cd", "export", "env", "unset", "exit",
+		"echo", "pwd", NULL};
+
+	if (ft_is_in_strarray((char **)builtin_array, cmd))
+		return (true);
+	else
+		return (false);
+}
+
+static void	ft_parser_handle_tokens(t_token *token, t_cmd *cmd)
 {
 	if (!cmd->cmd_tokens)
 	{
 		cmd->cmd_tokens = ft_token_dup(token);
-		cmd->is_builtin = ft_is_builtin(root, cmd->cmd_tokens->str);
+		cmd->is_builtin = ft_parser_is_builtin(cmd->cmd_tokens->str);
 	}
 	else
 		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
@@ -51,7 +62,7 @@ void	ft_parser(t_root *root)
 	{
 		if (token->type == CMD || token->type == ARG || token->type == EMPTY
 			|| token->type == INPUT_FILE)
-			ft_parser_handle_tokens(root, token, cmd);
+			ft_parser_handle_tokens(token, cmd);
 		else
 			ft_parser_handle_cmds(token, &cmd);
 		token = token->next;

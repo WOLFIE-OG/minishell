@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/27 15:54:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 16:09:30 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define SIG_TERM 	"[%d] Termination request %d\n"
 # define SIG_KILL 	"[%d] Killed %d\n"
 # define SIG_IOT	"[%d] Aborted (core dumped) %d\n"
+# define SYNTAX_ERROR_MSG "Syntax error near unexpected token `%s`\n"
 
 typedef enum e_state
 {
@@ -85,7 +86,6 @@ typedef struct s_cmd
 	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-	bool			state;
 }	t_cmd;
 
 typedef struct s_root
@@ -93,7 +93,6 @@ typedef struct s_root
 	t_list			*env;
 	struct s_token	*preped_tokens;
 	struct s_cmd	*preped_cmds;
-	char			**builtin_array;
 	char			**prompt;
 	char			*shell_name;
 	int				prev_cmd_status;
@@ -115,6 +114,7 @@ typedef struct s_token
 	t_token_type	type;
 	struct s_token	*next;
 	struct s_token	*prev;
+	enum e_state	state;
 }	t_token;
 
 typedef struct s_heredoc_data
@@ -128,15 +128,25 @@ typedef struct s_heredoc_data
 
 typedef struct s_str_expansion
 {
-	char				**split;
-	char				**head;
-	char				*str;
-	char				*tmp;
-	char				*pre;
-	char				*post;
-	char				**arr;
+	char				**split_str;
+	char				**tkn_head;
+	char				*tkn_str;
+	char				*tmp_str;
+	char				*before_var;
+	char				*after_var;
+	char				**result_array;
 	struct s_env_var	*var;
 }	t_str_expansion;
+
+typedef struct s_expander_vars
+{
+	t_cmd	*cmd_head;
+	t_token	*tkn_head;
+	t_token	*expanded_tokens;
+	t_token	*remaining_arg_tokens;
+	t_token	*duped_token;
+}	t_expander_vars;
+
 typedef struct s_cmd_path
 {
 	char		**dir_paths;
@@ -170,10 +180,6 @@ t_env_var	*ft_get_var(t_root *root, char *key);
 t_list		*ft_find_node_by_var_key(t_root *root, char *key);
 bool		ft_unset_var(t_root *root, char *key);
 
-// src/ft_signals.c - Signal handler
-
-void		ft_config_sigint(void);
-
 // src/ft_executor/ft_executor_builtins.c - Executor builtin functions
 
 void		ft_builtins(t_root *root);
@@ -196,7 +202,6 @@ bool		ft_handle_worker_pipes(t_root *root);
 
 // src/ft_executor/ft_executor_utils.c - Executor utils
 
-bool		ft_is_builtin(t_root *root, char *cmd);
 char		**ft_worker_arg_str(t_root *root);
 char		*ft_cmd_path(t_root *root, char *cmd);
 bool		ft_is_path_binary(char *path);
@@ -214,6 +219,11 @@ void		ft_worker(t_root *root, char *cmd, char **args);
 // src/ft_executor/ft_executor.c - Executor functions
 
 void		ft_executor(t_root *root);
+
+// src/ft_expander/ft_expander_helpers.c - Expander helper functions
+
+void		ft_expansion_helper(t_root *root, t_str_expansion *vars);
+void		ft_expander_helper(t_root *root, t_expander_vars *vars);
 
 // src/ft_expander/ft_expander.c - Expander functions
 
@@ -291,6 +301,19 @@ int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
 int			ft_parse_tokens(const char *input, int i, t_token **head);
 
+// src/ft_signals.c - Signal handler
+
+void		ft_config_sigint(void);
+
+// src/ft_syntax.c - Syntax checker functions
+
+t_token		*ft_syntax_check(t_token *head);
+
+// src/ft_tests.c - Test functions
+
+int			tokenizer_tester(int ac, char **av);
+void		print_tokens(t_token *head);
+
 // src/ft_utils - General Utils
 
 char		*ft_set_prompt(t_root *root);
@@ -298,10 +321,5 @@ char		*ft_set_heredoc_prompt(void);
 char		*ft_handle_heredoc(t_root *root, char *delim);
 char		*ft_trim_start_end(char *s1, char *set);
 int			ft_is_dir(char *path);
-
-// src/ft_tests.c - Test functions
-
-int			tokenizer_tester(int ac, char **av);
-void		print_tokens(t_token *head);
 
 #endif
