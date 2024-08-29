@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 14:20:17 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:10:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,31 @@ int	ft_skip_space(char *input, int i)
 	return (j);
 }
 
+static char	*ft_format_pwd(t_root *root)
+{
+	char	*str;
+	char	*str_join;
+	t_env_var	*pwd;
+	t_env_var	*home;
+
+	pwd = ft_get_var(root, "PWD");
+	if (pwd)
+	{
+		home = ft_get_var(root, "HOME");
+		str = ft_substr(pwd->value, 0, ft_strlen(home->value));
+		if (ft_strcmp(str, home->value) == 0)
+		{
+			str_join = ft_strjoin("~", &pwd->value[ft_strlen(home->value)]);
+			free(str);
+			str = ft_strdup(str_join);
+			free(str_join);
+			return (str);
+		}
+		return (ft_strdup(pwd->value));
+	}
+	return (ft_strdup("(null)"));
+}
+
 char	*ft_set_prompt(t_root *root)
 {
 	root->prompt = ft_strarrayappend2(NULL, ft_strdup(BGRN));
@@ -31,8 +56,7 @@ char	*ft_set_prompt(t_root *root)
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("minishell:"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(BBLU));
-	root->prompt = ft_strarrayappend2(root->prompt,
-			ft_strdup(ft_get_var(root, "PWD")->value));
+	root->prompt = ft_strarrayappend2(root->prompt, ft_format_pwd(root));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("$ "));
 	return (ft_strarraytostr(root->prompt));

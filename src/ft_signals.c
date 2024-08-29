@@ -6,17 +6,11 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/06 18:34:33 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 16:23:24 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-	octl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line(); - movin to nwl line
-	rl_replace_line("", 0); - clearing current input line
-*/
 
 static void	ft_sigint_input(int signum)
 {
