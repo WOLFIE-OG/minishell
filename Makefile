@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/08/29 14:26:10 by otodd            ###   ########.fr        #
+#    Updated: 2024/08/29 17:56:46 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_parser/ft_parser.c \
 				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
 				$(SRC_DIR)/ft_parser/ft_parser_heredoc.c \
+				$(SRC_DIR)/ft_parser/ft_parser_checks_arrange.c \
 				$(SRC_DIR)/ft_gc/ft_tokeniser_gc.c \
 				$(SRC_DIR)/ft_gc/ft_general_gc.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \

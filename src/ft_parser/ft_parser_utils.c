@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/26 18:24:43 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 18:14:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,43 +28,25 @@ t_cmd	*ft_new_cmd(void)
 	return (cmd);
 }
 
-static void	ft_parser_reorder_tokens(
-	t_root *rt, t_token *i_tkn, t_token **tkn, t_token *if_tkn)
-{
-	ft_token_move_before(i_tkn, *tkn);
-	ft_token_move_before(if_tkn, i_tkn);
-	*tkn = if_tkn;
-	if (!(*tkn)->prev)
-		rt->preped_tokens = *tkn;
-}
-
 static void	ft_parser_do_checks(
 	t_root *rt, t_token *i_tkn, t_token **tkn)
 {
-	t_token	*if_tkn;
-
 	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE)
 	{
 		if (i_tkn->next->next && i_tkn->next->next->type == CMD)
 			return ;
-		if_tkn = i_tkn->next;
-		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
+		ft_parser_arrange_input(rt, i_tkn, tkn);
 	}
 	else if (i_tkn->type == HEREDOC && i_tkn->next->type == INPUT_FILE)
-	{
-		if_tkn = i_tkn->next;
-		if_tkn->str = ft_handle_heredoc(rt, if_tkn->str);
-		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
-	}
+		ft_parser_arrange_heredoc(rt, i_tkn, tkn);
+	else if (i_tkn->type == INPUT_FILE && (i_tkn->next
+			&& i_tkn->next->type == CMD) && (i_tkn->prev
+			&& i_tkn->prev->type == INPUT))
+		ft_parser_arrange_input_alt(rt, i_tkn, tkn);
 	else if (i_tkn->type == INPUT_FILE && i_tkn->next
-		&& i_tkn->next->type == CMD)
-	{
-		if_tkn = i_tkn->prev;
-		ft_token_move_before(i_tkn, *tkn);
-		*tkn = i_tkn;
-		if (!(*tkn)->prev)
-			rt->preped_tokens = *tkn;
-	}
+		&& i_tkn->next->type == CMD && (i_tkn->prev
+			&& i_tkn->prev->type == TRUNC))
+		ft_parser_arrange_trunc(rt, i_tkn, tkn);
 }
 
 void	ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token)

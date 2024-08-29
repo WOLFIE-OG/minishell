@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 17:17:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 18:11:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,12 @@ void		ft_gc_tokens(t_token *head);
 
 // src/ft_parser/ft_*.c - Parser stuff
 
+void		ft_parser_arrange_input(t_root *rt, t_token *i_tkn, t_token **tkn);
+void		ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn,
+				t_token **tkn);
+void		ft_parser_arrange_input_alt(t_root *rt, t_token *i_tkn,
+				t_token **tkn);
+void		ft_parser_arrange_trunc(t_root *rt, t_token *i_tkn, t_token **tkn);
 t_cmd		*ft_new_cmd(void);
 void		ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token);
 bool		ft_parser_adjust_tokens(t_root *root);
@@ -265,8 +271,8 @@ void		ft_token_retype(t_token *token);
 t_token		*ft_find_token_by_index(t_token *tokens, int index);
 t_state		ft_handle_state(char c, t_state current_state);
 int			ft_unclosed_quote(char *str);
-t_token		*ft_get_token_by_type_at_i(t_token *tkns,
-				t_token_type type, int index);
+t_token		*ft_get_token_by_type_at_i(t_token *tkns, t_token_type type,
+				int index);
 void		ft_token_move_before(t_token *move_token, t_token *target);
 int			ft_separator(char c);
 bool		ft_check_state(t_state current_state);
@@ -293,8 +299,8 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 void		ft_test_token(void);
 t_token		*ft_tokenizer(char *input);
-int			ft_process_tokens(char *input,
-				t_token **head, t_state *state, int start);
+int			ft_process_tokens(char *input, t_token **head, t_state *state,
+				int start);
 int			ft_issep(char *input, int i);
 int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);

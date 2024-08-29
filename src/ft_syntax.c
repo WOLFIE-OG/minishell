@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:35:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 16:14:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 18:03:24 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_token	*ft_syntax_check(t_token *head)
 			return (head);
 		else if (!head->prev)
 		{
-			if (head->type != INPUT && head->type != CMD
-				&& head->type != ARG)
+			if (head->type != INPUT && head->type != CMD && head->type != ARG
+				&& head->type != TRUNC)
 				return (head);
 		}
 		else if (!head->next && (head->is_sep && head->type != END))
