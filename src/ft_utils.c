@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/29 17:10:25 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 17:17:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	ft_skip_space(char *input, int i)
 
 static char	*ft_format_pwd(t_root *root)
 {
-	char	*str;
-	char	*str_join;
+	char		*str;
+	char		*str_join;
 	t_env_var	*pwd;
 	t_env_var	*home;
 
@@ -97,18 +97,4 @@ char	*ft_trim_start_end(char *s1, char *set)
 		return (NULL);
 	new_string[len] = '\0';
 	return (new_string);
-}
-
-int	ft_is_dir(char *path)
-{
-	struct stat	pth;
-
-	if (stat(path, &pth) != 0)
-		return (-1);
-	if (S_ISDIR(pth.st_mode))
-	{
-		errno = EISDIR;
-		return (true);
-	}
-	return (false);
 }

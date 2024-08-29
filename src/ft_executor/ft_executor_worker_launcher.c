@@ -6,11 +6,25 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:33:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/20 18:16:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 17:17:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static int	ft_is_dir(char *path)
+{
+	struct stat	pth;
+
+	if (stat(path, &pth) != 0)
+		return (-1);
+	if (S_ISDIR(pth.st_mode))
+	{
+		errno = EISDIR;
+		return (true);
+	}
+	return (false);
+}
 
 static void	ft_worker_path_check(t_root *root, char **cmd, bool *is_binary)
 {

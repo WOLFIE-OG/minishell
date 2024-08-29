@@ -6,14 +6,13 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 16:09:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/29 17:17:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/include/libft.h"
-//# include <csignal.h>
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdbool.h>
@@ -75,7 +74,6 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
-// This is the main data struct of the shell
 typedef struct s_cmd
 {
 	t_token_type	post_action;
@@ -88,6 +86,7 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
+// This is the main data struct of the shell
 typedef struct s_root
 {
 	t_list			*env;
@@ -320,6 +319,5 @@ char		*ft_set_prompt(t_root *root);
 char		*ft_set_heredoc_prompt(void);
 char		*ft_handle_heredoc(t_root *root, char *delim);
 char		*ft_trim_start_end(char *s1, char *set);
-int			ft_is_dir(char *path);
 
 #endif
