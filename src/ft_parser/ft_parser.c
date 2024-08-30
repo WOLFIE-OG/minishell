@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:47:23 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 16:54:06 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	ft_parser(t_root *root)
 	if (!ft_parser_adjust_tokens(root))
 		return ;
 	token = root->preped_tokens;
-	print_tokens(token);
 	cmd = ft_new_cmd();
 	head = cmd;
 	while (token)

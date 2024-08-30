@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:39:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 17:00:26 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,16 @@ void	ft_token_retype(t_token *token)
 	else
 	{
 		if (token->prev->type == PIPE || token->prev->type == END
-			|| token->prev->type == INPUT_FILE)
+			|| token->prev->type == INPUT_FILE
+			|| token->prev->type == OUTPUT_FILE)
 		{
-			if ((token->prev->prev && (token->prev->prev->type == INPUT || token->prev->prev->type == TRUNC)) && (token->prev->prev->prev && (token->prev->prev->prev->type == CMD || token->prev->prev->prev->type == ARG)))
+			if ((token->prev->prev && (token->prev->prev->type == INPUT
+						|| token->prev->prev->type == TRUNC))
+				&& (token->prev->prev->prev
+					&& (token->prev->prev->prev->type == CMD
+						|| token->prev->prev->prev->type == ARG
+						|| token->prev->prev->prev->type == INPUT_FILE
+						|| token->prev->prev->prev->type == OUTPUT_FILE)))
 				token->type = ARG;
 			else
 				token->type = CMD;
