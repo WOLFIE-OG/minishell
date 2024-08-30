@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:54:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 17:11:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,12 @@ static void	ft_parser_handle_tokens(t_root *root, t_token *token, t_cmd *cmd)
 		cmd->cmd_tokens = ft_token_dup(token);
 		cmd->is_builtin = ft_parser_is_builtin(cmd->cmd_tokens->str);
 	}
-	else
-		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
 }
 
 static void	ft_parser_handle_arg_tokens(t_token *token, t_cmd *cmd)
 {
 	if (!cmd->cmd_tokens)
-	{
 		cmd->cmd_tokens = ft_token_dup(token);
-		cmd->is_builtin = ft_parser_is_builtin(cmd->cmd_tokens->str);
-	}
 	else
 		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
 }
