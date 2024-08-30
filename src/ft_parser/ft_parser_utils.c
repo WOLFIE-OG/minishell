@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 18:14:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 16:35:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmd	*ft_new_cmd(void)
 	cmd->prev = NULL;
 	cmd->cmd_tokens = NULL;
 	cmd->is_builtin = false;
-	cmd->execute = true;
+	cmd->execute = false;
 	cmd->pid = 0;
 	return (cmd);
 }
@@ -32,20 +32,12 @@ static void	ft_parser_do_checks(
 	t_root *rt, t_token *i_tkn, t_token **tkn)
 {
 	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE)
-	{
-		if (i_tkn->next->next && i_tkn->next->next->type == CMD)
-			return ;
 		ft_parser_arrange_input(rt, i_tkn, tkn);
-	}
 	else if (i_tkn->type == HEREDOC && i_tkn->next->type == INPUT_FILE)
 		ft_parser_arrange_heredoc(rt, i_tkn, tkn);
-	else if (i_tkn->type == INPUT_FILE && (i_tkn->next
-			&& i_tkn->next->type == CMD) && (i_tkn->prev
-			&& i_tkn->prev->type == INPUT))
+	else if (i_tkn->type == INPUT_FILE && (i_tkn->prev && i_tkn->prev->type == INPUT) && !i_tkn->prev->prev)
 		ft_parser_arrange_input_alt(rt, i_tkn, tkn);
-	else if (i_tkn->type == INPUT_FILE && i_tkn->next
-		&& i_tkn->next->type == CMD && (i_tkn->prev
-			&& i_tkn->prev->type == TRUNC))
+	else if (i_tkn->type == OUTPUT_FILE && (i_tkn->prev && i_tkn->prev->type == TRUNC) && !i_tkn->prev->prev)
 		ft_parser_arrange_trunc(rt, i_tkn, tkn);
 }
 

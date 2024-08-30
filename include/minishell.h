@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 18:11:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 16:39:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ typedef enum e_token_type
 	APPEND,
 	INPUT,
 	HEREDOC,
+	HEREDOC_DELIM,
 	PIPE,
 	END,
-	INPUT_FILE
+	INPUT_FILE,
+	OUTPUT_FILE
 }	t_token_type;
 
 // extern int	g_var_signal;

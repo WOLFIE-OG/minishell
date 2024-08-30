@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 18:31:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 16:47:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,23 @@ static bool	ft_parser_is_builtin(char *cmd)
 		return (false);
 }
 
-static void	ft_parser_handle_tokens(t_token *token, t_cmd *cmd)
+static void	ft_parser_handle_tokens(t_root *root, t_token *token, t_cmd *cmd)
+{
+	if (token->type == CMD && !cmd->execute)
+	{
+		cmd->execute = true;
+		root->prev_cmd = cmd;
+	}
+	if (!cmd->cmd_tokens)
+	{
+		cmd->cmd_tokens = ft_token_dup(token);
+		cmd->is_builtin = ft_parser_is_builtin(cmd->cmd_tokens->str);
+	}
+	else
+		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
+}
+
+static void	ft_parser_handle_arg_tokens(t_token *token, t_cmd *cmd)
 {
 	if (!cmd->cmd_tokens)
 	{
@@ -32,8 +48,6 @@ static void	ft_parser_handle_tokens(t_token *token, t_cmd *cmd)
 	}
 	else
 		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
-	if (cmd->cmd_tokens->type == INPUT_FILE || cmd->cmd_tokens->is_sep)
-		cmd->execute = false;
 }
 
 static void	ft_parser_handle_cmds(t_token *token, t_cmd **cmd)
@@ -56,13 +70,16 @@ void	ft_parser(t_root *root)
 	if (!ft_parser_adjust_tokens(root))
 		return ;
 	token = root->preped_tokens;
+	print_tokens(token);
 	cmd = ft_new_cmd();
 	head = cmd;
 	while (token)
 	{
-		if (token->type == CMD || token->type == ARG || token->type == EMPTY
-			|| token->type == INPUT_FILE)
-			ft_parser_handle_tokens(token, cmd);
+		if (token->type == CMD || token->type == EMPTY
+			|| token->type == INPUT_FILE || token->type == OUTPUT_FILE)
+			ft_parser_handle_tokens(root, token, cmd);
+		else if (token->type == ARG)
+			ft_parser_handle_arg_tokens(token, root->prev_cmd);
 		else
 			ft_parser_handle_cmds(token, &cmd);
 		token = token->next;
@@ -71,5 +88,6 @@ void	ft_parser(t_root *root)
 		return ;
 	ft_gc_tokens(root->preped_tokens);
 	root->preped_cmds = head;
+	root->prev_cmd = NULL;
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 14:21:44 by otodd            ###   ########.fr       */
+/*   Updated: 2024/08/30 16:39:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,22 @@ void	ft_token_retype(t_token *token)
 			token->type = CMD;
 	}
 	else
+	{
 		if (token->prev->type == PIPE || token->prev->type == END
 			|| token->prev->type == INPUT_FILE)
-			token->type = CMD;
-	else if (token->prev->type == INPUT || token->prev->type == TRUNC
-		|| token->prev->type == APPEND
-		|| token->prev->type == HEREDOC)
-		token->type = INPUT_FILE;
+		{
+			if ((token->prev->prev && (token->prev->prev->type == INPUT || token->prev->prev->type == TRUNC)) && (token->prev->prev->prev && (token->prev->prev->prev->type == CMD || token->prev->prev->prev->type == ARG)))
+				token->type = ARG;
+			else
+				token->type = CMD;
+		}
+		else if (token->prev->type == TRUNC || token->prev->type == APPEND)
+			token->type = OUTPUT_FILE;
+		else if (token->prev->type == INPUT)
+			token->type = INPUT_FILE;
+		else if (token->prev->type == HEREDOC)
+			token->type = HEREDOC_DELIM;
+	}
 }
 
 void	ft_token_type(t_token *token, int div)
