@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/29 17:17:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 23:55:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	*ft_format_pwd(t_root *root)
 			free(str_join);
 			return (str);
 		}
+		if (str)
+			free(str);
 		return (ft_strdup(pwd->value));
 	}
 	return (ft_strdup("(null)"));
