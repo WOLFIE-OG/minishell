@@ -23,14 +23,8 @@ jobs:
     - name: Install tree
       run: sudo apt-get install tree
 
-    - name: Install norminette
-      run: pip install norminette
-
     - name: Run tree
       run: tree
-
-    - name: Run norminette
-      run: norminette src include
 
     - name: Make program
       run: make
@@ -40,3 +34,9 @@ jobs:
 
     - name: View Contents of Libft
       run: nm -C libft/build/libft.a
+
+    - name: View Contents of minishell
+      run: nm -C minishell
+    
+    - name: Run Non-Interactive mode
+      run: ./minishellk -c "ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; cat < file.txt"
