@@ -39,4 +39,4 @@ jobs:
       run: nm -C minishell
     
     - name: Run Non-Interactive mode
-      run: ./minishellk -c "ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; cat < file.txt"
+      run: ./minishell -c "ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; cat < file.txt"
