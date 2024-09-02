@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:39:04 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 19:17:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,13 @@ typedef struct s_expander_vars
 	t_token	*duped_token;
 }	t_expander_vars;
 
+typedef struct s_parser_vars
+{
+	t_token	*tkn;
+	t_cmd	*head;
+	t_cmd	*cmd;
+}	t_parser_vars;
+
 typedef struct s_cmd_path
 {
 	char		**dir_paths;
@@ -246,16 +253,20 @@ void		ft_gc_tokens(t_token *head);
 
 // src/ft_parser/ft_*.c - Parser stuff
 
+void		ft_parser_arrange_heredoc_alt(t_root *rt, t_token *i_tkn,
+				t_token **tkn);
 void		ft_parser_arrange_input(t_root *rt, t_token *i_tkn, t_token **tkn);
 void		ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn,
 				t_token **tkn);
 void		ft_parser_arrange_input_alt(t_root *rt, t_token *i_tkn,
 				t_token **tkn);
-void		ft_parser_arrange_trunc(t_root *rt, t_token *i_tkn, t_token **tkn);
+void		ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
+				t_token **tkn);
 t_cmd		*ft_new_cmd(void);
 void		ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token);
 bool		ft_parser_adjust_tokens(t_root *root);
 void		ft_parser(t_root *root);
+bool		ft_parser_is_builtin(char *cmd);
 
 // src/ft_tokeniser_helpers/ft_token_*.c - Tonkeniser helper functions
 

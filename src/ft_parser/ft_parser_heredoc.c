@@ -6,45 +6,16 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/07 15:37:08 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 16:33:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static bool	ft_heredoc_whitespace_check(char *input, char *match, char *delim)
-{
-	if (ft_iswhitespace(input[(match - input) - 1])
-		&& ft_iswhitespace(input[(match - input) + ft_strlen(delim)]))
-		return (true);
-	return (false);
-}
-
-static bool	ft_heredoc_start_end_check(char *input, char *delim)
-{
-	int	len_delim;
-	int	len_input;
-
-	len_delim = ft_strlen(delim);
-	len_input = ft_strlen(input);
-	if ((ft_strcmp(input, delim) == 0)
-		|| (ft_strcmp(&input[len_input - len_delim], delim) == 0
-			&& ft_iswhitespace(input[(len_input - len_delim) - 1])))
-		return (true);
-	return (false);
-}
-
 static void	ft_heredoc_do_checks(t_root *root, t_heredoc_data *vars)
 {
-	char	*match;
-
-	match = ft_strnstr(vars->input, vars->delim, ft_strlen(vars->input));
-	if (match)
+	if (ft_strcmp(vars->input, vars->delim) == 0)
 	{
-		if (ft_heredoc_start_end_check(vars->input, vars->delim)
-			|| ft_heredoc_whitespace_check(vars->input, match, vars->delim))
-			vars->data = ft_strarrayappend2(vars->data,
-					ft_substr(vars->input, 0, match - vars->input));
 		free(vars->input);
 		vars->end = true;
 	}

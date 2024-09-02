@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:09 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:40:17 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 17:21:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static const char	*token_type_str(t_token_type type)
 {
-	if (type == EMPTY)
-		return ("EMPTY");
-	else if (type == CMD)
+	if (type == CMD)
 		return ("CMD");
 	else if (type == ARG)
 		return ("ARG");
@@ -39,7 +37,7 @@ static const char	*token_type_str(t_token_type type)
 	else if (type == HEREDOC_DELIM)
 		return ("HEREDOC_DELIM");
 	else
-		return ("UNKNOWN");
+		return ("EMPTY");
 }
 
 void	ft_test_token(void)

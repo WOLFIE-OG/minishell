@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 16:53:17 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 21:12:51 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 static void	ft_interactive_check(t_root *root)
 {
-	char	**tmp;
+	static char	**tmp = NULL;
 
-	tokenizer_tester(root->init_args_c, root->init_args);
-	tmp = NULL;
 	if (root->init_args_c > 1)
 	{
 		if (root->init_args[1][0] == '-')
@@ -35,7 +33,11 @@ static void	ft_interactive_check(t_root *root)
 				root->interactive_str = ft_strarraytostr(tmp);
 				ft_gc_str_array(tmp);
 			}
+			else
+				ft_exit(root, EXIT_FAILURE);
 		}
+		else
+			ft_exit(root, EXIT_FAILURE);
 	}
 }
 
@@ -63,6 +65,4 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 		ft_set_var(root, "OLDPWD", ft_strdup(cwd));
 		ft_set_var(root, "PWD", ft_strdup(cwd));
 	}
-	ft_set_var(root, "SHELL",
-		ft_strjoin(ft_get_var(root, "PWD")->value, "/minishell"));
 }

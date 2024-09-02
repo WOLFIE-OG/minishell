@@ -6,82 +6,76 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 17:11:18 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 16:22:43 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static bool	ft_parser_is_builtin(char *cmd)
+static void	ft_parser_handle_tokens(t_root *root, t_parser_vars *vars)
 {
-	const char	*builtin_array[8] = {"cd", "export", "env", "unset", "exit",
-		"echo", "pwd", NULL};
-
-	if (ft_is_in_strarray((char **)builtin_array, cmd))
-		return (true);
-	else
-		return (false);
-}
-
-static void	ft_parser_handle_tokens(t_root *root, t_token *token, t_cmd *cmd)
-{
-	if (token->type == CMD && !cmd->execute)
+	if (vars->tkn->type == CMD && !vars->cmd->execute)
 	{
-		cmd->execute = true;
-		root->prev_cmd = cmd;
+		vars->cmd->execute = true;
+		root->prev_cmd = vars->cmd;
 	}
-	if (!cmd->cmd_tokens)
+	if (!vars->cmd->cmd_tokens)
 	{
-		cmd->cmd_tokens = ft_token_dup(token);
-		cmd->is_builtin = ft_parser_is_builtin(cmd->cmd_tokens->str);
+		vars->cmd->cmd_tokens = ft_token_dup(vars->tkn);
+		vars->cmd->is_builtin = ft_parser_is_builtin(
+				vars->cmd->cmd_tokens->str);
 	}
 }
 
-static void	ft_parser_handle_arg_tokens(t_token *token, t_cmd *cmd)
+static void	ft_parser_handle_arg_tokens(t_parser_vars *vars, t_cmd *cmd)
 {
 	if (!cmd->cmd_tokens)
-		cmd->cmd_tokens = ft_token_dup(token);
+		cmd->cmd_tokens = ft_token_dup(vars->tkn);
 	else
-		ft_token_add(&cmd->cmd_tokens, ft_token_dup(token));
+		ft_token_add(&cmd->cmd_tokens, ft_token_dup(vars->tkn));
 }
 
-static void	ft_parser_handle_cmds(t_token *token, t_cmd **cmd)
+static void	ft_parser_handle_cmds(t_parser_vars *vars)
 {
-	(*cmd)->post_action = token->type;
-	if (token->next)
+	vars->cmd->post_action = vars->tkn->type;
+	if (vars->tkn->next)
 	{
-		(*cmd)->next = ft_new_cmd();
-		(*cmd)->next->prev = *cmd;
-		*cmd = (*cmd)->next;
+		vars->cmd->next = ft_new_cmd();
+		vars->cmd->next->prev = vars->cmd;
+		vars->cmd = vars->cmd->next;
 	}
+}
+
+static void	ft_parser_loop(t_root *root, t_parser_vars *vars)
+{
+	if (vars->tkn->type == CMD
+		|| vars->tkn->type == EMPTY
+		|| vars->tkn->type == INPUT_FILE
+		|| vars->tkn->type == OUTPUT_FILE
+		|| vars->tkn->type == HEREDOC_DELIM)
+		ft_parser_handle_tokens(root, vars);
+	else if (vars->tkn->type == ARG)
+		ft_parser_handle_arg_tokens(vars, root->prev_cmd);
+	else
+		ft_parser_handle_cmds(vars);
+	vars->tkn = vars->tkn->next;
 }
 
 void	ft_parser(t_root *root)
 {
-	t_token	*token;
-	t_cmd	*cmd;
-	t_cmd	*head;
+	t_parser_vars	vars;
 
 	if (!ft_parser_adjust_tokens(root))
 		return ;
-	token = root->preped_tokens;
-	cmd = ft_new_cmd();
-	head = cmd;
-	while (token)
-	{
-		if (token->type == CMD || token->type == EMPTY
-			|| token->type == INPUT_FILE || token->type == OUTPUT_FILE)
-			ft_parser_handle_tokens(root, token, cmd);
-		else if (token->type == ARG)
-			ft_parser_handle_arg_tokens(token, root->prev_cmd);
-		else
-			ft_parser_handle_cmds(token, &cmd);
-		token = token->next;
-	}
-	if (!head)
+	vars.tkn = root->preped_tokens;
+	vars.cmd = ft_new_cmd();
+	vars.head = vars.cmd;
+	while (vars.tkn)
+		ft_parser_loop(root, &vars);
+	if (!vars.head)
 		return ;
 	ft_gc_tokens(root->preped_tokens);
-	root->preped_cmds = head;
+	root->preped_cmds = vars.head;
 	root->prev_cmd = NULL;
 	return ;
 }

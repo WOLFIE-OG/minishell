@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:33:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 17:17:07 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 17:16:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,22 @@ static void	ft_worker_path_check(t_root *root, char **cmd, bool *is_binary)
 {
 	if (ft_is_path_binary(*cmd))
 	{
-		if (ft_is_path_valid(*cmd, false, false, false))
+		if (ft_is_path_valid(*cmd, true, false, false))
 		{
-			if (ft_is_path_valid(*cmd, true, false, false))
+			if (!ft_is_dir(*cmd))
 			{
-				if (ft_is_dir(*cmd))
-				{
-					*cmd = NULL;
-					*is_binary = true;
-				}
-				else
-					*cmd = ft_strdup(root->current_cmd->cmd_tokens->str);
+				*cmd = ft_strdup(root->current_cmd->cmd_tokens->str);
+				return ;
 			}
-		}
-		else
-		{
-			*cmd = NULL;
-			*is_binary = true;
 		}
 	}
 	else
+	{
 		*cmd = ft_cmd_path(root, root->current_cmd->cmd_tokens->str);
+		return ;
+	}
+	*cmd = NULL;
+	*is_binary = true;
 }
 
 void	ft_worker_launcher(t_root *root)

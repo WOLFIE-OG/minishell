@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signals.c                                       :+:      :+:    :+:   */
+/*   ft_parser_checks_arrange_2.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/02 19:17:19 by otodd            ###   ########.fr       */
+/*   Created: 2024/08/29 17:53:21 by otodd             #+#    #+#             */
+/*   Updated: 2024/09/02 16:58:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-static void	ft_sigint_input(int signum)
+void	ft_parser_arrange_heredoc_alt(t_root *rt, t_token *i_tkn, t_token **tkn)
 {
-	(void)signum;
-	write(STDIN_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	ft_config_sigint(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = ft_sigint_input;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	i_tkn->str = ft_handle_heredoc(rt, i_tkn->str);
+	ft_token_move_before(i_tkn, *tkn);
+	*tkn = i_tkn;
+	if (!(*tkn)->prev)
+		rt->preped_tokens = *tkn;
 }

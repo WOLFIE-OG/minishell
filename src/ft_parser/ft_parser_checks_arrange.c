@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:53:21 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:22:20 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 17:06:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	ft_parser_arrange_input_alt(t_root *rt, t_token *i_tkn, t_token **tkn)
 		rt->preped_tokens = *tkn;
 }
 
-void	ft_parser_arrange_trunc(t_root *rt, t_token *i_tkn, t_token **tkn)
+void	ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
+	t_token **tkn)
 {
 	t_token	*if_tkn;
 

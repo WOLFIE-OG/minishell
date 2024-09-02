@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/30 16:35:18 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/02 17:08:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,18 @@ static void	ft_parser_do_checks(
 {
 	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE)
 		ft_parser_arrange_input(rt, i_tkn, tkn);
-	else if (i_tkn->type == HEREDOC && i_tkn->next->type == INPUT_FILE)
+	else if (i_tkn->type == HEREDOC && i_tkn->next->type == HEREDOC_DELIM)
 		ft_parser_arrange_heredoc(rt, i_tkn, tkn);
-	else if (i_tkn->type == INPUT_FILE && (i_tkn->prev && i_tkn->prev->type == INPUT) && !i_tkn->prev->prev)
+	else if (i_tkn->type == INPUT_FILE
+		&& (i_tkn->prev && i_tkn->prev->type == INPUT) && !i_tkn->prev->prev)
 		ft_parser_arrange_input_alt(rt, i_tkn, tkn);
-	else if (i_tkn->type == OUTPUT_FILE && (i_tkn->prev && i_tkn->prev->type == TRUNC) && !i_tkn->prev->prev)
-		ft_parser_arrange_trunc(rt, i_tkn, tkn);
+	else if (i_tkn->type == HEREDOC_DELIM
+		&& (i_tkn->prev && i_tkn->prev->type == HEREDOC) && !i_tkn->prev->prev)
+		ft_parser_arrange_heredoc_alt(rt, i_tkn, tkn);
+	else if (i_tkn->type == OUTPUT_FILE
+		&& (i_tkn->prev && (i_tkn->prev->type == TRUNC
+				|| i_tkn->prev->type == APPEND)) && !i_tkn->prev->prev)
+		ft_parser_arrange_trunc_append(rt, i_tkn, tkn);
 }
 
 void	ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token)
@@ -74,4 +80,15 @@ bool	ft_parser_adjust_tokens(t_root *root)
 	}
 	ft_token_reindex(root->preped_tokens);
 	return (true);
+}
+
+bool	ft_parser_is_builtin(char *cmd)
+{
+	const char	*builtin_array[8] = {"cd", "export", "env", "unset", "exit",
+		"echo", "pwd", NULL};
+
+	if (ft_is_in_strarray((char **)builtin_array, cmd))
+		return (true);
+	else
+		return (false);
 }

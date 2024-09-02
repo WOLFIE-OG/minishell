@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/28 15:11:54 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/02 21:12:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 		i++;
 	return (i);
 }
-
 
 //TO DO: mak sure the last token is added if the input ends without a sep
 
