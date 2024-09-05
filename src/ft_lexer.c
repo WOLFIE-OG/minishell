@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/05 17:39:41 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:46:58 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_process_quotes(char **tok_str, t_state *s)
 	}
 }
 
-void	ft_create_token(t_token_info *info, t_token **head, t_state *state)
+void	ft_create_token(t_token_info *info, t_token **head)
 {
 	char	*tok_str;
 	t_token	*token;
@@ -104,7 +104,7 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	info.input = input;
 	info.start = start;
 	info.end = i;
-	ft_create_token(&info, head, state);
+	ft_create_token(&info, head);
 	if (*state == NORMAL && input[i] && ft_separator(input[i]))
 		i = ft_parse_tokens(input, i, head);
 	else if (input[i])

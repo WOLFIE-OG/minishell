@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 17:34:59 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:49:24 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ bool		ft_singlequote(char c);
 bool		ft_is_in_quotes(char *line, int i, int *match_index, char c);
 void		ft_rm_quotes(char **value, char quote);
 t_state		ft_quote_type(char c);
+void		ft_type_helper(t_token *head);
 
 // src/ft_errs.c - Error functions
 
@@ -330,6 +331,9 @@ int			ft_issep(char *input, int i);
 int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
 int			ft_parse_tokens(const char *input, int i, t_token **head);
+void		ft_create_token(t_token_info *info, t_token **head);
+void		ft_process_quotes(char **tok_str, t_state *s);
+int			ft_find_token_end(char *input, t_state *state, int start);
 
 // src/ft_signals.c - Signal handler
 

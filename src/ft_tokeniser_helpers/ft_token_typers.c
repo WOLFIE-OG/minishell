@@ -6,13 +6,13 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 17:38:52 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:45:47 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_type_helper(t_token *head)
+void	ft_type_helper(t_token *head)
 {
 	t_token	*tmp;
 
