@@ -6,42 +6,59 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:59:28 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/05 17:06:02 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:13:03 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool	ft_matching(char *line, int i, int *match_index, char c)
+/* Using finite state machine to handle quotes, so tokens are created
+ONLY when in NORMAL state or when closing quotes are encountered in
+the quoted states. */
+
+t_state	ft_handle_state(char c, t_state current_state)
 {
-	while (line[i++] != '\0')
+	if (current_state == NORMAL)
 	{
-		if (line[i] == c)
-		{
-			*match_index = i;
-			return (true);
-		}
+		if (c == '\'')
+			return (SINGLE_Q);
+		if (c == '\"')
+			return (DOUBLE_Q);
 	}
-	return (false);
+	else if (current_state == SINGLE_Q && c == '\'')
+		return (NORMAL);
+	else if (current_state == DOUBLE_Q && c == '\"')
+		return (NORMAL);
+	return (current_state);
 }
 
-bool	ft_isquote(char c)
-{
-	if (c == '\'' || c == '"')
-		return (true);
-	return (false);
-}
-
-bool	ft_singlequote(char c)
+t_state	ft_quote_type(char c)
 {
 	if (c == '\'')
-		return (true);
-	return (false);
+		return (SINGLE_Q);
+	else if (c == '\"')
+		return (DOUBLE_Q);
+	else
+		return (NORMAL);
 }
 
-bool	ft_is_in_quotes(char *line, int i, int *match_index, char c)
+int	ft_unclosed_quote(char *str)
 {
-	if (ft_isquote(c) && ft_matching(line, i, match_index, c))
-		return (true);
-	return (false);
+	int		i;
+	t_state	state;
+
+	i = 0;
+	state = NORMAL;
+	while (str[i])
+	{
+		state = ft_handle_state(str[i], state);
+		printf("char: %c -- state rn: %d -- index: %d\n", str[i], state, i);
+		if (state != NORMAL && str[i + 1] == '\0')
+		{
+			ft_print_err("Syntax error: unclosed quote\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
