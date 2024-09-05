@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:53:21 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 17:06:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/03 18:11:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn, t_token **tkn)
 	t_token	*if_tkn;
 
 	if_tkn = i_tkn->next;
-	if_tkn->str = ft_handle_heredoc(rt, if_tkn->str);
+	if_tkn->str = ft_handle_heredoc(rt, if_tkn);
 	ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
 }
 

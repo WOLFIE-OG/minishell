@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 19:17:25 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 12:45:53 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct s_heredoc_data
 	char	*prompt;
 	char	*delim;
 	bool	end;
+	bool	expand;
 }	t_heredoc_data;
 
 typedef struct s_str_expansion
@@ -146,6 +147,7 @@ typedef struct s_expander_vars
 	t_token	*expanded_tokens;
 	t_token	*remaining_arg_tokens;
 	t_token	*duped_token;
+	bool	tilde;
 }	t_expander_vars;
 
 typedef struct s_parser_vars
@@ -230,12 +232,13 @@ void		ft_executor(t_root *root);
 
 // src/ft_expander/ft_expander_helpers.c - Expander helper functions
 
+void		ft_expansion_helper_tilde(t_str_expansion *vars);
 void		ft_expansion_helper(t_root *root, t_str_expansion *vars);
 void		ft_expander_helper(t_root *root, t_expander_vars *vars);
 
 // src/ft_expander/ft_expander.c - Expander functions
 
-char		*ft_expand_str(t_root *root, char *str);
+char		*ft_expand_str(t_root *root, char *str, bool tilde);
 void		ft_expander(t_root *root);
 
 // src/ft_gc/ft_executor_gc.c - Garbage executor functions
@@ -297,6 +300,7 @@ bool		ft_isquote(char c);
 bool		ft_singlequote(char c);
 bool		ft_is_in_quotes(char *line, int i, int *match_index, char c);
 void		ft_rm_quotes(char **value, char quote);
+t_state		ft_quote_type(char c);
 
 // src/ft_errs.c - Error functions
 
@@ -336,7 +340,7 @@ void		print_tokens(t_token *head);
 
 char		*ft_set_prompt(t_root *root);
 char		*ft_set_heredoc_prompt(void);
-char		*ft_handle_heredoc(t_root *root, char *delim);
+char		*ft_handle_heredoc(t_root *root, t_token *delim);
 char		*ft_trim_start_end(char *s1, char *set);
 
 #endif

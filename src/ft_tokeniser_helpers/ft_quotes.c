@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:59:28 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/02 17:22:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/03 17:16:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ bool	ft_matching(char *line, int i, int *match_index, char c)
 
 bool	ft_isquote(char c)
 {
-	if (c == SINGLE_Q || c == DOUBLE_Q)
+	if (c == '\'' || c == '"')
 		return (true);
 	return (false);
 }
 
 bool	ft_singlequote(char c)
 {
-	if (c == SINGLE_Q)
+	if (c == '\'')
 		return (true);
 	return (false);
 }
@@ -48,11 +48,18 @@ bool	ft_is_in_quotes(char *line, int i, int *match_index, char c)
 
 void	ft_rm_quotes(char **value, char quote)
 {
-	char	*temp;
+	char	*src;
+	char	*dst;
 
-	temp = ft_strtrim(*value, &quote);
-	free(*value);
-	*value = temp;
+	src = *value;
+	dst = *value;
+	while (*src != '\0')
+	{
+		if (*src != quote)
+			*dst++ = *src;
+		src++;
+	}
+	*dst = '\0';
 }
 
 void	ft_rm_quotes_in_str(char **value, int start, int end)

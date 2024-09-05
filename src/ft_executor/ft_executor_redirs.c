@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:56 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 17:13:11 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 14:01:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,9 @@ static bool	ft_handler_additonal_worker_pipes(t_root *root)
 		|| root->current_cmd->post_action == APPEND
 		|| root->current_cmd->post_action == TRUNC)
 	{
-		if (close(root->current_cmd->pipe[0]) == -1)
-		{
-			perror("pipe[0]: Error closing pipe: ");
-			return (false);
-		}
 		if (dup2(root->current_cmd->pipe[1], STDOUT_FILENO) == -1)
 		{
-			perror("pipe[1]: Error duplicating to STDIN: ");
+			perror("pipe[1]: Error duplicating to STDOUT: ");
 			return (false);
 		}
 		if (close(root->current_cmd->pipe[1]) == -1)

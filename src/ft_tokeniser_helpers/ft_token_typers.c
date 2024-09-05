@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 17:10:08 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/03 15:14:55 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 static bool	ft_token_retype_check_type(t_token *token)
 {
 	if (token->next->type == ARG || token->next->type == PIPE
-		|| token->next->type == TRUNC
-		|| token->next->type == INPUT
-		|| token->next->type == APPEND
-		|| token->next->type == HEREDOC)
+		|| token->next->type == TRUNC || token->next->type == INPUT
+		|| token->next->type == APPEND || token->next->type == HEREDOC
+		|| token->next->type == END)
 		return (true);
 	return (false);
 }

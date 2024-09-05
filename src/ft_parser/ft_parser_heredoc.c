@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 16:33:45 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/03 18:19:55 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 static void	ft_heredoc_do_checks(t_root *root, t_heredoc_data *vars)
 {
+	char	*str;
+
 	if (ft_strcmp(vars->input, vars->delim) == 0)
 	{
-		free(vars->input);
 		vars->end = true;
+		free(vars->input);
 	}
 	else
 	{
-		vars->data = ft_strarrayappend2(vars->data,
-				ft_expand_str(root, vars->input));
+		if (vars->expand)
+			str = ft_expand_str(root, vars->input);
+		else
+		{
+			str = ft_strdup(vars->input);
+			free(vars->input);
+		}
+		vars->data = ft_strarrayappend2(vars->data, str);
 		vars->data = ft_strarrayappend2(vars->data, ft_strdup("\n"));
 	}
 }
@@ -38,13 +46,16 @@ static char	*ft_heredoc_result_clean_up(char **data)
 	return (result);
 }
 
-char	*ft_handle_heredoc(t_root *root, char *delim)
+char	*ft_handle_heredoc(t_root *root, t_token *delim)
 {
 	t_heredoc_data	vars;
 
 	vars.data = NULL;
 	vars.end = false;
-	vars.delim = delim;
+	vars.delim = delim->str;
+	vars.expand = true;
+	if (delim->state == SINGLE_Q)
+		vars.expand = false;
 	while (!vars.end)
 	{
 		vars.prompt = ft_set_heredoc_prompt();
@@ -54,6 +65,6 @@ char	*ft_handle_heredoc(t_root *root, char *delim)
 			break ;
 		ft_heredoc_do_checks(root, &vars);
 	}
-	free(delim);
+	free(delim->str);
 	return (ft_heredoc_result_clean_up(vars.data));
 }

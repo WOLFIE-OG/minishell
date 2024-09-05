@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:59:54 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 14:34:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/03 17:47:00 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_gc_shell(t_root *root)
 {
 	rl_clear_history();
 	ft_free_env(root);
+	ft_gc_preped_cmds(root);
 	if (root->interactive_str)
 		free(root->interactive_str);
 }

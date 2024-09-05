@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/02 21:12:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/04 18:03:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_token	*ft_tokenizer(char *input)
 	t_state	state;
 	t_token	*head;
 	int		i;
-	int		end_quote;
 
 	if (!input)
 		return (NULL);
@@ -48,22 +47,14 @@ t_token	*ft_tokenizer(char *input)
 	head = NULL;
 	if (ft_tok_need(input))
 		return (NULL);
+	if (ft_unclosed_quote(input))
+		return (NULL);
 	while (input[i])
 	{
 		i = ft_skip_whitespace(input, i);
 		if (input[i])
-		{
-			if (ft_isquote(input[i]))
-			{
-				end_quote = i;
-				ft_rm_quotes(&input, input[i]);
-				i = end_quote;
-			}
 			i = ft_process_tokens(input, &head, &state, i);
-		}
 	}
-	if (ft_unclosed_quote(input))
-		ft_print_err("Syntax error: unclosed quote\n");
 	ft_type_helper(head);
 	return (head);
 }
@@ -74,24 +65,39 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 	char	*tok_str;
 	t_token	*token;
 	int		m_index;
-	//bool	quotes;
+	bool	quotes;
+	t_state	s;
 
+	quotes = false;
 	i = start;
 	while (input[i] && (*state != NORMAL
 			|| !ft_iswhitespace(input[i])) && !ft_issep(input, i))
 	{
 		*state = ft_handle_state(input[i], *state);
-		if (ft_is_in_quotes(input, i, &m_index, input[i]))
+		if (ft_is_in_quotes(input, i, &m_index, input[i]) && !quotes)
+		{
 			i = m_index;
-		i++;
+			quotes = true;
+		}
+		else
+			i++;
 	}
 	if (start != i)
 	{
 		tok_str = ft_tokenstr(input, start, i);
 		if (ft_isquote(tok_str[0]))
+		{
+			s = ft_quote_type(tok_str[0]);
 			ft_rm_quotes(&tok_str, tok_str[0]);
+		}
+		else
+		{
+			ft_rm_quotes(&tok_str, '\'');
+			ft_rm_quotes(&tok_str, '"');
+		}
 		token = ft_token_new(ft_strdup(tok_str));
 		free(tok_str);
+		token->state = s;
 		ft_token_add(head, token);
 	}
 	if (*state == NORMAL && input[i] && ft_separator(input[i]))
@@ -122,6 +128,16 @@ t_state	ft_handle_state(char c, t_state current_state)
 	return (current_state);
 }
 
+t_state	ft_quote_type(char c)
+{
+	if (c == '\'')
+		return (SINGLE_Q);
+	else if (c == '\"')
+		return (DOUBLE_Q);
+	else
+		return (NORMAL);
+}
+
 int	ft_unclosed_quote(char *str)
 {
 	int		i;
@@ -132,7 +148,7 @@ int	ft_unclosed_quote(char *str)
 	while (str[i])
 	{
 		state = ft_handle_state(str[i], state);
-		printf("char: %c -- state rn: %d\n", str[i], state);
+		printf("char: %c -- state rn: %d -- index: %d\n", str[i], state, i);
 		if (state != NORMAL && str[i + 1] == '\0')
 		{
 			ft_print_err("Syntax error: unclosed quote\n");

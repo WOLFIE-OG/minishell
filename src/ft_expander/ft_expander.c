@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/29 14:17:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 12:44:50 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,19 @@ static void	ft_expansion(t_root *root, t_str_expansion *vars)
 	}
 }
 
-static void	ft_expansion_loop(t_root *root, t_str_expansion *vars)
+static void	ft_expansion_home(t_root *root, t_str_expansion *vars)
+{
+	vars->after_var = vars->tkn_str + 1;
+	vars->tmp_str = ft_strdup(vars->after_var);
+	vars->var = ft_get_var(root, "HOME");
+	vars->tkn_str = ft_trim_start_end(vars->var->value, "\"'");
+	free(*vars->split_str);
+	*vars->split_str = ft_strjoin(vars->tkn_str, vars->tmp_str);
+	free(vars->tmp_str);
+	free(vars->tkn_str);
+}
+
+static void	ft_expansion_loop(t_root *root, t_str_expansion *vars, bool tilde)
 {
 	while (*vars->split_str)
 	{
@@ -50,6 +62,12 @@ static void	ft_expansion_loop(t_root *root, t_str_expansion *vars)
 			}
 			ft_expansion(root, vars);
 		}
+		else if (tilde)
+		{
+			vars->tkn_str = *vars->split_str;
+			if (vars->tkn_str)
+				ft_expansion_home(root, vars);
+		}
 		vars->result_array = ft_strarrayappend2(vars->result_array,
 				ft_strdup(*vars->split_str));
 		if (*(vars->split_str + 1))
@@ -59,7 +77,7 @@ static void	ft_expansion_loop(t_root *root, t_str_expansion *vars)
 	}
 }
 
-char	*ft_expand_str(t_root *root, char *str)
+char	*ft_expand_str(t_root *root, char *str, bool tilde)
 {
 	t_str_expansion	vars;
 	char			*expanded_str;
@@ -69,7 +87,7 @@ char	*ft_expand_str(t_root *root, char *str)
 	vars.split_str = ft_split(str, ' ');
 	vars.tkn_head = vars.split_str;
 	vars.result_array = NULL;
-	ft_expansion_loop(root, &vars);
+	ft_expansion_loop(root, &vars, tilde);
 	if (vars.result_array)
 		expanded_str = ft_strarraytostr(vars.result_array);
 	else
@@ -90,7 +108,8 @@ void	ft_expander(t_root *root)
 		vars.tkn_head = vars.cmd_head->cmd_tokens;
 		while (vars.tkn_head)
 		{
-			ft_expander_helper(root, &vars);
+			if (vars.tkn_head->type != HEREDOC_DELIM)
+				ft_expander_helper(root, &vars);
 			vars.tkn_head = vars.tkn_head->next;
 		}
 		vars.cmd_head = vars.cmd_head->next;
