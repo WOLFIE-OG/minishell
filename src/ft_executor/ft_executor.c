@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 18:00:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 23:23:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ void	ft_executor(t_root *root)
 	root->current_cmd = root->preped_cmds;
 	while (root->current_cmd)
 	{
-		if (root->current_cmd->next)
-			pipe(root->current_cmd->pipe);
 		ft_executor_input_check(root);
 		if (root->current_cmd->execute)
 		{
