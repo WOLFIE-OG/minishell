@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/15 19:15:56 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 16:55:54 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_builtins_handle_unredir(t_root *root, int original_stdout_fd)
 void	ft_builtins(t_root *root)
 {
 	int			original_stdout_fd;
-
+	
 	ft_builtins_handle_redir(root, &original_stdout_fd);
 	ft_builtins_execute(root);
 	ft_builtins_handle_unredir(root, original_stdout_fd);

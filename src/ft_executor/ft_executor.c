@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 13:55:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:45:57 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ static void	ft_executor_wait_forpid(t_root *root)
 		if (head->pid != 0)
 		{
 			waitpid(head->pid, &ret_code, 0);
-			if (close(head->pipe[0]) == -1)
-				perror("pipe[0]: Error closing pipe: ");
 			root->prev_cmd_status_signaled = false;
 			if (WIFEXITED(ret_code))
 				root->prev_cmd_status = WEXITSTATUS(ret_code);
@@ -113,6 +111,7 @@ void	ft_executor(t_root *root)
 	root->current_cmd = root->preped_cmds;
 	while (root->current_cmd)
 	{
+		pipe(root->current_cmd->pipe);
 		ft_executor_input_check(root);
 		if (root->current_cmd->execute)
 		{
