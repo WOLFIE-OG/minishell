@@ -6,7 +6,7 @@
 #    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/09/05 17:12:45 by ssottori         ###   ########.fr        #
+#    Updated: 2024/09/05 18:21:27 by ssottori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CYAN		=	\033[1;36m
 NC			=	\033[0m
 
 
-CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -D_POSIX_C_SOURCE=200809L
+CFLAGS 		= 	-Wall -Wextra -Werror -std=c99 -g -D_POSIX_C_SOURCE=200809L -fPIC
 NAME		= 	minishell
 
 SRC_DIR 	= 	src
