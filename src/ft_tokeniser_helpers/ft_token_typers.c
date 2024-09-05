@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_typers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/03 15:14:55 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:38:52 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	ft_type_helper(t_token *head)
+{
+	t_token	*tmp;
+
+	tmp = head;
+	while (tmp)
+	{
+		ft_token_type(tmp, 0);
+		tmp = tmp->next;
+	}
+	tmp = head;
+	while (tmp)
+	{
+		ft_token_retype(tmp);
+		tmp = tmp->next;
+	}
+}
 
 static bool	ft_token_retype_check_type(t_token *token)
 {

@@ -6,7 +6,7 @@
 /*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/05 17:13:07 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:39:41 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,6 @@
 /*
 parse input string and convert to linked list of tokens 
 each token should correspond to a type*/
-
-static void	ft_type_helper(t_token *head)
-{
-	t_token	*tmp;
-
-	tmp = head;
-	while (tmp)
-	{
-		ft_token_type(tmp, 0);
-		tmp = tmp->next;
-	}
-	tmp = head;
-	while (tmp)
-	{
-		ft_token_retype(tmp);
-		tmp = tmp->next;
-	}
-}
 
 t_token	*ft_tokenizer(char *input)
 {
@@ -59,17 +41,14 @@ t_token	*ft_tokenizer(char *input)
 	return (head);
 }
 
-int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
+int	ft_find_token_end(char *input, t_state *state, int start)
 {
 	int		i;
-	char	*tok_str;
-	t_token	*token;
 	int		m_index;
 	bool	quotes;
-	t_state	s;
 
-	quotes = false;
 	i = start;
+	quotes = false;
 	while (input[i] && (*state != NORMAL
 			|| !ft_iswhitespace(input[i])) && !ft_issep(input, i))
 	{
@@ -82,24 +61,50 @@ int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
 		else
 			i++;
 	}
-	if (start != i)
+	return (i);
+}
+
+void	ft_process_quotes(char **tok_str, t_state *s)
+{
+	if (ft_isquote((*tok_str)[0]))
 	{
-		tok_str = ft_tokenstr(input, start, i);
-		if (ft_isquote(tok_str[0]))
-		{
-			s = ft_quote_type(tok_str[0]);
-			ft_rm_quotes(&tok_str, tok_str[0]);
-		}
-		else
-		{
-			ft_rm_quotes(&tok_str, '\'');
-			ft_rm_quotes(&tok_str, '"');
-		}
+		*s = ft_quote_type((*tok_str)[0]);
+		ft_rm_quotes(tok_str, (*tok_str)[0]);
+	}
+	else
+	{
+		ft_rm_quotes(tok_str, '\'');
+		ft_rm_quotes(tok_str, '"');
+	}
+}
+
+void	ft_create_token(t_token_info *info, t_token **head, t_state *state)
+{
+	char	*tok_str;
+	t_token	*token;
+	t_state	s;
+
+	if (info->start != info->end)
+	{
+		tok_str = ft_tokenstr(info->input, info->start, info->end);
+		ft_process_quotes(&tok_str, &s);
 		token = ft_token_new(ft_strdup(tok_str));
 		free(tok_str);
 		token->state = s;
 		ft_token_add(head, token);
 	}
+}
+
+int	ft_process_tokens(char *input, t_token **head, t_state *state, int start)
+{
+	int				i;
+	t_token_info	info;
+
+	i = ft_find_token_end(input, state, start);
+	info.input = input;
+	info.start = start;
+	info.end = i;
+	ft_create_token(&info, head, state);
 	if (*state == NORMAL && input[i] && ft_separator(input[i]))
 		i = ft_parse_tokens(input, i, head);
 	else if (input[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_executor_worker.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 14:09:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:41:12 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void	ft_worker_handle_child(t_root *root, char *cmd, char **args)
 
 static void	ft_worker_handle_parent(t_root *root)
 {
-	if (root->current_cmd->post_action == EMPTY || root->current_cmd->post_action == END)
+	if (root->current_cmd->post_action == EMPTY
+		|| root->current_cmd->post_action == END)
 		close(root->current_cmd->pipe[1]);
 	root->prev_cmd = root->current_cmd;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 12:45:53 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:34:59 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,14 @@ typedef struct s_cmd_path
 	char		*part_paths;
 	t_env_var	*var;
 }	t_cmd_path;
+
+typedef struct s_token_info
+{
+	char	*input;
+	int		start;
+	int		end;
+}	t_token_info;
+
 
 // src/ft_builtins/ft_*.c - Bultins
 
