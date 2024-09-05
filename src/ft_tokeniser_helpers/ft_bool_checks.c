@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bool_checks.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
+/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:51 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 17:07:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 17:06:16 by ssottori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_eof(char *input)
 	if (input)
 		return ;
 	ft_printf("exit\n");
-	//need to exit minish here
 }
 
 bool	ft_check_state(t_state current_state)
@@ -51,12 +50,9 @@ bool	ft_dollar_sign(char *input)
 bool	ft_tok_need(char *input)
 {
 	ft_eof(input);
-	if (input[0] == '\0') // Empty line check
+	if (input[0] == '\0')
 		return (true);
-	if (ft_dollar_sign(input)) // Single dollar sign check
+	if (ft_dollar_sign(input))
 		return (true);
 	return (false);
 }
-
-//TODO
-//fix dollarsign error and tokneed

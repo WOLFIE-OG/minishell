@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
+#    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/09/02 16:57:34 by otodd            ###   ########.fr        #
+#    Updated: 2024/09/05 17:05:06 by ssottori         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_add.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_quotes.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_bool_checks.c \
+				$(SRC_DIR)/ft_tokeniser_helpers/ft_rm_quotes.c \
 				$(SRC_DIR)/ft_parser/ft_parser.c \
 				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
 				$(SRC_DIR)/ft_parser/ft_parser_heredoc.c \
