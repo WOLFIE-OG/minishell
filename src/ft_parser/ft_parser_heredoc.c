@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/03 18:19:55 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/05 18:01:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_heredoc_do_checks(t_root *root, t_heredoc_data *vars)
 	else
 	{
 		if (vars->expand)
-			str = ft_expand_str(root, vars->input);
+			str = ft_expand_str(root, vars->input, false);
 		else
 		{
 			str = ft_strdup(vars->input);
