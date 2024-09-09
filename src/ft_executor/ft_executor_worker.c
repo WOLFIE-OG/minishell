@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 22:22:00 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:51:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,19 @@ static void	ft_worker_handle_child(t_root *root, char *cmd, char **args)
 
 static void	ft_worker_handle_parent(t_root *root)
 {
-	if (root->current_cmd->next && (root->current_cmd->next->post_action == EMPTY || root->current_cmd->next->post_action == END))
+	if (!root->prev_cmd && (root->current_cmd->post_action == PIPE || root->current_cmd->post_action == TRUNC || root->current_cmd->post_action == APPEND))
 		close(root->current_cmd->pipe[1]);
-	if (root->prev_cmd && (root->prev_cmd->post_action != EMPTY && root->prev_cmd->post_action != END))
+	else if (root->prev_cmd && (root->current_cmd->post_action == PIPE || root->current_cmd->post_action == TRUNC || root->current_cmd->post_action == APPEND))
+	{
+		// close(root->prev_cmd->pipe[1]);
 		close(root->prev_cmd->pipe[0]);
+		close(root->current_cmd->pipe[1]);
+	}
+	else if (root->prev_cmd && root->current_cmd->post_action != PIPE)
+	{
+		close(root->prev_cmd->pipe[1]);
+		close(root->prev_cmd->pipe[0]);
+	}
 	root->prev_cmd = root->current_cmd;
 }
 

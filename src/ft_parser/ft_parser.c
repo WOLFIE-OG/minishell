@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 16:22:43 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:04:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ static void	ft_parser_handle_tokens(t_root *root, t_parser_vars *vars)
 
 static void	ft_parser_handle_arg_tokens(t_parser_vars *vars, t_cmd *cmd)
 {
+	if (vars->tkn->type == OUTPUT_FILE
+		|| vars->tkn->type == INPUT_FILE
+		|| vars->tkn->type == HEREDOC_DELIM)
+		cmd->is_file = true;
 	if (!cmd->cmd_tokens)
 		cmd->cmd_tokens = ft_token_dup(vars->tkn);
 	else

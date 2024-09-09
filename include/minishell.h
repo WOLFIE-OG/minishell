@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 17:54:44 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:02:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_cmd
 	struct s_token	*cmd_tokens;
 	int				pipe[2];
 	bool			is_builtin;
+	bool			is_file;
 	bool			execute;
 	pid_t			pid;
 	struct s_cmd	*next;
