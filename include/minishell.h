@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/06 17:02:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/09 17:53:02 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ typedef struct s_cmd
 	t_token_type	post_action;
 	struct s_token	*cmd_tokens;
 	int				pipe[2];
+	bool			write_open;
+	bool			read_open;
 	bool			is_builtin;
 	bool			is_file;
 	bool			execute;
@@ -209,11 +211,12 @@ bool		ft_create_file(char *path);
 
 // src/ft_executor/ft_executor_io.c - Executor I/O functions
 
+int			ft_file_fd(bool append, bool input, char *path);
 void		ft_cmd_output(t_root *root);
-void		ft_cmd_trunc_append(t_root *root);
+void		ft_cmd_trunc_append(t_cmd *cmd, char *path);
 char		*ft_fd_to_str(int fd);
 void		ft_write_to_file(char *data, bool append, char *path);
-char		*ft_read_from_file(char *path);
+void		ft_cmd_input(t_cmd *cmd, char *path);
 
 // src/ft_executor/ft_executor_redirs.c - Executor redir
 

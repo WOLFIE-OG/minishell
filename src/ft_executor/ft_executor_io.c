@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/13 18:37:56 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/09 18:12:40 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@ void	ft_cmd_output(t_root *root)
 	}
 }
 
-void	ft_cmd_trunc_append(t_root *root)
+void	ft_cmd_trunc_append(t_cmd *cmd, char *path)
 {
 	bool	append;
-	char	*result;
 
+	if (!ft_is_path_valid(path, false, false, true))
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
+		return ;
+	}
 	append = false;
-	if (root->prev_cmd->post_action == APPEND)
+	if (cmd->post_action == APPEND)
 		append = true;
-	result = ft_fd_to_str(root->prev_cmd->pipe[0]);
-	ft_write_to_file(result, append, root->current_cmd->cmd_tokens->str);
-	free(result);
-	root->prev_cmd = root->current_cmd;
+	close(cmd->pipe[1]);
+	cmd->pipe[1] = ft_file_fd(append, false, path);
 }
 
 char	*ft_fd_to_str(int fd)
@@ -57,42 +59,39 @@ char	*ft_fd_to_str(int fd)
 	return (line);
 }
 
-void	ft_write_to_file(char *data, bool append, char *path)
+
+int	ft_file_fd(bool append, bool input, char *path)
 {
 	int	fd;
 	int	perms;
 
-	perms = O_WRONLY | O_CREAT;
-	if (append)
-		perms = perms | O_APPEND;
+	if (!input)
+	{
+		perms = O_WRONLY | O_CREAT;
+		if (append)
+			perms = perms | O_APPEND;
+		else
+			perms = perms | O_TRUNC;
+	}
 	else
-		perms = perms | O_TRUNC;
-	fd = open(path, perms, 0644);
+		perms = O_RDONLY;
+	fd = open(path, perms, 0777);
 	if (fd == -1)
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
+		return (-1);
+	}
+	return (fd);
+}
+
+void	ft_cmd_input(t_cmd *cmd, char *path)
+{
+	if (!ft_is_path_valid(path, false, true, false))
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
 		return ;
 	}
-	if (data)
-		ft_putstr_fd(data, fd);
-	close(fd);
-	return ;
-}
-
-char	*ft_read_from_file(char *path)
-{
-	int		fd;
-	char	*data;
-
-	if (!ft_is_path_valid(path, false, true, false))
-	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
-		return (NULL);
-	}
-	fd = open(path, O_RDONLY, 0644);
-	if (fd == -1)
-		return (NULL);
-	data = ft_fd_to_str(fd);
-	close(fd);
-	return (data);
+	close(cmd->pipe[0]);
+	cmd->pipe[0] = ft_file_fd(false, true, path);
+	close(cmd->pipe[1]);
 }

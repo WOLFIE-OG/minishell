@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/06 17:04:44 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/09 16:42:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_cmd	*ft_new_cmd(void)
 
 	cmd = malloc(sizeof(t_cmd));
 	pipe(cmd->pipe);
+	cmd->write_open = true;
+	cmd->read_open = true;
 	cmd->post_action = EMPTY;
 	cmd->next = NULL;
 	cmd->prev = NULL;
