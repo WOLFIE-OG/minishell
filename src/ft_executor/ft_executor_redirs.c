@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:56 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 16:03:02 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 19:20:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static bool	ft_handler_additonal_worker_pipes(t_root *root)
 				perror("pipe[1]: Error duplicating to STDOUT: ");
 				return (false);
 			}
-			printf("PROCESS: %s\n", root->current_cmd->cmd_tokens->str);
 		}
 	}
 	return (true);
