@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 21:12:51 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 17:04:38 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_interactive_check(t_root *root)
 
 void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
-	char		cwd[4096];
+	char	cwd[4096];
 
 	ft_config_sigint();
 	root->prev_cmd = NULL;

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:06:25 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/26 15:54:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 18:22:30 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_token	*ft_token_new(char *str)
 	node->next = NULL;
 	node->prev = NULL;
 	node->index = 0;
+	node->state = NORMAL;
 	return (node);
 }

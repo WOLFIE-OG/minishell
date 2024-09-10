@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 12:44:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 18:18:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ static void	ft_expansion_home(t_root *root, t_str_expansion *vars)
 	vars->after_var = vars->tkn_str + 1;
 	vars->tmp_str = ft_strdup(vars->after_var);
 	vars->var = ft_get_var(root, "HOME");
-	vars->tkn_str = ft_trim_start_end(vars->var->value, "\"'");
 	free(*vars->split_str);
-	*vars->split_str = ft_strjoin(vars->tkn_str, vars->tmp_str);
+	*vars->split_str = ft_strjoin(vars->var->value, vars->tmp_str);
 	free(vars->tmp_str);
-	free(vars->tkn_str);
 }
 
 static void	ft_expansion_loop(t_root *root, t_str_expansion *vars, bool tilde)

@@ -20,8 +20,8 @@ jobs:
     - name: Update apt
       run: sudo apt-get update --fix-missing
     
-    - name: Install tree, valgrind & lolcat
-      run: sudo apt-get install tree valgrind lolcat -y
+    - name: Install tree, valgrind, lolcat & neofetch
+      run: sudo apt-get install tree valgrind lolcat neofetch -y
 
     - name: Run tree
       run: tree
@@ -38,8 +38,27 @@ jobs:
     - name: View Contents of minishell
       run: nm -C minishell
     
-    - name: Run Non-Interactive mode
+    - name: Run Non-Interactive mode | test 1
       run: ./minishell -c 'ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; lolcat < file.txt; rm file.txt'
 
-    - name: Run Non-Interactibe mode with valgrind
-      run: valgrind --leak-check=full --track-origins=yes --show-reachable=no ./minishell -c 'ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; lolcat < file.txt; rm file.txt'
+    - name: Run Non-Interactive mode with valgrind | test 1
+      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; lolcat < file.txt; rm file.txt'
+    
+    - name: Run Non-Interactive mode | test 2
+      run: ./minishell -c 'cat /dev/urandom | head -n 5'
+    
+    - name: Run Non-Interactive mode with valgrind | test 2
+      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'cat /dev/urandom | head -n 5'
+    
+    - name: Run Non-Interactive mode | test 3
+      run: ./minishell -c 'lolcat /dev/urandom | head -n 5'
+    
+    - name: Run Non-Interactive mode with valgrind | test 3
+      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'lolcat /dev/urandom | head -n 5'
+    
+    - name: Run Non-Interactive mode | test 4
+      run: ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
+    
+    - name: Run Non-Interactive mode with valgrind | test 4
+      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
+    

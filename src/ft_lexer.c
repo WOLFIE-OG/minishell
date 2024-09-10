@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/05 17:46:58 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:16:24 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ int	ft_find_token_end(char *input, t_state *state, int start)
 
 void	ft_process_quotes(char **tok_str, t_state *s)
 {
-	if (ft_isquote((*tok_str)[0]))
+	char	*head;
+
+	head = *tok_str;
+	while (*head && !ft_isquote(*head))
+		head++;
+	if (*head)
 	{
-		*s = ft_quote_type((*tok_str)[0]);
-		ft_rm_quotes(tok_str, (*tok_str)[0]);
-	}
-	else
-	{
-		ft_rm_quotes(tok_str, '\'');
-		ft_rm_quotes(tok_str, '"');
+		*s = ft_quote_type(*head);
+		ft_rm_quotes(tok_str, *head);
 	}
 }
 

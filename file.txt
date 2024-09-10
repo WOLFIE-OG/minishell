@@ -1,0 +1,62 @@
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 33176  bytes 4178426 (4.1 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 33176  bytes 4178426 (4.1 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp1s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1350
+        inet 10.101.2.10  netmask 255.255.254.0  broadcast 10.101.3.255
+        inet6 fe80::fb:96ae:4b11:a209  prefixlen 64  scopeid 0x20<link>
+        ether 5c:3a:45:b1:0e:a5  txqueuelen 1000  (Ethernet)
+        RX packets 3254072  bytes 3738513178 (3.7 GB)
+        RX errors 0  dropped 13535  overruns 0  frame 0
+        TX packets 1013283  bytes 180918374 (180.9 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[?25l[?7l[0m[31m[1m            .-:/++oooo++/:-.
+        `:/oooooooooooooooooo/-`
+      -/oooooooooooooooooooo+ooo/-
+    .+oooooooooooooooooo+/-`.ooooo+.
+   :oooooooooooo+//:://++:. .ooooooo:
+  /oooooooooo+o:`.----.``./+/oooooooo/
+ /ooooooooo+. +ooooooooo+:``/ooooooooo/
+.ooooooooo: .+ooooooooooooo- -ooooooooo.
+/oooooo/o+ .ooooooo:`+oo+ooo- :oooooooo/
+ooo+:. .o: :ooooo:` .+/. ./o+:/ooooooooo
+oooo/-`.o: :ooo/` `/+.     ./.:ooooooooo
+/oooooo+o+``++. `:+-          /oooooooo/
+.ooooooooo/``  -+:`          :ooooooooo.
+ /ooooooooo+--+/`          .+ooooooooo/
+  /ooooooooooo+.`      `.:++:oooooooo/
+   :oooooooooooooo++++oo+-` .ooooooo:
+    .+ooooooooooooooooooo+:..ooooo+.
+      -/oooooooooooooooooooooooo/-
+        `-/oooooooooooooooooo/:`
+            .-:/++oooo++/:-.[0m
+[20A[9999999D[43C[0m[1m[31m[1mwolfie[0m@[31m[1mwolfie-BOHL-WXX9[0m 
+[43C[0m-----------------------[0m 
+[43C[0m[31m[1mOS[0m[0m:[0m Ubuntu Cinnamon 24.04.1 LTS x86_64[0m 
+[43C[0m[31m[1mHost[0m[0m:[0m BOHL-WXX9 M1010[0m 
+[43C[0m[31m[1mKernel[0m[0m:[0m 6.8.0-41-generic[0m 
+[43C[0m[31m[1mUptime[0m[0m:[0m 7 hours, 47 mins[0m 
+[43C[0m[31m[1mPackages[0m[0m:[0m 3275 (dpkg), 7 (flatpak), 22 (snap)[0m 
+[43C[0m[31m[1mShell[0m[0m:[0m zsh 5.9[0m 
+[43C[0m[31m[1mResolution[0m[0m:[0m 1920x1080[0m 
+[43C[0m[31m[1mDE[0m[0m:[0m Cinnamon 6.0.4[0m 
+[43C[0m[31m[1mWM[0m[0m:[0m Mutter (Muffin)[0m 
+[43C[0m[31m[1mWM Theme[0m[0m:[0m Dracula (Default)[0m 
+[43C[0m[31m[1mTheme[0m[0m:[0m Dracula [GTK2/3][0m 
+[43C[0m[31m[1mIcons[0m[0m:[0m ePapirus-Dark [GTK2/3][0m 
+[43C[0m[31m[1mTerminal[0m[0m:[0m vscode[0m 
+[43C[0m[31m[1mCPU[0m[0m:[0m AMD Ryzen 5 4500U with Radeon Graphics (6) @ 2.375GHz[0m 
+[43C[0m[31m[1mGPU[0m[0m:[0m AMD ATI Radeon RX Vega 6[0m 
+[43C[0m[31m[1mMemory[0m[0m:[0m 5305MiB / 7302MiB[0m 
+
+[43C[30m[40m   [31m[41m   [32m[42m   [33m[43m   [34m[44m   [35m[45m   [36m[46m   [37m[47m   [m
+[43C[38;5;8m[48;5;8m   [38;5;9m[48;5;9m   [38;5;10m[48;5;10m   [38;5;11m[48;5;11m   [38;5;12m[48;5;12m   [38;5;13m[48;5;13m   [38;5;14m[48;5;14m   [38;5;15m[48;5;15m   [m
+
+
+[?25h[?7h

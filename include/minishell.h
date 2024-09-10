@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 16:39:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 18:12:04 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ int			ft_file_fd(bool append, bool input, char *path);
 void		ft_cmd_output(t_root *root);
 void		ft_cmd_trunc_append(t_cmd *cmd, char *path);
 char		*ft_fd_to_str(int fd);
-void		ft_write_to_file(char *data, bool append, char *path);
 void		ft_cmd_input(t_cmd *cmd, char *path);
 
 // src/ft_executor/ft_executor_redirs.c - Executor redir
@@ -296,8 +295,6 @@ void		ft_token_retype(t_token *token);
 t_token		*ft_find_token_by_index(t_token *tokens, int index);
 t_state		ft_handle_state(char c, t_state current_state);
 int			ft_unclosed_quote(char *str);
-t_token		*ft_get_token_by_type_at_i(t_token *tkns, t_token_type type,
-				int index);
 void		ft_token_move_before(t_token *move_token, t_token *target);
 int			ft_separator(char c);
 bool		ft_check_state(t_state current_state);

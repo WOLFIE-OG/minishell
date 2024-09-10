@@ -6,25 +6,16 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/02 23:55:54 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 17:08:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_skip_space(char *input, int i)
-{
-	int	j;
-
-	j = 0;
-	while (ft_iswhitespace(input[i + j]))
-		j++;
-	return (j);
-}
-
 static char	*ft_format_pwd(t_root *root)
 {
 	char		*str;
+	char		*home_str;
 	char		*str_join;
 	t_env_var	*pwd;
 	t_env_var	*home;
@@ -33,10 +24,14 @@ static char	*ft_format_pwd(t_root *root)
 	if (pwd)
 	{
 		home = ft_get_var(root, "HOME");
-		str = ft_substr(pwd->value, 0, ft_strlen(home->value));
-		if (ft_strcmp(str, home->value) == 0)
+		if (!home)
+			home_str = "(null)";
+		else
+			home_str = home->value;
+		str = ft_substr(pwd->value, 0, ft_strlen(home_str));
+		if (ft_strcmp(str, home_str) == 0)
 		{
-			str_join = ft_strjoin("~", &pwd->value[ft_strlen(home->value)]);
+			str_join = ft_strjoin("~", &pwd->value[ft_strlen(home_str)]);
 			free(str);
 			str = ft_strdup(str_join);
 			free(str_join);
@@ -51,9 +46,13 @@ static char	*ft_format_pwd(t_root *root)
 
 char	*ft_set_prompt(t_root *root)
 {
+	const t_env_var	*user = ft_get_var(root, "USER");
+
 	root->prompt = ft_strarrayappend2(NULL, ft_strdup(BGRN));
-	root->prompt = ft_strarrayappend2(root->prompt,
-			ft_strdup(ft_get_var(root, "USER")->value));
+	if (user)
+		root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(user->value));
+	else
+		root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("(null)"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("@"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("minishell:"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
