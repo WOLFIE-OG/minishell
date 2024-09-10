@@ -6,22 +6,26 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 16:12:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:31:39 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_cmd_output(t_root *root)
+bool	ft_create_file(char *path)
 {
-	char	*result;
+	int	fd;
+	int	perms;
 
-	result = ft_fd_to_str(root->current_cmd->pipe[0]);
-	if (result)
+	perms = O_CREAT;
+	fd = open(path, perms, 0644);
+	if (fd == -1)
 	{
-		ft_putstr(result);
-		free(result);
+		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
+		return (false);
 	}
+	close(fd);
+	return (true);
 }
 
 void	ft_cmd_trunc_append(t_cmd *cmd, char *path)

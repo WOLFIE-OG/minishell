@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 16:12:45 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:30:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,6 @@ void	ft_executor(t_root *root)
 				ft_worker_launcher(root);
 		}
 		root->current_cmd = root->current_cmd->next;
-	}
-	if (root->prev_cmd)
-	{
-		close(root->prev_cmd->pipe[0]);
-		close(root->prev_cmd->pipe[1]);
 	}
 	ft_executor_wait_forpid(root);
 	ft_gc_preped_cmds(root);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:53:21 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/03 18:11:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:36:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,46 @@ static void	ft_parser_reorder_tokens(
 		rt->preped_tokens = *tkn;
 }
 
-void	ft_parser_arrange_input(t_root *rt, t_token *i_tkn, t_token **tkn)
+void	ft_parser_arrange_input(t_root *rt, t_token *i_tkn, t_token **tkn,
+			bool alt)
 {
 	t_token	*if_tkn;
 
-	if_tkn = i_tkn->next;
-	while (*tkn && (*tkn)->type != CMD)
-		*tkn = (*tkn)->prev;
-	ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
+	if (!alt)
+	{
+		if_tkn = i_tkn->next;
+		while (*tkn && (*tkn)->type != CMD)
+			*tkn = (*tkn)->prev;
+		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
+	}
+	else
+	{
+		ft_token_move_before(i_tkn, *tkn);
+		*tkn = i_tkn;
+		if (!(*tkn)->prev)
+			rt->preped_tokens = *tkn;
+	}
 }
 
-void	ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn, t_token **tkn)
+void	ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn, t_token **tkn,
+			bool alt)
 {
 	t_token	*if_tkn;
 
-	if_tkn = i_tkn->next;
-	if_tkn->str = ft_handle_heredoc(rt, if_tkn);
-	ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
-}
-
-void	ft_parser_arrange_input_alt(t_root *rt, t_token *i_tkn, t_token **tkn)
-{
-	ft_token_move_before(i_tkn, *tkn);
-	*tkn = i_tkn;
-	if (!(*tkn)->prev)
-		rt->preped_tokens = *tkn;
+	if (!alt)
+	{
+		if_tkn = i_tkn->next;
+		if_tkn->str = ft_handle_heredoc(rt, if_tkn);
+		ft_parser_reorder_tokens(rt, i_tkn, tkn, if_tkn);
+	}
+	else
+	{
+		i_tkn->str = ft_handle_heredoc(rt, i_tkn);
+		ft_token_move_before(i_tkn, *tkn);
+		*tkn = i_tkn;
+		if (!(*tkn)->prev)
+			rt->preped_tokens = *tkn;
+	}
 }
 
 void	ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,

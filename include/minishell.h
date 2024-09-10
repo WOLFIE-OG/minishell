@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 18:12:04 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:43:22 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,14 +202,10 @@ bool		ft_unset_var(t_root *root, char *key);
 
 void		ft_builtins(t_root *root);
 
-// src/ft_executor/ft_executor_io_ext.c - Executor ext I/O functions
-
-bool		ft_create_file(char *path);
-
 // src/ft_executor/ft_executor_io.c - Executor I/O functions
 
+bool		ft_create_file(char *path);
 int			ft_file_fd(bool append, bool input, char *path);
-void		ft_cmd_output(t_root *root);
 void		ft_cmd_trunc_append(t_cmd *cmd, char *path);
 char		*ft_fd_to_str(int fd);
 void		ft_cmd_input(t_cmd *cmd, char *path);
@@ -266,11 +262,10 @@ void		ft_gc_tokens(t_token *head);
 
 void		ft_parser_arrange_heredoc_alt(t_root *rt, t_token *i_tkn,
 				t_token **tkn);
-void		ft_parser_arrange_input(t_root *rt, t_token *i_tkn, t_token **tkn);
+void		ft_parser_arrange_input(t_root *rt, t_token *i_tkn,
+				t_token **tkn, bool alt);
 void		ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn,
-				t_token **tkn);
-void		ft_parser_arrange_input_alt(t_root *rt, t_token *i_tkn,
-				t_token **tkn);
+				t_token **tkn, bool alt);
 void		ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
 				t_token **tkn);
 t_cmd		*ft_new_cmd(void);

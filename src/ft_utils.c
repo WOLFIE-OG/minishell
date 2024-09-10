@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/10 17:08:22 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:27:31 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_set_prompt(t_root *root)
 	if (user)
 		root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(user->value));
 	else
-		root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("(null)"));
+		root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("user"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("@"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("minishell:"));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));

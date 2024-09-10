@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 17:04:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:43:10 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 	root->init_env = env;
 	root->prompt = NULL;
 	ft_interactive_check(root);
+	if (!ft_get_var(root, "USER"))
+		ft_set_var(root, "USER", ft_strdup("user"));
 	if (!ft_get_var(root, "PWD"))
 	{
 		getcwd(cwd, sizeof(cwd));

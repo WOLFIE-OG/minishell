@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+         #
+#    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/09/05 18:21:27 by ssottori         ###   ########.fr        #
+#    Updated: 2024/09/10 21:36:28 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,6 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
 				$(SRC_DIR)/ft_parser/ft_parser_heredoc.c \
 				$(SRC_DIR)/ft_parser/ft_parser_checks_arrange.c \
-				$(SRC_DIR)/ft_parser/ft_parser_checks_arrange_2.c \
 				$(SRC_DIR)/ft_gc/ft_tokeniser_gc.c \
 				$(SRC_DIR)/ft_gc/ft_general_gc.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \
@@ -73,7 +72,6 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_expander/ft_expander_helpers.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
-				$(SRC_DIR)/ft_executor/ft_executor_io_ext.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \
 				$(SRC_DIR)/ft_executor/ft_executor_redirs.c \
 				$(SRC_DIR)/ft_executor/ft_executor_worker.c \

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 18:18:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:56:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	ft_expander(t_root *root)
 		vars.tkn_head = vars.cmd_head->cmd_tokens;
 		while (vars.tkn_head)
 		{
-			if (vars.tkn_head->type != HEREDOC_DELIM)
+			if (vars.tkn_head->type != HEREDOC_DELIM
+				&& vars.tkn_head->state != SINGLE_Q)
 				ft_expander_helper(root, &vars);
 			vars.tkn_head = vars.tkn_head->next;
 		}

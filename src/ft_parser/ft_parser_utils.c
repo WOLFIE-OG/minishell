@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 16:12:26 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 21:37:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ static void	ft_parser_do_checks(
 	t_root *rt, t_token *i_tkn, t_token **tkn)
 {
 	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE)
-		ft_parser_arrange_input(rt, i_tkn, tkn);
+		ft_parser_arrange_input(rt, i_tkn, tkn, false);
 	else if (i_tkn->type == HEREDOC && i_tkn->next->type == HEREDOC_DELIM)
-		ft_parser_arrange_heredoc(rt, i_tkn, tkn);
+		ft_parser_arrange_heredoc(rt, i_tkn, tkn, false);
 	else if (i_tkn->type == INPUT_FILE
 		&& (i_tkn->prev && i_tkn->prev->type == INPUT) && !i_tkn->prev->prev)
-		ft_parser_arrange_input_alt(rt, i_tkn, tkn);
+		ft_parser_arrange_input(rt, i_tkn, tkn, true);
 	else if (i_tkn->type == HEREDOC_DELIM
 		&& (i_tkn->prev && i_tkn->prev->type == HEREDOC) && !i_tkn->prev->prev)
-		ft_parser_arrange_heredoc_alt(rt, i_tkn, tkn);
+		ft_parser_arrange_heredoc(rt, i_tkn, tkn, true);
 	else if (i_tkn->type == OUTPUT_FILE
 		&& (i_tkn->prev && (i_tkn->prev->type == TRUNC
 				|| i_tkn->prev->type == APPEND)) && (!i_tkn->prev->prev
