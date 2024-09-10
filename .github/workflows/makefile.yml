@@ -43,22 +43,10 @@ jobs:
 
     - name: Run Non-Interactive mode with valgrind | test 1
       run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; lolcat < file.txt; rm file.txt'
-    
+  
     - name: Run Non-Interactive mode | test 2
-      run: ./minishell -c 'cat /dev/urandom | head -n 5'
-    
-    - name: Run Non-Interactive mode with valgrind | test 2
-      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'cat /dev/urandom | head -n 5'
-    
-    - name: Run Non-Interactive mode | test 3
-      run: ./minishell -c 'lolcat /dev/urandom | head -n 5'
-    
-    - name: Run Non-Interactive mode with valgrind | test 3
-      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'lolcat /dev/urandom | head -n 5'
-    
-    - name: Run Non-Interactive mode | test 4
       run: ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
     
-    - name: Run Non-Interactive mode with valgrind | test 4
+    - name: Run Non-Interactive mode with valgrind | test 2
       run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
     

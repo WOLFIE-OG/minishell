@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 20:14:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 20:17:14 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,5 @@
 void	ft_exit(t_root *root, int code)
 {
 	ft_gc_shell(root);
-	if (code == SIGPIPE)
-		code = EXIT_SUCCESS;
 	exit(code);
 }
