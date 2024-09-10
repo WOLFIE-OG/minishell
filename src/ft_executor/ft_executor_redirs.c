@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:56 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/09 19:53:05 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:03:02 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static bool	ft_handler_additonal_worker_pipes(t_root *root)
 				perror("pipe[1]: Error duplicating to STDOUT: ");
 				return (false);
 			}
-			close(root->current_cmd->pipe[1]);
-			close(root->current_cmd->pipe[0]);
+			printf("PROCESS: %s\n", root->current_cmd->cmd_tokens->str);
 		}
 	}
 	return (true);
@@ -49,17 +48,22 @@ bool	ft_handle_worker_pipes(t_root *root)
 {
 	if (root->prev_cmd)
 	{
-		if (root->prev_cmd->post_action == PIPE
-			|| root->prev_cmd->post_action == INPUT
-			|| root->prev_cmd->post_action == HEREDOC)
+		if (root->prev_cmd->post_action == PIPE)
 		{
 			if (dup2(root->prev_cmd->pipe[0], STDIN_FILENO) == -1)
 			{
 				perror("pipe[0]: Error duplicating to STDIN: ");
 				return (false);
 			}
-			close(root->prev_cmd->pipe[0]);
-			close(root->prev_cmd->pipe[1]);
+		}
+		else if (root->prev_cmd->post_action == INPUT
+			|| root->prev_cmd->post_action == HEREDOC)
+		{
+			if (dup2(root->current_cmd->pipe[0], STDIN_FILENO) == -1)
+			{
+				perror("pipe[0]: Error duplicating to STDIN: ");
+				return (false);
+			}
 		}
 	}
 	if (!ft_handler_additonal_worker_pipes(root))

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/09 16:42:28 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:12:26 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ t_cmd	*ft_new_cmd(void)
 
 	cmd = malloc(sizeof(t_cmd));
 	pipe(cmd->pipe);
-	cmd->write_open = true;
-	cmd->read_open = true;
 	cmd->post_action = EMPTY;
 	cmd->next = NULL;
 	cmd->prev = NULL;
@@ -46,7 +44,8 @@ static void	ft_parser_do_checks(
 		ft_parser_arrange_heredoc_alt(rt, i_tkn, tkn);
 	else if (i_tkn->type == OUTPUT_FILE
 		&& (i_tkn->prev && (i_tkn->prev->type == TRUNC
-				|| i_tkn->prev->type == APPEND)) && !i_tkn->prev->prev)
+				|| i_tkn->prev->type == APPEND)) && (!i_tkn->prev->prev
+			|| (i_tkn->prev->prev && i_tkn->prev->prev->is_sep)))
 		ft_parser_arrange_trunc_append(rt, i_tkn, tkn);
 }
 

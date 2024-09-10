@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_executor_builtins.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 17:56:09 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:20:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,26 @@ static void	ft_builtins_handle_redir(t_root *root, int *original_stdout_fd)
 	close(root->current_cmd->pipe[1]);
 }
 
-static void	ft_builtins_handle_unredir(t_root *root, int original_stdout_fd)
+static void	ft_builtins_handle_unredir(int original_stdout_fd)
 {
 	dup2(original_stdout_fd, STDOUT_FILENO);
 	close(original_stdout_fd);
-	if (root->current_cmd->post_action == EMPTY
-		|| root->current_cmd->post_action == END)
-		ft_cmd_output(root);
 }
 
 void	ft_builtins(t_root *root)
 {
 	int			original_stdout_fd;
 
-	ft_builtins_handle_redir(root, &original_stdout_fd);
+	if (root->current_cmd->next
+		|| (root->current_cmd->next
+			&& (root->current_cmd->next->post_action != EMPTY
+				|| root->current_cmd->next->post_action != END)))
+		ft_builtins_handle_redir(root, &original_stdout_fd);
 	ft_builtins_execute(root);
-	ft_builtins_handle_unredir(root, original_stdout_fd);
+	if (root->current_cmd->next
+		|| (root->current_cmd->next
+			&& (root->current_cmd->next->post_action != EMPTY
+				|| root->current_cmd->next->post_action != END)))
+		ft_builtins_handle_unredir(original_stdout_fd);
 	root->prev_cmd = root->current_cmd;
 }

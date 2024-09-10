@@ -6,26 +6,19 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 12:20:43 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:12:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-static void	ft_executor_post_exec_helper(t_cmd **current_cmd)
+static void	ft_executor_file_handler(t_cmd **current_cmd)
 {
-	while ((*current_cmd)->next
-		&& ((*current_cmd)->next->post_action == APPEND
-			|| (*current_cmd)->next->post_action == TRUNC))
+	while ((*current_cmd)->next && (*current_cmd)->next->is_file)
 	{
 		*current_cmd = (*current_cmd)->next;
 		ft_create_file((*current_cmd)->cmd_tokens->str);
 	}
-	if ((*current_cmd)->next
-		&& ((*current_cmd)->next->post_action == EMPTY
-			|| (*current_cmd)->next->post_action == END))
-		*current_cmd = (*current_cmd)->next;
 }
 
 static void	ft_executor_input_check(t_root *root)
@@ -35,22 +28,20 @@ static void	ft_executor_input_check(t_root *root)
 	current_cmd = root->current_cmd;
 	if (current_cmd->post_action == INPUT)
 	{
-		ft_cmd_input(root->current_cmd, current_cmd->cmd_tokens->str);
+		ft_cmd_input(root->current_cmd->next, current_cmd->cmd_tokens->str);
 		root->prev_cmd = current_cmd;
 	}
 	else if (current_cmd->post_action == HEREDOC)
 	{
-		ft_putstr_fd(current_cmd->cmd_tokens->str,
-			current_cmd->pipe[1]);
+		ft_putstr_fd(current_cmd->cmd_tokens->str, current_cmd->next->pipe[1]);
 		close(current_cmd->pipe[1]);
 		root->prev_cmd = current_cmd;
 	}
 	else if (current_cmd->post_action == TRUNC
 		|| current_cmd->post_action == APPEND)
 	{
-		ft_executor_post_exec_helper(&current_cmd);
+		ft_executor_file_handler(&current_cmd);
 		ft_cmd_trunc_append(root->current_cmd, current_cmd->cmd_tokens->str);
-		root->prev_cmd = current_cmd;
 	}
 }
 
@@ -99,9 +90,7 @@ void	ft_executor(t_root *root)
 	if (root->prev_cmd)
 	{
 		close(root->prev_cmd->pipe[0]);
-		root->prev_cmd->read_open = false;
 		close(root->prev_cmd->pipe[1]);
-		root->prev_cmd->write_open = false;
 	}
 	ft_executor_wait_forpid(root);
 	ft_gc_preped_cmds(root);

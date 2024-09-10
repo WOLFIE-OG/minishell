@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/09 20:12:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:04:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ static void	ft_worker_handle_parent(t_root *root)
 {
 	close(root->current_cmd->pipe[1]);
 	if (root->prev_cmd)
-	{
 		close(root->prev_cmd->pipe[0]);
-		root->prev_cmd->read_open = false;
-	}
-
 	root->prev_cmd = root->current_cmd;
 }
 

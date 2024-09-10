@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/09 18:12:40 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:12:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_cmd_output(t_root *root)
 void	ft_cmd_trunc_append(t_cmd *cmd, char *path)
 {
 	bool	append;
+	int		fd;
 
 	if (!ft_is_path_valid(path, false, false, true))
 	{
@@ -36,8 +37,15 @@ void	ft_cmd_trunc_append(t_cmd *cmd, char *path)
 	append = false;
 	if (cmd->post_action == APPEND)
 		append = true;
-	close(cmd->pipe[1]);
-	cmd->pipe[1] = ft_file_fd(append, false, path);
+	fd = ft_file_fd(append, false, path);
+	if (dup2(fd, cmd->pipe[1]) == -1)
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: error duping fd: %d -> %d: %s\n",
+			fd, cmd->pipe[1], strerror(errno));
+		close(fd);
+		return ;
+	}
+	close(fd);
 }
 
 char	*ft_fd_to_str(int fd)
@@ -59,7 +67,6 @@ char	*ft_fd_to_str(int fd)
 	return (line);
 }
 
-
 int	ft_file_fd(bool append, bool input, char *path)
 {
 	int	fd;
@@ -67,7 +74,7 @@ int	ft_file_fd(bool append, bool input, char *path)
 
 	if (!input)
 	{
-		perms = O_WRONLY | O_CREAT;
+		perms = O_WRONLY;
 		if (append)
 			perms = perms | O_APPEND;
 		else
@@ -75,7 +82,7 @@ int	ft_file_fd(bool append, bool input, char *path)
 	}
 	else
 		perms = O_RDONLY;
-	fd = open(path, perms, 0777);
+	fd = open(path, perms, 0644);
 	if (fd == -1)
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
@@ -86,12 +93,21 @@ int	ft_file_fd(bool append, bool input, char *path)
 
 void	ft_cmd_input(t_cmd *cmd, char *path)
 {
+	int	fd;
+
 	if (!ft_is_path_valid(path, false, true, false))
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
 		return ;
 	}
-	close(cmd->pipe[0]);
-	cmd->pipe[0] = ft_file_fd(false, true, path);
 	close(cmd->pipe[1]);
+	fd = ft_file_fd(false, true, path);
+	if (dup2(fd, cmd->pipe[0]) == -1)
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: error duping fd: %d -> %d: %s\n",
+			fd, cmd->pipe[0], strerror(errno));
+		close(fd);
+		return ;
+	}
+	close(fd);
 }

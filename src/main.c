@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/03 16:27:07 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:20:50 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		ft_shell_post_input(&root, input);
-		add_history(input);
+		if (ft_strlen(input))
+			add_history(input);
 		free(input);
 	}
 	ft_exit(&root, root.prev_cmd_status);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 14:16:26 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 12:45:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:33:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	ft_expansion_helper(t_root *root, t_str_expansion *vars)
 	char	*trimmed_var;
 
 	free(*vars->split_str);
-	if (ft_strlen(vars->before_var)
-		&& vars->before_var[ft_strlen(vars->before_var) - 1] == '\\')
-		*vars->split_str = ft_strjoin("$", vars->tkn_str);
-	else if (vars->var)
+	if (vars->var)
 	{
 		trimmed_var = ft_trim_start_end(vars->var->value, "\"'");
 		*vars->split_str = ft_strjoin(vars->before_var, trimmed_var);

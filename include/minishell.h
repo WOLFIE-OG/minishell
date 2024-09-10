@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/09 17:53:02 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:39:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ typedef struct s_cmd
 	t_token_type	post_action;
 	struct s_token	*cmd_tokens;
 	int				pipe[2];
-	bool			write_open;
-	bool			read_open;
 	bool			is_builtin;
 	bool			is_file;
 	bool			execute;
@@ -175,7 +173,6 @@ typedef struct s_token_info
 	int		start;
 	int		end;
 }	t_token_info;
-
 
 // src/ft_builtins/ft_*.c - Bultins
 
@@ -306,7 +303,6 @@ int			ft_separator(char c);
 bool		ft_check_state(t_state current_state);
 void		ft_eof(char *input);
 bool		ft_tok_need(char *input);
-bool		ft_dollar_sign(char *input);
 bool		ft_matching(char *line, int i, int *match_index, char c);
 bool		ft_isquote(char c);
 bool		ft_singlequote(char c);
