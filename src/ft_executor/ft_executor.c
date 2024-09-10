@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 12:12:20 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/10 12:20:43 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,32 @@ static void	ft_executor_wait_forpid(t_root *root)
 			if (WIFEXITED(ret_code))
 				root->prev_cmd_status = WEXITSTATUS(ret_code);
 			else if (WIFSIGNALED(ret_code))
-ctx_tokenser_launcher(root);
+			{
+				root->prev_cmd_status = WTERMSIG(ret_code);
+				root->prev_cmd_status_signaled = true;
+			}
+			if (root->prev_cmd_status != EXIT_SUCCESS)
+				ft_worker_error_print(root);
+		}
+		head = head->prev;
+	}
+}
+
+void	ft_executor(t_root *root)
+{
+	root->current_cmd = root->preped_cmds;
+	while (root->current_cmd)
+	{
+		ft_executor_input_check(root);
+		if (root->current_cmd->execute)
+		{
+			if (root->current_cmd->is_builtin)
+				ft_builtins(root);
+			else
+				ft_worker_launcher(root);
 		}
 		root->current_cmd = root->current_cmd->next;
 	}
-	// Close the read end of the pipe for the last command in the pipeline
 	if (root->prev_cmd)
 	{
 		close(root->prev_cmd->pipe[0]);
