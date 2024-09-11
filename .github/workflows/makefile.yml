@@ -53,10 +53,10 @@ jobs:
       run: $VALGRIND_CMD ./minishell -c '> file.txt ifconfig' && $VALGRIND_CMD ./minishell -c '>> file.txt neofetch' && $VALGRIND_CMD ./minishell -c 'cat < file.txt | hexdump' && $VALGRIND_CMD ./minishell -c '< file.txt cat'
     
     - name: Run Non-Interactive mode | test 3 diff | minishell
-      run: ./minishell -c 'cat /etc/os-release > minishell.txt' && ./minishell -c 'uname | hexdump >> minishell.txt' && ./minishell -c 'echo $PATH >> minishell.txt'
+      run: ./minishell -c 'cat /etc/os-release > minishell.txt' && ./minishell -c 'uname | hexdump >> minishell.txt' && ./minishell -c 'echo $PATH $USER $SHELL $PWD $ $? $HOME >> minishell.txt'
     
     - name: Run Non-Interactive mode | test 3 diff | bash
-      run: bash -c 'cat /etc/os-release > bash.txt' && bash -c 'uname | hexdump >> bash.txt' && bash -c 'echo $PATH >> bash.txt'
+      run: bash -c 'cat /etc/os-release > bash.txt' && bash -c 'uname | hexdump >> bash.txt' && bash -c 'echo $PATH $USER $SHELL $PWD $ $? $HOME >> bash.txt'
     
     - name: Run Non-Interactive mode | test 3 diff | diff
       run: diff minishell.txt bash.txt -y -s
