@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:56 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 19:20:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:16:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,11 @@ bool	ft_handle_worker_pipes(t_root *root)
 {
 	if (root->prev_cmd)
 	{
-		if (root->prev_cmd->post_action == PIPE)
-		{
-			if (dup2(root->prev_cmd->pipe[0], STDIN_FILENO) == -1)
-			{
-				perror("pipe[0]: Error duplicating to STDIN: ");
-				return (false);
-			}
-		}
-		else if (root->prev_cmd->post_action == INPUT
+		if (root->prev_cmd->post_action == PIPE
+			|| root->prev_cmd->post_action == INPUT
 			|| root->prev_cmd->post_action == HEREDOC)
 		{
-			if (dup2(root->current_cmd->pipe[0], STDIN_FILENO) == -1)
+			if (dup2(root->prev_cmd->pipe[0], STDIN_FILENO) == -1)
 			{
 				perror("pipe[0]: Error duplicating to STDIN: ");
 				return (false);

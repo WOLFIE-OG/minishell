@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_typers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 17:45:47 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:45:13 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,17 @@ static void	ft_token_retype_ext(t_token *token)
 {
 	if (token->prev->type == PIPE || token->prev->type == END
 		|| token->prev->type == INPUT_FILE
-		|| token->prev->type == OUTPUT_FILE)
+		|| token->prev->type == OUTPUT_FILE
+		|| token->prev->type == HEREDOC_DELIM)
 	{
 		if ((token->prev->prev && (token->prev->prev->type == INPUT
-					|| token->prev->prev->type == TRUNC))
+					|| token->prev->prev->type == TRUNC 
+					|| token->prev->prev->type == HEREDOC))
 			&& (token->prev->prev->prev
 				&& (token->prev->prev->prev->type == CMD
 					|| token->prev->prev->prev->type == ARG
 					|| token->prev->prev->prev->type == INPUT_FILE
+					|| token->prev->prev->prev->type == OUTPUT_FILE
 					|| token->prev->prev->prev->type == OUTPUT_FILE)))
 			token->type = ARG;
 		else
