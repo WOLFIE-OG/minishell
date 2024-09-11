@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 21:30:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 01:06:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ static void	ft_executor_input_check(t_root *root)
 	current_cmd = root->current_cmd;
 	if (current_cmd->post_action == INPUT)
 	{
-		ft_cmd_input(root->current_cmd->next, current_cmd->cmd_tokens->str);
+		ft_cmd_input(current_cmd->next, current_cmd->cmd_tokens->str);
+		close(current_cmd->pipe[1]);
 		root->prev_cmd = current_cmd;
+		root->current_cmd = current_cmd->next;
 	}
 	else if (current_cmd->post_action == HEREDOC)
 	{

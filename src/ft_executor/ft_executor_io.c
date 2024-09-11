@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 21:31:39 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 00:14:06 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	ft_cmd_input(t_cmd *cmd, char *path)
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
 		return ;
 	}
-	close(cmd->pipe[1]);
 	fd = ft_file_fd(false, true, path);
 	if (dup2(fd, cmd->pipe[0]) == -1)
 	{
