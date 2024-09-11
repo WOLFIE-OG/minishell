@@ -50,8 +50,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-builtins/echo/echo
-builtins/cd/cd
 minishell
 test_root.txt
-mpanic
+mpanic/*
