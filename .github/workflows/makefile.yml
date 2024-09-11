@@ -50,8 +50,11 @@ jobs:
     - name: Run Non-Interactive mode with valgrind | test 2
       run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
     
-    - name: Run Non-Interactive mode | test 3
-      run: ./minishell -c 'cat /dev/urandom | head -n 5'
+    - name: Run Non-Interactive mode | test 3 diff | minishell
+      run: ./minishell -c 'ifconfig > minishell.txt; ifconfig | hexdump >> minishell.txt; echo $PATH >> minishell.txt;'
     
-    - name: Run Non-Interactive mode with valgrind | test 3
-      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'cat /dev/urandom | head -n 5'
+    - name: Run Non-Interactive mode | test 3 diff | bash
+      run: bash -c 'ifconfig > bash.txt; ifconfig | hexdump >> bash.txt; echo $PATH >> bash.txt;'
+    
+    - name: Run Non-Interactive mode | test 3 diff | diff
+      run: diff minishell.txt bash.txt
