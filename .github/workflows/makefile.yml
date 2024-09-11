@@ -51,10 +51,10 @@ jobs:
       run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
     
     - name: Run Non-Interactive mode | test 3 diff | minishell
-      run: ./minishell -c 'ifconfig > minishell.txt; ifconfig | hexdump >> minishell.txt; echo $PATH >> minishell.txt;'
+      run: ./minishell -c 'cat /etc/os-release > minishell.txt; uname | hexdump >> minishell.txt; echo $PATH >> minishell.txt;'
     
     - name: Run Non-Interactive mode | test 3 diff | bash
-      run: bash -c 'ifconfig > bash.txt; ifconfig | hexdump >> bash.txt; echo $PATH >> bash.txt;'
+      run: bash -c 'cat /etc/os-release > bash.txt; uname | hexdump >> bash.txt; echo $PATH >> bash.txt;'
     
     - name: Run Non-Interactive mode | test 3 diff | diff
       run: diff minishell.txt bash.txt
