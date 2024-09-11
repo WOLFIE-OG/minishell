@@ -32,6 +32,7 @@
 		"deque": "c",
 		"unordered_map": "c",
 		"vector": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"strings.h": "c"
 	}
 }

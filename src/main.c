@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/10 16:20:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:55:29 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	ft_shell_post_input(t_root *root, char *input)
 	t_token	*syntax_ctx;
 
 	root->preped_tokens = ft_tokenizer(input);
-	print_tokens(root->preped_tokens);
+	if (DEBUG)
+		print_tokens(root->preped_tokens);
 	syntax_ctx = ft_syntax_check(root->preped_tokens);
 	if (syntax_ctx)
 	{

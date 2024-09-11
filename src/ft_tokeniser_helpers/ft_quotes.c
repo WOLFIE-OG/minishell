@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quotes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:59:28 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/05 17:13:03 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:58:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	ft_unclosed_quote(char *str)
 	while (str[i])
 	{
 		state = ft_handle_state(str[i], state);
-		printf("char: %c -- state rn: %d -- index: %d\n", str[i], state, i);
+		if (DEBUG)
+			printf("char: %c -- state rn: %d -- index: %d\n", str[i], state, i);
 		if (state != NORMAL && str[i + 1] == '\0')
 		{
 			ft_print_err("Syntax error: unclosed quote\n");

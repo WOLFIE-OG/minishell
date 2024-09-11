@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 14:50:29 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:54:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define SIG_KILL 	"[%d] Killed %d\n"
 # define SIG_IOT	"[%d] Aborted (core dumped) %d\n"
 # define SYNTAX_ERROR_MSG "Syntax error near unexpected token `%s`\n"
+# define DEBUG false
 
 typedef enum e_state
 {
