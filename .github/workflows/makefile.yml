@@ -10,6 +10,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      VALGRIND_CMD: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp
 
     steps:
     - uses: actions/checkout@v3
@@ -39,16 +41,16 @@ jobs:
       run: nm -C minishell
     
     - name: Run Non-Interactive mode | test 1
-      run: ./minishell -c 'ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; lolcat < file.txt; rm file.txt'
+      run: ./minishell -c 'ifconfig > file.txt' && ./minishell -c 'ifconfig | hexdump >> file.txt' && ./minishell -c 'echo $PATH >> file.txt' && ./minishell -c 'lolcat < file.txt' && ./minishell -c 'rm file.txt'
 
     - name: Run Non-Interactive mode with valgrind | test 1
-      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c 'ifconfig > file.txt; ifconfig | hexdump >> file.txt; echo $PATH >> file.txt; lolcat < file.txt; rm file.txt'
+      run: $VALGRIND_CMD ./minishell -c 'ifconfig > file.txt' && $VALGRIND_CMD ./minishell -c 'ifconfig | hexdump >> file.txt' && $VALGRIND_CMD ./minishell -c 'echo $PATH >> file.txt' && $VALGRIND_CMD ./minishell -c 'lolcat < file.txt' && $VALGRIND_CMD ./minishell -c 'rm file.txt'
   
     - name: Run Non-Interactive mode | test 2
-      run: ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
+      run: ./minishell -c '> file.txt ifconfig' && ./minishell -c '>> file.txt neofetch' && ./minishell -c 'cat < file.txt | hexdump' && ./minishell -c '< file.txt cat'
     
     - name: Run Non-Interactive mode with valgrind | test 2
-      run: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp ./minishell -c '> file.txt ifconfig; >> file.txt neofetch; cat < file.txt | hexdump; < file.txt cat'
+      run: $VALGRIND_CMD ./minishell -c '> file.txt ifconfig' && $VALGRIND_CMD ./minishell -c '>> file.txt neofetch' && $VALGRIND_CMD ./minishell -c 'cat < file.txt | hexdump' && $VALGRIND_CMD ./minishell -c '< file.txt cat'
     
     - name: Run Non-Interactive mode | test 3 diff | minishell
       run: ./minishell -c 'cat /etc/os-release > minishell.txt' && ./minishell -c 'uname | hexdump >> minishell.txt' && ./minishell -c 'echo $PATH >> minishell.txt'
