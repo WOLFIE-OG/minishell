@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 17:24:11 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:56:39 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ void	ft_builtins(t_root *root)
 
 	if (root->current_cmd->next
 		|| (root->current_cmd->next
-			&& (root->current_cmd->next->post_action != EMPTY
-				|| root->current_cmd->next->post_action != END)))
+			&& root->current_cmd->next->post_action != EMPTY))
 		ft_builtins_handle_redir(root, &fd);
 	ft_builtins_execute(root, fd);
 	if (root->current_cmd->next
 		|| (root->current_cmd->next
-			&& (root->current_cmd->next->post_action != EMPTY
-				|| root->current_cmd->next->post_action != END)))
+			&& root->current_cmd->next->post_action != EMPTY))
 		ft_builtins_handle_unredir(fd);
 	root->prev_cmd = root->current_cmd;
 }

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:09 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/02 17:21:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:52:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static const char	*token_type_str(t_token_type type)
 		return ("INPUT");
 	else if (type == PIPE)
 		return ("PIPE");
-	else if (type == END)
-		return ("END");
 	else if (type == INPUT_FILE)
 		return ("INPUT_FILE");
 	else if (type == OUTPUT_FILE)
@@ -43,7 +41,7 @@ static const char	*token_type_str(t_token_type type)
 void	ft_test_token(void)
 {
 	const char	*testtokens[]
-		= {"", ">", "<<", ">>", "<", "|", ";", "cmd", "arg"};
+		= {"", ">", "<<", ">>", "<", "|", "cmd", "arg"};
 	const int	num_tests = sizeof(testtokens) / sizeof(testtokens[0]);
 	int			i;
 	t_token		*token;

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/07/25 16:08:07 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:17:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_list	*ft_init_env(char **envp)
 	t_env_var	*var;
 
 	env = NULL;
+	if (!ft_strarraylen(envp))
+		return (NULL);
 	while (*envp)
 	{
 		temp = ft_key_value(*envp, '=');

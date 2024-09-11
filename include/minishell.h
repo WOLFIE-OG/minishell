@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 21:43:22 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:50:29 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef enum e_token_type
 	HEREDOC,
 	HEREDOC_DELIM,
 	PIPE,
-	END,
 	INPUT_FILE,
 	OUTPUT_FILE
 }	t_token_type;

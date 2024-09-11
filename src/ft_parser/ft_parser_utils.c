@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 13:41:26 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:11:35 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static void	ft_parser_do_checks(
 	if (i_tkn->type == INPUT && i_tkn->next->type == INPUT_FILE
 		&& (i_tkn->prev && !i_tkn->prev->is_sep))
 		ft_parser_arrange_input(rt, i_tkn, tkn, false);
-	else if (i_tkn->type == HEREDOC && i_tkn->next->type == HEREDOC_DELIM)
+	else if (i_tkn->type == HEREDOC && i_tkn->next->type == HEREDOC_DELIM
+		&& (i_tkn->prev && !i_tkn->prev->is_sep))
 		ft_parser_arrange_heredoc(rt, i_tkn, tkn, false);
 	else if (i_tkn->type == INPUT_FILE
 		&& (i_tkn->prev && i_tkn->prev->type == INPUT) && (!i_tkn->prev->prev

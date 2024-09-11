@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 13:45:13 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:51:03 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,14 @@ static bool	ft_token_retype_check_type(t_token *token)
 {
 	if (token->next->type == ARG || token->next->type == PIPE
 		|| token->next->type == TRUNC || token->next->type == INPUT
-		|| token->next->type == APPEND || token->next->type == HEREDOC
-		|| token->next->type == END)
+		|| token->next->type == APPEND || token->next->type == HEREDOC)
 		return (true);
 	return (false);
 }
 
 static void	ft_token_retype_ext(t_token *token)
 {
-	if (token->prev->type == PIPE || token->prev->type == END
+	if (token->prev->type == PIPE
 		|| token->prev->type == INPUT_FILE
 		|| token->prev->type == OUTPUT_FILE
 		|| token->prev->type == HEREDOC_DELIM)
@@ -99,8 +98,6 @@ void	ft_token_type(t_token *token, int div)
 		token->type = INPUT;
 	else if (ft_strcmp(token->str, "|") == 0 && div == 0)
 		token->type = PIPE;
-	else if (ft_strcmp(token->str, ";") == 0 && div == 0)
-		token->type = END;
 	else
 	{
 		token->is_sep = false;
