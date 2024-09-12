@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/04 18:08:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 17:51:44 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ static char	*ft_process_arg(t_root *root, t_token *arg, t_env_var **var)
 	}
 	else
 		*var = ft_get_var(root, "PWD");
-	if (ft_strcmp(arg->str, "/") != 0
-		&& arg->str[(ft_strlen(arg->str) - 1)] == '/')
-		return (ft_strndup(arg->str, (ft_strlen(arg->str) - 1)));
+	if (ft_strcmp(arg->str, "//") != 0)
+		return (ft_strdup("//"));
 	else
 		return (ft_strdup(arg->str));
 }

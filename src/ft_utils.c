@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/10 21:27:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 13:06:18 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,4 @@ char	*ft_set_heredoc_prompt(void)
 	prompt2 = ft_strarraytostr(prompt);
 	ft_gc_str_array(prompt);
 	return (prompt2);
-}
-
-char	*ft_trim_start_end(char *s1, char *set)
-{
-	size_t	start;
-	size_t	end;
-	size_t	len;
-	char	*new_string;
-
-	if (!s1)
-		return (NULL);
-	start = 0;
-	if (ft_strchr(set, s1[start]))
-		start++;
-	end = ft_strlen(s1);
-	if (ft_strchr(set, s1[end - 1]))
-		end--;
-	len = end - start;
-	new_string = ft_substr(s1, start, len);
-	if (!new_string)
-		return (NULL);
-	new_string[len] = '\0';
-	return (new_string);
 }

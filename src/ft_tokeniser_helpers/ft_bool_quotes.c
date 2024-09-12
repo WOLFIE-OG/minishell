@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bool_quotes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssottori <ssottori@student.42london.com    +#+  +:+       +#+        */
+/*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:10:49 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/05 17:13:00 by ssottori         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:22:41 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	ft_matching(char *line, int i, int *match_index, char c)
 
 bool	ft_isquote(char c)
 {
-	if (c == '\'' || c == '"')
+	if (c == '\'' || c == '\"')
 		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:01:05 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 13:04:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:52:39 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	ft_parser_handle_cmds(t_parser_vars *vars)
 	{
 		vars->cmd->next = ft_new_cmd();
 		vars->cmd->next->prev = vars->cmd;
+		vars->cmd->next->pre_action = vars->cmd->post_action;
 		vars->cmd = vars->cmd->next;
 	}
 }

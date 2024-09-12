@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 15:11:35 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 16:48:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_cmd	*ft_new_cmd(void)
 	cmd = malloc(sizeof(t_cmd));
 	pipe(cmd->pipe);
 	cmd->post_action = EMPTY;
+	cmd->pre_action = EMPTY;
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	cmd->cmd_tokens = NULL;
@@ -53,7 +54,7 @@ static void	ft_parser_do_checks(
 		ft_parser_arrange_trunc_append(rt, i_tkn, tkn);
 }
 
-void	ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token)
+void	ft_parser_checks(t_root *root, t_token **token)
 {
 	t_token	*input_token;
 
@@ -81,7 +82,7 @@ bool	ft_parser_adjust_tokens(t_root *root)
 		return (false);
 	while (token)
 	{
-		ft_parser_check_for_input_or_heredoc(root, &token);
+		ft_parser_checks(root, &token);
 		token = token->next;
 	}
 	ft_token_reindex(root->preped_tokens);

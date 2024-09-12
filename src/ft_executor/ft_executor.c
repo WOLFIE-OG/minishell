@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 15:03:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 18:03:05 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static void	ft_executor_input_check(t_root *root)
 		close(current_cmd->pipe[1]);
 		root->prev_cmd = current_cmd;
 	}
-	else if (current_cmd->post_action == TRUNC
-		|| current_cmd->post_action == APPEND)
+	else if ((current_cmd->post_action == TRUNC
+			|| current_cmd->post_action == APPEND) && !current_cmd->is_file)
 	{
 		ft_executor_file_handler(&current_cmd);
 		ft_cmd_trunc_append(root->current_cmd, current_cmd->cmd_tokens->str);

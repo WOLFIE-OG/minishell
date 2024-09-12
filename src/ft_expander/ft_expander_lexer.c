@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lexer.c                                         :+:      :+:    :+:   */
+/*   ft_expander_lexer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/12 15:22:41 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 15:23:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 /*
 parse input string and convert to linked list of tokens 
 each token should correspond to a type*/
 
-static void	ft_process_quotes(char **tok_str, t_state *s)
-{
-	char	*head;
-
-	head = *tok_str;
-	while (*head && !ft_isquote(*head))
-		head++;
-	if (*head)
-	{
-		*s = ft_quote_type(*head);
-		ft_rm_quotes(tok_str, *head);
-	}
-}
-
-static int	ft_find_token_end(char *input, t_state *state, int start)
+static int	ft_expander_find_token_end(char *input, t_state *state, int start)
 {
 	int		i;
 	int		m_index;
@@ -53,7 +39,7 @@ static int	ft_find_token_end(char *input, t_state *state, int start)
 	return (i);
 }
 
-static void	ft_create_token(t_token_info *info, t_token **head)
+static void	ft_expander_create_token(t_token_info *info, t_token **head)
 {
 	char	*tok_str;
 	t_token	*token;
@@ -63,7 +49,6 @@ static void	ft_create_token(t_token_info *info, t_token **head)
 	if (info->start != info->end)
 	{
 		tok_str = ft_tokenstr(info->input, info->start, info->end);
-		ft_process_quotes(&tok_str, &s);
 		token = ft_token_new(ft_strdup(tok_str));
 		free(tok_str);
 		token->state = s;
@@ -71,18 +56,17 @@ static void	ft_create_token(t_token_info *info, t_token **head)
 	}
 }
 
-
-static int	ft_process_tokens(char *input, t_token **head,
+static int	ft_expander_process_tokens(char *input, t_token **head,
 				t_state *state, int start)
 {
 	int				i;
 	t_token_info	info;
 
-	i = ft_find_token_end(input, state, start);
+	i = ft_expander_find_token_end(input, state, start);
 	info.input = input;
 	info.start = start;
 	info.end = i;
-	ft_create_token(&info, head);
+	ft_expander_create_token(&info, head);
 	if (*state == NORMAL && input[i] && ft_separator(input[i]))
 		i = ft_parse_tokens(input, i, head);
 	else if (input[i])
@@ -90,7 +74,7 @@ static int	ft_process_tokens(char *input, t_token **head,
 	return (i);
 }
 
-t_token	*ft_tokenizer(char *input)
+t_token	*ft_expander_tokenizer(char *input)
 {
 	t_state	state;
 	t_token	*head;
@@ -103,14 +87,13 @@ t_token	*ft_tokenizer(char *input)
 	head = NULL;
 	if (ft_tok_need(input))
 		return (NULL);
-	if (ft_unclosed_quote(input))
-		return (NULL);
 	while (input[i])
 	{
 		i = ft_skip_whitespace(input, i);
 		if (input[i])
-			i = ft_process_tokens(input, &head, &state, i);
+			i = ft_expander_process_tokens(input, &head, &state, i);
 	}
 	ft_type_helper(head);
 	return (head);
 }
+

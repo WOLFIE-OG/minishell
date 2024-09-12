@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 14:51:03 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 17:56:03 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	ft_token_retype_ext(t_token *token)
 	{
 		if ((token->prev->prev && (token->prev->prev->type == INPUT
 					|| token->prev->prev->type == TRUNC 
+					|| token->prev->prev->type == APPEND
 					|| token->prev->prev->type == HEREDOC))
 			&& (token->prev->prev->prev
 				&& (token->prev->prev->prev->type == CMD

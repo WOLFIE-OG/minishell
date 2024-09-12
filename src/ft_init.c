@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/10 21:43:10 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 17:42:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,25 @@ static void	ft_interactive_check(t_root *root)
 	}
 }
 
-void	ft_init_shell(t_root *root, int ac, char **av, char **env)
+static void	ft_init_vars(t_root *root)
 {
 	char	cwd[4096];
 
+	if (!ft_get_var(root, "USER"))
+		ft_set_var(root, "USER", ft_strdup("user"));
+	if (!ft_get_var(root, "PWD"))
+	{
+		getcwd(cwd, sizeof(cwd));
+		ft_set_var(root, "OLDPWD", ft_strdup(cwd));
+		ft_set_var(root, "PWD", ft_strdup(cwd));
+	}
+	if (!ft_get_var(root, "HOME"))
+		ft_set_var(root, "HOME",
+			ft_strdup(ft_get_var(root, "PWD")->value));
+}
+
+void	ft_init_shell(t_root *root, int ac, char **av, char **env)
+{
 	ft_config_sigint();
 	root->prev_cmd = NULL;
 	root->prev_cmd_status = EXIT_SUCCESS;
@@ -59,12 +74,5 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 	root->init_env = env;
 	root->prompt = NULL;
 	ft_interactive_check(root);
-	if (!ft_get_var(root, "USER"))
-		ft_set_var(root, "USER", ft_strdup("user"));
-	if (!ft_get_var(root, "PWD"))
-	{
-		getcwd(cwd, sizeof(cwd));
-		ft_set_var(root, "OLDPWD", ft_strdup(cwd));
-		ft_set_var(root, "PWD", ft_strdup(cwd));
-	}
+	ft_init_vars(root);
 }

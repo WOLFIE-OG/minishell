@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/09/10 21:36:28 by otodd            ###   ########.fr        #
+#    Updated: 2024/09/12 15:21:29 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_gc/ft_general_gc.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \
 				$(SRC_DIR)/ft_expander/ft_expander.c \
-				$(SRC_DIR)/ft_expander/ft_expander_helpers.c \
+				$(SRC_DIR)/ft_expander/ft_expander_lexer.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
 				$(SRC_DIR)/ft_executor/ft_executor_utils.c \
@@ -136,10 +136,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/ft_env/%.c | dir
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/ft_parser/%.c | dir
-	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
-	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/ft_expander/%.c | dir
 	@echo "[$(CYAN)MINISH$(NC)]    Compiling $< --> $@"
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 

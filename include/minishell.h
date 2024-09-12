@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 15:54:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 18:10:30 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define SIG_TERM 	"[%d] Termination request %d\n"
 # define SIG_KILL 	"[%d] Killed %d\n"
 # define SIG_IOT	"[%d] Aborted (core dumped) %d\n"
-# define SYNTAX_ERROR_MSG "Syntax error near unexpected token `%s`\n"
+# define SYNTAX_ERROR_MSG "minishell: syntax error near unexpected token `%s`\n"
 # define DEBUG false
 
 typedef enum e_state
@@ -79,6 +79,7 @@ typedef struct s_env_var
 typedef struct s_cmd
 {
 	t_token_type	post_action;
+	t_token_type	pre_action;
 	struct s_token	*cmd_tokens;
 	int				pipe[2];
 	bool			is_builtin;
@@ -131,13 +132,12 @@ typedef struct s_heredoc_data
 
 typedef struct s_str_expansion
 {
-	char				**split_str;
 	char				**tkn_head;
 	char				*tkn_str;
+	char				*new_str;
 	char				*tmp_str;
-	char				*before_var;
 	char				*after_var;
-	char				**result_array;
+	char				*expanded_str;
 	struct s_env_var	*var;
 }	t_str_expansion;
 
@@ -234,15 +234,11 @@ void		ft_worker(t_root *root, char *cmd, char **args);
 
 void		ft_executor(t_root *root);
 
-// src/ft_expander/ft_expander_helpers.c - Expander helper functions
-
-void		ft_expansion_helper_tilde(t_str_expansion *vars);
-void		ft_expansion_helper(t_root *root, t_str_expansion *vars);
-void		ft_expander_helper(t_root *root, t_expander_vars *vars);
-
-// src/ft_expander/ft_expander.c - Expander functions
+// src/ft_expander/*.c - Expander functions
 
 char		*ft_expand_str(t_root *root, char *str, bool tilde);
+void		ft_expander_helper(t_root *root, t_expander_vars *vars);
+t_token		*ft_expander_tokenizer(char *input);
 void		ft_expander(t_root *root);
 
 // src/ft_gc/ft_executor_gc.c - Garbage executor functions
@@ -260,8 +256,7 @@ void		ft_gc_tokens(t_token *head);
 
 // src/ft_parser/ft_*.c - Parser stuff
 
-void		ft_parser_arrange_heredoc_alt(t_root *rt, t_token *i_tkn,
-				t_token **tkn);
+char		*ft_handle_heredoc(t_root *root, t_token *delim);
 void		ft_parser_arrange_input(t_root *rt, t_token *i_tkn,
 				t_token **tkn, bool alt);
 void		ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn,
@@ -269,7 +264,7 @@ void		ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn,
 void		ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
 				t_token **tkn);
 t_cmd		*ft_new_cmd(void);
-void		ft_parser_check_for_input_or_heredoc(t_root *root, t_token **token);
+void		ft_parser_checks(t_root *root, t_token **token);
 bool		ft_parser_adjust_tokens(t_root *root);
 void		ft_parser(t_root *root);
 bool		ft_parser_is_builtin(char *cmd);
@@ -317,15 +312,10 @@ void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
 void		ft_test_token(void);
 t_token		*ft_tokenizer(char *input);
-int			ft_process_tokens(char *input, t_token **head, t_state *state,
-				int start);
 int			ft_issep(char *input, int i);
 int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
 int			ft_parse_tokens(const char *input, int i, t_token **head);
-void		ft_create_token(t_token_info *info, t_token **head);
-void		ft_process_quotes(char **tok_str, t_state *s);
-int			ft_find_token_end(char *input, t_state *state, int start);
 
 // src/ft_signals.c - Signal handler
 
@@ -344,7 +334,5 @@ void		print_tokens(t_token *head);
 
 char		*ft_set_prompt(t_root *root);
 char		*ft_set_heredoc_prompt(void);
-char		*ft_handle_heredoc(t_root *root, t_token *delim);
-char		*ft_trim_start_end(char *s1, char *set);
 
 #endif

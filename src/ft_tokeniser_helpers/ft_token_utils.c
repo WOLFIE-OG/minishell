@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/08/17 16:58:32 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/12 14:56:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	ft_parse_tokens(const char *input, int i, t_token **head)
 /* add quotes checker */
 int	ft_issep(char *input, int i)
 {
-	if (i > 0 && input[i - 1] == '\\' && ft_strchr("<>|;", input[i]))
+	if (i > 0 && input[i - 1] == '\\' && ft_strchr("<>|", input[i]))
 		return (0);
-	else if (ft_strchr("<>|;", input[i]))
+	else if (ft_strchr("<>|", input[i]))
 		return (1);
 	else
 		return (0);
@@ -65,5 +65,5 @@ int	ft_issep(char *input, int i)
 /* Adjust this function to check only when NOT inside quotes */
 int	ft_separator(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == ';');
+	return (c == '|' || c == '<' || c == '>');
 }
