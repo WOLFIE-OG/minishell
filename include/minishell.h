@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 18:10:30 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/18 01:35:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ typedef struct s_token
 {
 	int				index;
 	bool			is_sep;
+	bool			is_compound;
+	bool			has_space_trailing;
 	char			*str;
 	t_token_type	type;
 	struct s_token	*next;
@@ -136,6 +138,7 @@ typedef struct s_str_expansion
 	char				*tkn_str;
 	char				*new_str;
 	char				*tmp_str;
+	char				*tmp_str2;
 	char				*after_var;
 	char				*expanded_str;
 	struct s_env_var	*var;
@@ -148,6 +151,7 @@ typedef struct s_expander_vars
 	t_token	*expanded_tokens;
 	t_token	*remaining_arg_tokens;
 	t_token	*duped_token;
+	t_token	*next_token;
 	bool	tilde;
 }	t_expander_vars;
 

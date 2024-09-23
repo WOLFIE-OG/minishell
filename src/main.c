@@ -6,13 +6,52 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/11 15:55:29 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/23 14:37:37 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// int	g_var_signal;
+static void	ft_handle_compounds(t_root *root)
+{
+	t_cmd	*head_c;
+	t_token	*head_t;
+	t_token	*c_head_t;
+	t_token	*next_token;
+	char	*tmp;
+
+	head_c = root->preped_cmds;
+	while (head_c)
+	{
+		head_t = head_c->cmd_tokens;
+		while (head_t)
+		{
+			if (head_t->is_compound)
+			{
+				c_head_t = head_t;
+				while (head_t && head_t->is_compound)
+				{
+					if (head_t == c_head_t)
+					{
+						head_t = head_t->next;
+						continue ;
+					}
+					tmp = ft_strjoin(c_head_t->str, head_t->str);
+					free(c_head_t->str);
+					c_head_t->str = tmp;
+					if (head_t->has_space_trailing)
+						c_head_t = head_t->next;
+					next_token = head_t->next;
+					ft_token_delone(ft_token_pop(head_t), free);
+					head_t = next_token;
+				}
+			}
+			else
+				head_t = head_t->next;
+		}
+		head_c = head_c->next;
+	}
+}
 
 static void	ft_shell_post_input(t_root *root, char *input)
 {
@@ -30,6 +69,7 @@ static void	ft_shell_post_input(t_root *root, char *input)
 	}
 	ft_parser(root);
 	ft_expander(root);
+	ft_handle_compounds(root);
 	ft_executor(root);
 }
 

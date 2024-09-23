@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 17:10:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/18 00:21:02 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static char	*ft_expansion(t_root *root, t_str_expansion *vars, char *str)
 {
 	vars->tkn_str = str;
 	vars->after_var = vars->tkn_str;
-	while (*vars->after_var && ft_isalnum(*vars->after_var))
+	while (*vars->after_var && (ft_isalnum(*vars->after_var)
+		|| *vars->after_var == '_'))
 		vars->after_var++;
 	if (vars->after_var)
 	{
@@ -44,15 +45,20 @@ static void	ft_expansion_loop(t_root *root, t_str_expansion *vars, char *str)
 	vars->new_str = ft_strdup("");
 	while (*str)
 	{
-		if (*str == '$' && (*(str + 1) && ft_isalnum(*(str + 1))))
+		if (*str == '$' && (*(str + 1) && (ft_isalnum(*(str + 1))
+					|| *(str + 1) == '?')))
 		{
 			str++;
 			var = str;
-			while (*var && ft_isalnum(*var))
+			while (*var && (ft_isalnum(*var) || *var == '?' || *var == '_'))
 				var++;
-			vars->new_str = ft_strjoin(
-					vars->new_str,
-					ft_expansion(root, vars, ft_substr(str, 0, (var - str))));
+			vars->tmp_str2 = ft_substr(str, 0, (var - str));
+			vars->tmp_str = ft_expansion(root, vars, vars->tmp_str2);
+			free(vars->tmp_str2);
+			vars->tmp_str2 = ft_strjoin(vars->new_str, vars->tmp_str);
+			free(vars->new_str);
+			free(vars->tmp_str);
+			vars->new_str = vars->tmp_str2;
 			str = var;
 		}
 		else
@@ -69,6 +75,7 @@ char	*ft_expand_str(t_root *root, char *str, bool tilde)
 	ft_expansion_loop(root, &vars, str);
 	vars.expanded_str = ft_strdup(vars.new_str);
 	free(str);
+	free(vars.new_str);
 	if (tilde)
 	{
 		vars.var = ft_get_var(root, "HOME");
@@ -94,6 +101,7 @@ void	ft_expander_helper(t_root *root, t_expander_vars *vars)
 		{
 			free(vars->tkn_head->str);
 			vars->tkn_head->str = ft_strdup(vars->expanded_tokens->str);
+			vars->next_token = vars->tkn_head->next;
 			vars->remaining_arg_tokens = vars->expanded_tokens->next;
 			while (vars->remaining_arg_tokens)
 			{
@@ -101,6 +109,11 @@ void	ft_expander_helper(t_root *root, t_expander_vars *vars)
 				ft_token_insert(vars->tkn_head, vars->duped_token);
 				vars->tkn_head = vars->duped_token;
 				vars->remaining_arg_tokens = vars->remaining_arg_tokens->next;
+			}
+			if (vars->next_token)
+			{
+				vars->tkn_head->next = vars->next_token;
+				vars->next_token->prev = vars->tkn_head;
 			}
 			ft_gc_tokens(vars->expanded_tokens);
 			ft_token_reindex(vars->cmd_head->cmd_tokens);

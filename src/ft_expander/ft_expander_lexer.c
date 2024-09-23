@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/12 15:23:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/18 00:18:25 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,11 @@ each token should correspond to a type*/
 static int	ft_expander_find_token_end(char *input, t_state *state, int start)
 {
 	int		i;
-	int		m_index;
-	bool	quotes;
 
 	i = start;
-	quotes = false;
 	while (input[i] && (*state != NORMAL
-			|| !ft_iswhitespace(input[i])) && !ft_issep(input, i))
-	{
-		*state = ft_handle_state(input[i], *state);
-		if (ft_is_in_quotes(input, i, &m_index, input[i]) && !quotes)
-		{
-			i = m_index;
-			quotes = true;
-		}
-		else
-			i++;
-	}
+			|| !ft_iswhitespace(input[i])))
+		i++;
 	return (i);
 }
 
@@ -67,9 +55,7 @@ static int	ft_expander_process_tokens(char *input, t_token **head,
 	info.start = start;
 	info.end = i;
 	ft_expander_create_token(&info, head);
-	if (*state == NORMAL && input[i] && ft_separator(input[i]))
-		i = ft_parse_tokens(input, i, head);
-	else if (input[i])
+	if (input[i])
 		i++;
 	return (i);
 }
