@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:44:46 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/12 18:28:15 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 12:51:47 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,15 @@ void	ft_worker_error_print(t_root *root)
 void	ft_worker_failure(t_root *root, bool is_binary)
 {
 	if (errno == ENOENT && !is_binary)
+	{
+		root->prev_cmd_status = 127;
 		ft_fprintf(STDERR_FILENO, "%s: command not found\n",
 			root->current_cmd->cmd_tokens->str);
+	}
 	else
+	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n",
 			root->current_cmd->cmd_tokens->str, strerror(errno));
-	root->prev_cmd_status = errno;
+		root->prev_cmd_status = errno;
+	}
 }

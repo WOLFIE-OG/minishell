@@ -6,19 +6,41 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/23 14:37:37 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 12:55:35 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+static void	ft_join_compounds(t_token **head_t)
+{
+	t_token	*c_head_t;
+	t_token	*next_token;
+	char	*tmp;
+
+	c_head_t = *head_t;
+	while (*head_t && (*head_t)->is_compound)
+	{
+		if (*head_t == c_head_t)
+		{
+			*head_t = (*head_t)->next;
+			continue ;
+		}
+		tmp = ft_strjoin(c_head_t->str, (*head_t)->str);
+		free(c_head_t->str);
+		c_head_t->str = tmp;
+		if ((*head_t)->has_space_trailing)
+			c_head_t = (*head_t)->next;
+		next_token = (*head_t)->next;
+		ft_token_delone(ft_token_pop(*head_t), free);
+		*head_t = next_token;
+	}
+}
+
 static void	ft_handle_compounds(t_root *root)
 {
 	t_cmd	*head_c;
 	t_token	*head_t;
-	t_token	*c_head_t;
-	t_token	*next_token;
-	char	*tmp;
 
 	head_c = root->preped_cmds;
 	while (head_c)
@@ -27,25 +49,7 @@ static void	ft_handle_compounds(t_root *root)
 		while (head_t)
 		{
 			if (head_t->is_compound)
-			{
-				c_head_t = head_t;
-				while (head_t && head_t->is_compound)
-				{
-					if (head_t == c_head_t)
-					{
-						head_t = head_t->next;
-						continue ;
-					}
-					tmp = ft_strjoin(c_head_t->str, head_t->str);
-					free(c_head_t->str);
-					c_head_t->str = tmp;
-					if (head_t->has_space_trailing)
-						c_head_t = head_t->next;
-					next_token = head_t->next;
-					ft_token_delone(ft_token_pop(head_t), free);
-					head_t = next_token;
-				}
-			}
+				ft_join_compounds(&head_t);
 			else
 				head_t = head_t->next;
 		}
@@ -64,6 +68,7 @@ static void	ft_shell_post_input(t_root *root, char *input)
 	if (syntax_ctx)
 	{
 		ft_fprintf(STDERR_FILENO, SYNTAX_ERROR_MSG, syntax_ctx->str);
+		root->prev_cmd_status = 2;
 		ft_gc_tokens(root->preped_tokens);
 		return ;
 	}

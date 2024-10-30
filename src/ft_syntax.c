@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:35:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 17:27:57 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/21 16:30:06 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ t_token	*ft_syntax_check(t_token *head)
 			else if (head->is_sep && (head->next && head->next->is_sep))
 				return (head);
 		}
+		else if ((head->type == TRUNC || head->type == APPEND
+				|| head->type == INPUT || head->type == HEREDOC) && !head->next)
+			return (head);
 		head = head->next;
 	}
 	return (NULL);

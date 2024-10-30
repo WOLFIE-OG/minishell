@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 16:48:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/28 17:01:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void	ft_parser_do_checks(
 	else if (i_tkn->type == OUTPUT_FILE
 		&& (i_tkn->prev && (i_tkn->prev->type == TRUNC
 				|| i_tkn->prev->type == APPEND)) && (!i_tkn->prev->prev
-			|| (i_tkn->prev->prev && i_tkn->prev->prev->is_sep)))
+			|| (i_tkn->prev->prev && i_tkn->prev->prev->is_sep
+				&& i_tkn->prev->prev->type != PIPE)))
 		ft_parser_arrange_trunc_append(rt, i_tkn, tkn);
 }
 

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/18 00:21:02 by otodd            ###   ########.fr       */
+/*   Updated: 2024/09/26 15:25:42 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*ft_expansion(t_root *root, t_str_expansion *vars, char *str)
 	vars->tkn_str = str;
 	vars->after_var = vars->tkn_str;
 	while (*vars->after_var && (ft_isalnum(*vars->after_var)
-		|| *vars->after_var == '_'))
+			|| *vars->after_var == '_'))
 		vars->after_var++;
 	if (vars->after_var)
 	{
