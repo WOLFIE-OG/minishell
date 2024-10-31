@@ -6,11 +6,22 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/12 13:06:18 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 13:53:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	ft_format_pwd_get_home(t_root *root, char **home_str)
+{
+	t_env_var	*home;
+
+	home = ft_get_var(root, "HOME");
+	if (!home)
+		*home_str = "(null)";
+	else
+		*home_str = home->value;
+}
 
 static char	*ft_format_pwd(t_root *root)
 {
@@ -18,16 +29,11 @@ static char	*ft_format_pwd(t_root *root)
 	char		*home_str;
 	char		*str_join;
 	t_env_var	*pwd;
-	t_env_var	*home;
 
 	pwd = ft_get_var(root, "PWD");
 	if (pwd)
 	{
-		home = ft_get_var(root, "HOME");
-		if (!home)
-			home_str = "(null)";
-		else
-			home_str = home->value;
+		ft_format_pwd_get_home(root, &home_str);
 		str = ft_substr(pwd->value, 0, ft_strlen(home_str));
 		if (ft_strcmp(str, home_str) == 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:44:46 by ssottori          #+#    #+#             */
-/*   Updated: 2024/10/30 12:51:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/31 01:31:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ void	ft_worker_error_print(t_root *root)
 			msg = SIG_KILL;
 		else
 			msg = SIG;
-		ft_fprintf(STDERR_FILENO, msg, root->prev_cmd->pid,
-			root->prev_cmd_status);
+		if (root->prev_cmd_status != SIGPIPE)
+			ft_fprintf(STDERR_FILENO, msg, root->prev_cmd->pid,
+				root->prev_cmd_status);
 	}
 }
 
 void	ft_worker_failure(t_root *root, bool is_binary)
 {
-	if (errno == ENOENT && !is_binary)
+	if (errno == ENOENT && !is_binary && ft_get_var(root, "PATH"))
 	{
 		root->prev_cmd_status = 127;
 		ft_fprintf(STDERR_FILENO, "%s: command not found\n",
@@ -58,6 +59,11 @@ void	ft_worker_failure(t_root *root, bool is_binary)
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n",
 			root->current_cmd->cmd_tokens->str, strerror(errno));
-		root->prev_cmd_status = errno;
+		if (errno == EISDIR)
+			root->prev_cmd_status = 126;
+		else if (errno == ENOENT)
+			root->prev_cmd_status = 127;
+		else
+			root->prev_cmd_status = errno;
 	}
 }

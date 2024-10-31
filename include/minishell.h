@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/18 01:35:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/31 01:25:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_cmd
 	bool			is_builtin;
 	bool			is_file;
 	bool			execute;
+	bool			skip;
 	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
@@ -185,13 +186,14 @@ int			ft_cd(t_root *root);
 int			ft_export(t_root *root);
 int			ft_echo(t_root *root);
 int			ft_unset(t_root *root);
-int			ft_env(t_root *root);
+int			ft_env(t_root *root, t_cmd *cmd, bool declare);
 void		ft_exit(t_root *root, int code);
 
 // src/ft_env/ft_env.c - Env
 
 t_list		*ft_init_env(char **envp);
-char		**ft_env_to_array(t_root *root);
+char		**ft_env_to_array(t_root *root, bool newline);
+char		**ft_env_to_declare_array(t_root *root);
 void		ft_free_env(t_root *root);
 
 // src/ft_env/ft_env_helpers.c - Env helpers
@@ -210,9 +212,9 @@ void		ft_builtins(t_root *root);
 
 bool		ft_create_file(char *path);
 int			ft_file_fd(bool append, bool input, char *path);
-void		ft_cmd_trunc_append(t_cmd *cmd, char *path);
+void		ft_cmd_trunc_append(t_cmd *cmd, t_cmd *cmd2);
 char		*ft_fd_to_str(int fd);
-void		ft_cmd_input(t_cmd *cmd, char *path);
+void		ft_cmd_input(t_root *root, t_cmd *cmd, char *path);
 
 // src/ft_executor/ft_executor_redirs.c - Executor redir
 

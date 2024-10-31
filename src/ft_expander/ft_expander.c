@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/26 15:25:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 19:57:46 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ char	*ft_expand_str(t_root *root, char *str, bool tilde)
 	if (tilde)
 	{
 		vars.var = ft_get_var(root, "HOME");
-		vars.tmp_str = ft_strjoin(vars.var->value, (vars.expanded_str + 1));
+		if (!vars.var)
+			vars.tmp_str = "(null)";
+		else
+			vars.tmp_str = vars.var->value;
+		vars.tmp_str = ft_strjoin(vars.tmp_str, (vars.expanded_str + 1));
 		free(vars.expanded_str);
 		vars.expanded_str = vars.tmp_str;
 	}

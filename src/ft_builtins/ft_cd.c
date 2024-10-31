@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 17:51:44 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 19:15:52 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,28 @@ static char	*ft_process_arg(t_root *root, t_token *arg, t_env_var **var)
 	}
 	else
 		*var = ft_get_var(root, "PWD");
-	if (ft_strcmp(arg->str, "//") != 0)
+	if (ft_strcmp(arg->str, "//") == 0)
 		return (ft_strdup("//"));
 	else
 		return (ft_strdup(arg->str));
+}
+
+static bool	ft_cd_arg_check(t_token *arg)
+{
+	int		i;
+
+	i = 0;
+	while (arg)
+	{
+		i++;
+		if (i > 1)
+		{
+			ft_print_err(ft_strdup("cd: too many arguments"));
+			return (false);
+		}
+		arg = arg->next;
+	}
+	return (true);
 }
 
 static char	*ft_cd_internal(t_root *root, t_token *arg)
@@ -61,11 +79,14 @@ static char	*ft_cd_internal(t_root *root, t_token *arg)
 
 int	ft_cd(t_root *root)
 {
+	t_token	*arg;
 	char	*res;
 	char	*err;
 
-	res = ft_cd_internal(root,
-			ft_find_token_by_index(root->current_cmd->cmd_tokens, 1));
+	arg = ft_find_token_by_index(root->current_cmd->cmd_tokens, 1);
+	if (!ft_cd_arg_check(arg))
+		return (EXIT_FAILURE);
+	res = ft_cd_internal(root, arg);
 	if (res)
 	{
 		err = ft_strjoin("minishell: cd: ", res);

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:53:21 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 17:59:50 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 20:44:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,16 @@ void	ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
 	t_token	*if_tkn;
 
 	if_tkn = i_tkn->next;
-	ft_token_move_before(if_tkn, *tkn);
-	*tkn = if_tkn;
+	if (if_tkn)
+	{
+		ft_token_move_before(if_tkn, *tkn);
+		*tkn = if_tkn;
+	}
+	else
+	{
+		ft_token_move_before(i_tkn, *tkn);
+		*tkn = i_tkn;
+	}
 	if (!(*tkn)->prev)
 		rt->preped_tokens = *tkn;
 }

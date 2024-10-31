@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			// "args": ["-c", "ls -la | lolcat | hexdump >> test; cat > test"],
+			// "args": ["-c", "env | lolcat"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

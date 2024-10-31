@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 14:56:39 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 18:46:02 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_builtins_execute(t_root *root, int fd)
 	else if (!ft_strcmp(cmd, "export"))
 		root->prev_cmd_status = ft_export(root);
 	else if (!ft_strcmp(cmd, "env"))
-		root->prev_cmd_status = ft_env(root);
+		root->prev_cmd_status = ft_env(root, root->current_cmd, false);
 	else if (!ft_strcmp(cmd, "unset"))
 		root->prev_cmd_status = ft_unset(root);
 	else if (!ft_strcmp(cmd, "exit"))

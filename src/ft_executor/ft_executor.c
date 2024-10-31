@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/12 18:03:05 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 22:30:28 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 
 static void	ft_executor_file_handler(t_cmd **current_cmd)
 {
+	if ((*current_cmd)->is_file && !(*current_cmd)->next
+		&& !(*current_cmd)->prev)
+	{
+		ft_create_file((*current_cmd)->cmd_tokens->str);
+		return ;
+	}
 	while ((*current_cmd)->next && (*current_cmd)->next->is_file)
 	{
 		*current_cmd = (*current_cmd)->next;
+		(*current_cmd)->skip = true;
 		ft_create_file((*current_cmd)->cmd_tokens->str);
 	}
 }
@@ -28,7 +35,7 @@ static void	ft_executor_input_check(t_root *root)
 	current_cmd = root->current_cmd;
 	if (current_cmd->post_action == INPUT)
 	{
-		ft_cmd_input(current_cmd, current_cmd->cmd_tokens->str);
+		ft_cmd_input(root, current_cmd, current_cmd->cmd_tokens->str);
 		close(current_cmd->pipe[1]);
 		root->prev_cmd = current_cmd;
 	}
@@ -39,10 +46,10 @@ static void	ft_executor_input_check(t_root *root)
 		root->prev_cmd = current_cmd;
 	}
 	else if ((current_cmd->post_action == TRUNC
-			|| current_cmd->post_action == APPEND) && !current_cmd->is_file)
+			|| current_cmd->post_action == APPEND))
 	{
 		ft_executor_file_handler(&current_cmd);
-		ft_cmd_trunc_append(root->current_cmd, current_cmd->cmd_tokens->str);
+		ft_cmd_trunc_append(root->current_cmd, current_cmd);
 	}
 }
 
@@ -78,13 +85,21 @@ void	ft_executor(t_root *root)
 	root->current_cmd = root->preped_cmds;
 	while (root->current_cmd)
 	{
+		if (root->current_cmd->skip)
+		{
+			root->current_cmd = root->current_cmd->next;
+			continue ;
+		}
 		ft_executor_input_check(root);
 		if (root->current_cmd->execute)
 		{
 			if (root->current_cmd->is_builtin)
 				ft_builtins(root);
 			else
-				ft_worker_launcher(root);
+			{
+				if (ft_strlen(root->current_cmd->cmd_tokens->str))
+					ft_worker_launcher(root);
+			}
 		}
 		root->current_cmd = root->current_cmd->next;
 	}

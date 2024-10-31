@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/18 03:25:32 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/31 01:04:33 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ static void	ft_echo_flag_check(t_root *root, int *arg_n, bool *apply_nl)
 {
 	t_token	*args;
 
-	args = root->current_cmd->cmd_tokens;
+	args = root->current_cmd->cmd_tokens->next;
 	while (args)
 	{
-		if (args->str[0] == '-' && ft_strrep(&args->str[0], '-'))
+		if (args->str[0] == '-' && ft_strrep(&args->str[0], '-') <= 1
+			&& args->state == NORMAL)
 		{
 			if (ft_strrep(&args->str[1], 'n'))
 			{
@@ -27,6 +28,8 @@ static void	ft_echo_flag_check(t_root *root, int *arg_n, bool *apply_nl)
 				*apply_nl = false;
 			}
 		}
+		else
+			break ;
 		args = args->next;
 	}
 }

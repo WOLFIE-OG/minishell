@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:16:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 15:17:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 18:51:01 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,15 @@ t_list	*ft_init_env(char **envp)
 	return (head);
 }
 
-char	**ft_env_to_array(t_root *root)
+char	**ft_env_to_array(t_root *root, bool newline)
 {
 	t_list		*head;
 	t_env_var	*var;
 	char		*str;
 	char		**tmp;
-	static char	**str_env = NULL;
+	char		**str_env;
 
+	str_env = NULL;
 	head = root->env;
 	while (head)
 	{
@@ -56,6 +57,37 @@ char	**ft_env_to_array(t_root *root)
 		tmp = ft_strarrayappend2(NULL, ft_strdup(var->key));
 		tmp = ft_strarrayappend2(tmp, ft_strdup("="));
 		tmp = ft_strarrayappend2(tmp, ft_strdup(var->value));
+		if (newline)
+			tmp = ft_strarrayappend2(tmp, ft_strdup("\n"));
+		str = ft_strarraytostr(tmp);
+		ft_gc_str_array(tmp);
+		str_env = ft_strarrayappend2(str_env, ft_strdup(str));
+		free(str);
+		head = head->next;
+	}
+	return (str_env);
+}
+
+char	**ft_env_to_declare_array(t_root *root)
+{
+	t_list		*head;
+	t_env_var	*var;
+	char		*str;
+	char		**tmp;
+	char		**str_env;
+
+	str_env = NULL;
+	head = root->env;
+	while (head)
+	{
+		var = (t_env_var *)head->content;
+		tmp = ft_strarrayappend2(NULL, ft_strdup("declare -x "));
+		tmp = ft_strarrayappend2(tmp, ft_strdup(var->key));
+		tmp = ft_strarrayappend2(tmp, ft_strdup("="));
+		tmp = ft_strarrayappend2(tmp, ft_strdup("\""));
+		tmp = ft_strarrayappend2(tmp, ft_strdup(var->value));
+		tmp = ft_strarrayappend2(tmp, ft_strdup("\""));
+		tmp = ft_strarrayappend2(tmp, ft_strdup("\n"));
 		str = ft_strarraytostr(tmp);
 		ft_gc_str_array(tmp);
 		str_env = ft_strarrayappend2(str_env, ft_strdup(str));

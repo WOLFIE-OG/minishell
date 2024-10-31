@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/09/12 15:21:29 by otodd            ###   ########.fr        #
+#    Updated: 2024/10/30 16:01:02 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_builtins/ft_pwd.c \
 				$(SRC_DIR)/ft_builtins/ft_export.c \
 				$(SRC_DIR)/ft_builtins/ft_exit.c \
-				$(SRC_DIR)/ft_builtins/ft_env.c \
+				$(SRC_DIR)/ft_builtins/ft_env_b.c \
 				$(SRC_DIR)/ft_builtins/ft_echo.c \
 				$(SRC_DIR)/ft_builtins/ft_cd.c
 

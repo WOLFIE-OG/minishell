@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/11 15:02:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/10/30 16:28:57 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_worker_handle_child(t_root *root, char *cmd, char **args)
 	signal(SIGINT, SIG_DFL);
 	if (!ft_handle_worker_pipes(root))
 		exit(EXIT_FAILURE);
-	env = ft_env_to_array(root);
+	env = ft_env_to_array(root, false);
 	if (execve(cmd, args, env) == -1)
 	{
 		free(cmd);
