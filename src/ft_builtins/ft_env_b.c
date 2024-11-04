@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:57:17 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 14:30:34 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 15:55:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_env(t_cmd *cmd, bool declare)
 	env = ft_strarraytostr(env_arr);
 	if (ft_strlen(env) > 4096 && cmd->next)
 	{
-		tmp = ft_write_to_tmp("minishell_tmp_env_cmd", env, true, cmd->pipe[0]);
+		tmp = ft_write_to_tmp("minishell_tmp_env", env, true, cmd->pipe[0]);
 		if (!tmp)
 		{
 			free(env);

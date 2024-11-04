@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/30 20:27:33 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 16:20:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,23 @@ void	ft_type_helper(t_token *head)
 	}
 }
 
-static bool	ft_token_retype_check_type(t_token *token)
+static void	ft_token_retype_ext_ext(t_token *token)
 {
-	if (token->next->type == ARG || token->next->type == PIPE
-		|| token->next->type == TRUNC || token->next->type == INPUT
-		|| token->next->type == APPEND || token->next->type == HEREDOC)
-		return (true);
-	return (false);
+	if (token->prev && token->prev->is_compound)
+		token->type = token->prev->type;
+	else if ((token->prev->prev && (token->prev->prev->type == INPUT
+				|| token->prev->prev->type == TRUNC
+				|| token->prev->prev->type == APPEND
+				|| token->prev->prev->type == HEREDOC))
+		&& (token->prev->prev->prev
+			&& (token->prev->prev->prev->type == CMD
+				|| token->prev->prev->prev->type == ARG
+				|| token->prev->prev->prev->type == INPUT_FILE
+				|| token->prev->prev->prev->type == OUTPUT_FILE
+				|| token->prev->prev->prev->type == OUTPUT_FILE)))
+		token->type = ARG;
+	else
+		token->type = CMD;
 }
 
 static void	ft_token_retype_ext(t_token *token)
@@ -45,23 +55,7 @@ static void	ft_token_retype_ext(t_token *token)
 		|| token->prev->type == INPUT_FILE
 		|| token->prev->type == OUTPUT_FILE
 		|| token->prev->type == HEREDOC_DELIM)
-	{
-		if (token->prev && token->prev->is_compound)
-			token->type = token->prev->type;
-		else if ((token->prev->prev && (token->prev->prev->type == INPUT
-					|| token->prev->prev->type == TRUNC
-					|| token->prev->prev->type == APPEND
-					|| token->prev->prev->type == HEREDOC))
-			&& (token->prev->prev->prev
-				&& (token->prev->prev->prev->type == CMD
-					|| token->prev->prev->prev->type == ARG
-					|| token->prev->prev->prev->type == INPUT_FILE
-					|| token->prev->prev->prev->type == OUTPUT_FILE
-					|| token->prev->prev->prev->type == OUTPUT_FILE)))
-			token->type = ARG;
-		else
-			token->type = CMD;
-	}
+		ft_token_retype_ext_ext(token);
 	else if (token->prev->type == TRUNC || token->prev->type == APPEND)
 		token->type = OUTPUT_FILE;
 	else if (token->prev->type == INPUT)
@@ -78,7 +72,9 @@ void	ft_token_retype(t_token *token)
 	{
 		if (token->next)
 		{
-			if (ft_token_retype_check_type(token))
+			if (token->next->type == ARG || token->next->type == PIPE
+				|| token->next->type == TRUNC || token->next->type == INPUT
+				|| token->next->type == APPEND || token->next->type == HEREDOC)
 				token->type = CMD;
 		}
 		else

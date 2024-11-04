@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 13:32:59 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 16:59:09 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,27 @@ static int	ft_isalnum_alt(int c)
 	return (0);
 }
 
-int	ft_export(t_root *root)
+static void	ft_export_helper(t_root *root, t_token *args, int *return_c)
 {
 	char	**temp;
+
+	temp = ft_key_value(args->str, '=');
+	if (temp[1] && ft_strlen(temp[0]))
+	{
+		if (!ft_ischeck_str(temp[0], ft_isalnum_alt))
+		{
+			ft_fprintf(STDERR_FILENO, "export: `%s=%s': %s\n",
+				temp[0], temp[1], "not a valid identifier");
+			*return_c = EXIT_FAILURE;
+		}
+		else
+			ft_set_var(root, temp[0], ft_strdup(temp[1]));
+	}
+	ft_gc_str_array(temp);
+}
+
+int	ft_export(t_root *root)
+{
 	t_token	*args;
 	int		return_c;
 
@@ -32,19 +50,7 @@ int	ft_export(t_root *root)
 	args = args->next;
 	while (args)
 	{
-		temp = ft_key_value(args->str, '=');
-		if (temp[1] && ft_strlen(temp[0]))
-		{
-			if (!ft_ischeck_str(temp[0], ft_isalnum_alt))
-			{
-				ft_fprintf(STDERR_FILENO, "export: `%s=%s': %s\n",
-					temp[0], temp[1], "not a valid identifier");
-				return_c = EXIT_FAILURE;
-			}
-			else
-				ft_set_var(root, temp[0], ft_strdup(temp[1]));
-		}
-		ft_gc_str_array(temp);
+		ft_export_helper(root, args, &return_c);
 		args = args->next;
 	}
 	return (return_c);

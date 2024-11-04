@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 14:16:29 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 16:35:53 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,75 +192,49 @@ int			ft_unset(t_root *root);
 int			ft_env(t_cmd *cmd, bool declare);
 void		ft_exit(t_root *root, int code);
 
-// src/ft_env/ft_env.c - Env
+// src/ft_env/ft_*.c - Env
 
 t_list		*ft_init_env(char **envp);
 char		**ft_env_to_array(t_root *root, bool newline);
 char		**ft_env_to_declare_array(t_root *root);
 void		ft_free_env(t_root *root);
-
-// src/ft_env/ft_env_helpers.c - Env helpers
-
 t_env_var	*ft_find_var_by_key(t_root *root, char *key);
 t_env_var	*ft_set_var(t_root *root, char *key, char *value);
 t_env_var	*ft_get_var(t_root *root, char *key);
 t_list		*ft_find_node_by_var_key(t_root *root, char *key);
 bool		ft_unset_var(t_root *root, char *key);
 
-// src/ft_executor/ft_executor_builtins.c - Executor builtin functions
+// src/ft_executor/ft_*.c - Executor functions
 
 void		ft_builtins(t_root *root);
-
-// src/ft_executor/ft_executor_io.c - Executor I/O functions
-
 bool		ft_create_file(char *path);
 int			ft_file_fd(bool append, bool input, char *path);
 void		ft_cmd_trunc_append(t_cmd *cmd, t_cmd *cmd2);
 char		*ft_fd_to_str(int fd);
 bool		ft_cmd_input(t_cmd *cmd, char *path);
-
-// src/ft_executor/ft_executor_redirs.c - Executor redir
-
 bool		ft_handle_worker_pipes(t_root *root);
-
-// src/ft_executor/ft_executor_utils.c - Executor utils
-
 char		**ft_worker_arg_str(t_root *root);
 char		*ft_cmd_path(t_root *root, char *cmd);
 bool		ft_is_path_binary(char *path);
 bool		ft_is_path_valid(char *path, bool check_exec, bool check_read,
 				bool check_write);
-
-// src/ft_executor/ft_executor_worker_launcher.c - Executor worker launcher
-
 void		ft_worker_launcher(t_root *root);
-
-// src/ft_executor/ft_executor_worker.c - Executor worker functions
-
 void		ft_worker(t_root *root, char *cmd, char **args);
-
-// src/ft_executor/ft_executor.c - Executor functions
-
 void		ft_executor(t_root *root);
 
-// src/ft_expander/*.c - Expander functions
+// src/ft_expander/ft_*.c - Expander functions
 
+void		ft_expander_expand_tokens(t_expander_vars *vars);
 char		*ft_expand_str(t_root *root, char *str, bool tilde);
 void		ft_expander_helper(t_root *root, t_expander_vars *vars);
 t_token		*ft_expander_tokenizer(char *input);
 void		ft_expander(t_root *root);
 
-// src/ft_gc/ft_executor_gc.c - Garbage executor functions
+// src/ft_gc/ft_*.c - Garbage functions
 
 void		ft_gc_str_array(char **arr);
 void		ft_gc_shell(t_root *root);
-
-// src/ft_gc/ft_general_gc.c - Garbage general functions
-
 void		ft_gc_preped_cmds(t_root *root);
-
-// src/ft_gc/ft_tokeniser_gc.c - Garbage tokeniser functions
-
 void		ft_gc_tokens(t_token *head);
 
 // src/ft_parser/ft_*.c - Parser stuff
@@ -273,6 +247,7 @@ void		ft_parser_arrange_heredoc(t_root *rt, t_token *i_tkn,
 void		ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
 				t_token **tkn);
 t_cmd		*ft_new_cmd(void);
+char		*ft_set_heredoc_prompt(void);
 void		ft_parser_checks(t_root *root, t_token **token);
 bool		ft_parser_adjust_tokens(t_root *root);
 void		ft_parser(t_root *root);
@@ -317,14 +292,17 @@ void		ft_worker_failure(t_root *root, bool is_binary);
 
 void		ft_init_shell(t_root *root, int ac, char **av, char **env);
 
-// src/ft_lexer.c - Lexer functions
+// src/ft_lexer/ft_*.c - Lexer functions
 
+void		ft_create_token(t_token_info *info, t_token **head);
 void		ft_test_token(void);
 t_token		*ft_tokenizer(char *input);
 int			ft_issep(char *input, int i);
 int			ft_skip_whitespace(const char *input, int i);
 char		*ft_tokenstr(const char *input, int start, int end);
 int			ft_parse_tokens(const char *input, int i, t_token **head);
+void		ft_quote_backtrack(t_token_info *info, char *input,
+				t_token **head);
 
 // src/ft_signals.c - Signal handler
 
@@ -342,7 +320,9 @@ void		print_tokens(t_token *head);
 // src/ft_utils - General Utils
 
 char		*ft_set_prompt(t_root *root);
-char		*ft_set_heredoc_prompt(void);
+
+// src/ft_tmp_file - Tmp file functions
+
 char		*ft_write_to_tmp(char *tmp, char *data, bool set_fd, int pipe_fd);
 
 #endif

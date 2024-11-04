@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/11/04 14:29:47 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 16:33:24 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,70 +68,3 @@ char	*ft_set_prompt(t_root *root)
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("$ "));
 	return (ft_strarraytostr(root->prompt));
 }
-
-char	*ft_set_heredoc_prompt(void)
-{
-	char	**prompt;
-	char	*prompt2;
-
-	prompt = ft_strarrayappend2(NULL, ft_strdup(BBLU));
-	prompt = ft_strarrayappend2(prompt, ft_strdup("heredoc"));
-	prompt = ft_strarrayappend2(prompt, ft_strdup(RESET));
-	prompt = ft_strarrayappend2(prompt, ft_strdup("> "));
-	prompt2 = ft_strarraytostr(prompt);
-	ft_gc_str_array(prompt);
-	return (prompt2);
-}
-
-static char	*ft_generate_tmp_file(char *tmp, int lvl)
-{
-	char	*tmp_name;
-	char	*n;
-	char	*path;
-
-	n = ft_itoa(lvl);
-	tmp_name = ft_strjoin(tmp, n);
-	free(n);
-	path = ft_strjoin("/tmp/", tmp_name);
-	free(tmp_name);
-	return (path);
-}
-
-char	*ft_write_to_tmp(char *tmp, char *data, bool set_fd, int pipe_fd)
-{
-	int		fd;
-	char	*path;
-	int		lvl;
-
-	lvl = 0;
-	while (true)
-	{
-		path = ft_generate_tmp_file(tmp, lvl);
-		if (!ft_isvalid_file_path(path))
-			break ;
-		free(path);
-		lvl++;
-	}
-	if (!ft_create_file(path))
-	{
-		free(path);
-		return (NULL);
-	}
-	fd = ft_file_fd(false, false, path);
-	ft_putstr_fd(data, fd);
-	close(fd);
-	if (set_fd)
-	{
-		fd = ft_file_fd(false, true, path);
-		if (dup2(fd, pipe_fd) == -1)
-		{
-			ft_fprintf(STDERR_FILENO, "error duping fd: %d -> %d: %s\n",
-				fd, pipe_fd, strerror(errno));
-			close(fd);
-			free(path);
-			return (NULL);
-		}
-	}
-	return (path);
-}
-

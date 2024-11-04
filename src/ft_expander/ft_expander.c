@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/30 19:57:46 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 16:15:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,26 +102,7 @@ void	ft_expander_helper(t_root *root, t_expander_vars *vars)
 		vars->tkn_head->str = ft_expand_str(root, vars->tkn_head->str, tilde);
 		vars->expanded_tokens = ft_expander_tokenizer(vars->tkn_head->str);
 		if (vars->expanded_tokens)
-		{
-			free(vars->tkn_head->str);
-			vars->tkn_head->str = ft_strdup(vars->expanded_tokens->str);
-			vars->next_token = vars->tkn_head->next;
-			vars->remaining_arg_tokens = vars->expanded_tokens->next;
-			while (vars->remaining_arg_tokens)
-			{
-				vars->duped_token = ft_token_dup(vars->remaining_arg_tokens);
-				ft_token_insert(vars->tkn_head, vars->duped_token);
-				vars->tkn_head = vars->duped_token;
-				vars->remaining_arg_tokens = vars->remaining_arg_tokens->next;
-			}
-			if (vars->next_token)
-			{
-				vars->tkn_head->next = vars->next_token;
-				vars->next_token->prev = vars->tkn_head;
-			}
-			ft_gc_tokens(vars->expanded_tokens);
-			ft_token_reindex(vars->cmd_head->cmd_tokens);
-		}
+			ft_expander_expand_tokens(vars);
 	}
 }
 

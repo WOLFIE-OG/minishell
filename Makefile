@@ -6,7 +6,7 @@
 #    By: otodd <otodd@student.42london.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/18 13:06:47 by otodd             #+#    #+#              #
-#    Updated: 2024/10/30 16:01:02 by otodd            ###   ########.fr        #
+#    Updated: 2024/11/04 16:36:19 by otodd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ OBJ_DIRS	=	$(OBJ_DIR) \
 				$(OBJ_DIR)/ft_executor \
 				$(OBJ_DIR)/ft_expander \
 				$(OBJ_DIR)/ft_gc \
+				$(OBJ_DIR)/ft_lexer \
 				$(OBJ_DIR)/ft_parser \
 				$(OBJ_DIR)/ft_tokeniser_helpers 
 
@@ -38,10 +39,10 @@ LIBFT_DIR 	= 	libft
 
 SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_utils.c \
+				$(SRC_DIR)/ft_tmp_file.c \
 				$(SRC_DIR)/ft_tests.c \
 				$(SRC_DIR)/ft_syntax.c \
 				$(SRC_DIR)/ft_signals.c \
-				$(SRC_DIR)/ft_lexer.c \
 				$(SRC_DIR)/ft_init.c \
 				$(SRC_DIR)/ft_errs.c \
 				$(SRC_DIR)/ft_tokeniser_helpers/ft_token_utils.c \
@@ -64,11 +65,15 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/ft_parser/ft_parser.c \
 				$(SRC_DIR)/ft_parser/ft_parser_utils.c \
 				$(SRC_DIR)/ft_parser/ft_parser_heredoc.c \
+				$(SRC_DIR)/ft_parser/ft_parser_heredoc_utils.c \
 				$(SRC_DIR)/ft_parser/ft_parser_checks_arrange.c \
+				$(SRC_DIR)/ft_lexer/ft_lexer.c \
+				$(SRC_DIR)/ft_lexer/ft_lexer_utils.c \
 				$(SRC_DIR)/ft_gc/ft_tokeniser_gc.c \
 				$(SRC_DIR)/ft_gc/ft_general_gc.c \
 				$(SRC_DIR)/ft_gc/ft_executor_gc.c \
 				$(SRC_DIR)/ft_expander/ft_expander.c \
+				$(SRC_DIR)/ft_expander/ft_expander_utils.c \
 				$(SRC_DIR)/ft_expander/ft_expander_lexer.c \
 				$(SRC_DIR)/ft_executor/ft_executor.c \
 				$(SRC_DIR)/ft_executor/ft_executor_io.c \
