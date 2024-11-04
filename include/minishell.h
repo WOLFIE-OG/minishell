@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/31 01:25:15 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 14:16:29 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
+typedef struct s_root	t_root;
 typedef struct s_cmd
 {
 	t_token_type	post_action;
@@ -89,6 +90,7 @@ typedef struct s_cmd
 	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
+	struct s_root	*root;
 }	t_cmd;
 
 // This is the main data struct of the shell
@@ -161,6 +163,7 @@ typedef struct s_parser_vars
 	t_token	*tkn;
 	t_cmd	*head;
 	t_cmd	*cmd;
+	t_root	*root;
 }	t_parser_vars;
 
 typedef struct s_cmd_path
@@ -186,7 +189,7 @@ int			ft_cd(t_root *root);
 int			ft_export(t_root *root);
 int			ft_echo(t_root *root);
 int			ft_unset(t_root *root);
-int			ft_env(t_root *root, t_cmd *cmd, bool declare);
+int			ft_env(t_cmd *cmd, bool declare);
 void		ft_exit(t_root *root, int code);
 
 // src/ft_env/ft_env.c - Env
@@ -214,7 +217,7 @@ bool		ft_create_file(char *path);
 int			ft_file_fd(bool append, bool input, char *path);
 void		ft_cmd_trunc_append(t_cmd *cmd, t_cmd *cmd2);
 char		*ft_fd_to_str(int fd);
-void		ft_cmd_input(t_root *root, t_cmd *cmd, char *path);
+bool		ft_cmd_input(t_cmd *cmd, char *path);
 
 // src/ft_executor/ft_executor_redirs.c - Executor redir
 
@@ -340,5 +343,6 @@ void		print_tokens(t_token *head);
 
 char		*ft_set_prompt(t_root *root);
 char		*ft_set_heredoc_prompt(void);
+char		*ft_write_to_tmp(char *tmp, char *data, bool set_fd, int pipe_fd);
 
 #endif

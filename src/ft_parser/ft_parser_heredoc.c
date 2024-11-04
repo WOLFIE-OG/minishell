@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 18:01:42 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 14:44:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,17 @@ static void	ft_heredoc_do_checks(t_root *root, t_heredoc_data *vars)
 static char	*ft_heredoc_result_clean_up(char **data)
 {
 	char	*result;
+	char	*tmp;
 
 	result = ft_strarraytostr(data);
 	if (!result)
 		result = ft_strdup("\0");
 	ft_gc_str_array(data);
-	return (result);
+	tmp = ft_write_to_tmp("minishell_tmp_heredoc", result, false, 0);
+	free(result);
+	if (!tmp)
+		return (NULL);
+	return (tmp);
 }
 
 char	*ft_handle_heredoc(t_root *root, t_token *delim)

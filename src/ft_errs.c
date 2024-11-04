@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:44:46 by ssottori          #+#    #+#             */
-/*   Updated: 2024/10/31 01:31:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 12:58:00 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_worker_error_print(t_root *root)
 		if (root->prev_cmd_status != SIGPIPE)
 			ft_fprintf(STDERR_FILENO, msg, root->prev_cmd->pid,
 				root->prev_cmd_status);
+		else
+			root->prev_cmd_status = EXIT_SUCCESS;
 	}
 }
 
@@ -57,7 +59,7 @@ void	ft_worker_failure(t_root *root, bool is_binary)
 	}
 	else
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n",
+		ft_fprintf(STDERR_FILENO, "%s: %s\n",
 			root->current_cmd->cmd_tokens->str, strerror(errno));
 		if (errno == EISDIR)
 			root->prev_cmd_status = 126;

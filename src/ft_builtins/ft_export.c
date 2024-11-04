@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/30 18:55:37 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 13:32:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_export(t_root *root)
 	return_c = EXIT_SUCCESS;
 	args = root->current_cmd->cmd_tokens;
 	if (args && !args->next)
-		return (ft_env(root, root->current_cmd, true));
+		return (ft_env(root->current_cmd, true));
 	args = args->next;
 	while (args)
 	{

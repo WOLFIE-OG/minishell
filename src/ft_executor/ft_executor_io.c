@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/30 20:15:11 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 13:36:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	ft_create_file(char *path)
 	fd = open(path, perms, 0644);
 	if (fd == -1)
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
+		ft_fprintf(STDERR_FILENO, "%s: %s\n", path, strerror(errno));
 		return (false);
 	}
 	close(fd);
@@ -35,8 +35,8 @@ void	ft_cmd_trunc_append(t_cmd *cmd, t_cmd *cmd2)
 
 	if (!ft_is_path_valid(cmd2->cmd_tokens->str, false, false, true))
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n",
-			strerror(errno), cmd2->cmd_tokens->str);
+		ft_fprintf(STDERR_FILENO, "%s: %s\n",
+			cmd2->cmd_tokens->str, strerror(errno));
 		return ;
 	}
 	append = false;
@@ -45,7 +45,7 @@ void	ft_cmd_trunc_append(t_cmd *cmd, t_cmd *cmd2)
 	fd = ft_file_fd(append, false, cmd2->cmd_tokens->str);
 	if (dup2(fd, cmd->pipe[1]) == -1)
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: error duping fd: %d -> %d: %s\n",
+		ft_fprintf(STDERR_FILENO, "error duping fd: %d -> %d: %s\n",
 			fd, cmd->pipe[1], strerror(errno));
 		close(fd);
 		return ;
@@ -90,29 +90,31 @@ int	ft_file_fd(bool append, bool input, char *path)
 	fd = open(path, perms, 0644);
 	if (fd == -1)
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
+		ft_fprintf(STDERR_FILENO, "%s: %s\n", path, strerror(errno));
 		return (-1);
 	}
 	return (fd);
 }
 
-void	ft_cmd_input(t_root *root, t_cmd *cmd, char *path)
+bool	ft_cmd_input(t_cmd *cmd, char *path)
 {
 	int	fd;
 
 	if (!ft_is_path_valid(path, false, true, false))
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: %s: %s\n", strerror(errno), path);
-		root->prev_cmd_status = EXIT_FAILURE;
-		return ;
+		ft_fprintf(STDERR_FILENO, "%s: %s\n", path, strerror(errno));
+		cmd->root->prev_cmd_status = EXIT_FAILURE;
+		return (false);
 	}
 	fd = ft_file_fd(false, true, path);
 	if (dup2(fd, cmd->pipe[0]) == -1)
 	{
-		ft_fprintf(STDERR_FILENO, "minishell: error duping fd: %d -> %d: %s\n",
+		ft_fprintf(STDERR_FILENO, "error duping fd: %d -> %d: %s\n",
 			fd, cmd->pipe[0], strerror(errno));
+		cmd->root->prev_cmd_status = EXIT_FAILURE;
 		close(fd);
-		return ;
+		return (false);
 	}
 	close(fd);
+	return (true);
 }
