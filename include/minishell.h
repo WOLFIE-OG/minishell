@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 16:35:53 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 17:44:51 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ typedef struct s_token_info
 int			ft_pwd(t_root *root);
 int			ft_cd(t_root *root);
 int			ft_export(t_root *root);
-int			ft_echo(t_root *root);
+int			ft_echo(t_cmd *cmd);
 int			ft_unset(t_root *root);
 int			ft_env(t_cmd *cmd, bool declare);
 void		ft_exit(t_root *root, int code);

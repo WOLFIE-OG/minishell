@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/30 19:15:52 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 17:36:17 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_cd(t_root *root)
 	res = ft_cd_internal(root, arg);
 	if (res)
 	{
-		err = ft_strjoin("minishell: cd: ", res);
+		err = ft_strjoin("cd: ", res);
 		perror(err);
 		free(res);
 		free(err);

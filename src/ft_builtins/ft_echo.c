@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/31 01:04:33 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 17:51:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,54 @@ static void	ft_echo_flag_check(t_root *root, int *arg_n, bool *apply_nl)
 	}
 }
 
-static void	ft_echo_output(t_root *root, int arg_n, bool apply_nl)
+static bool	ft_echo_output_ex(char *str, t_cmd *cmd)
+{
+	char	*tmp;
+
+	if (ft_strlen(str) > 4096 && cmd->next)
+	{
+		tmp = ft_write_to_tmp("minishell_tmp_echo", str, true, cmd->pipe[0]);
+		free(str);
+		if (!tmp)
+			return (false);
+		free(tmp);
+	}
+	else
+		ft_putstr_fd(str, STDOUT_FILENO);
+	free(str);
+	return (true);
+}
+
+static bool	ft_echo_output(t_cmd *cmd, int arg_n, bool apply_nl)
 {
 	t_token	*arg;
+	char	**str_arr;
+	char	*str;
 
-	arg = ft_find_token_by_index(root->current_cmd->cmd_tokens, arg_n);
+	str_arr = NULL;
+	str = NULL;
+	arg = ft_find_token_by_index(cmd->cmd_tokens, arg_n);
 	while (arg)
 	{
-		ft_putstr_fd(arg->str, STDOUT_FILENO);
+		str_arr = ft_strarrayappend2(str_arr, ft_strdup(arg->str));
 		if (arg->next)
-			ft_putchar_fd(' ', STDOUT_FILENO);
+			str_arr = ft_strarrayappend2(str_arr, ft_strdup(" "));
 		arg = arg->next;
 	}
 	if (apply_nl)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		str_arr = ft_strarrayappend2(str_arr, ft_strdup("\n"));
+	str = ft_strarraytostr(str_arr);
+	ft_gc_str_array(str_arr);
+	return (ft_echo_output_ex(str, cmd));
 }
 
-int	ft_echo(t_root *root)
+int	ft_echo(t_cmd *cmd)
 {
 	int		arg_n;
 	bool	apply_nl;
 
 	arg_n = 1;
 	apply_nl = true;
-	ft_echo_flag_check(root, &arg_n, &apply_nl);
-	ft_echo_output(root, arg_n, apply_nl);
-	return (EXIT_SUCCESS);
+	ft_echo_flag_check(cmd->root, &arg_n, &apply_nl);
+	return (ft_echo_output(cmd, arg_n, apply_nl));
 }
