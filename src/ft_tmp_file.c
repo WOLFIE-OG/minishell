@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/11/04 16:22:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 17:25:19 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_tmp_file_loop(char *tmp, char **path)
 		*path = ft_generate_tmp_file(tmp, lvl);
 		if (!ft_is_path_valid(*path, false, false, false))
 			break ;
-		free(path);
+		free(*path);
 		lvl++;
 	}
 }
