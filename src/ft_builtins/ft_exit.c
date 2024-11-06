@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 16:04:48 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 17:57:58 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,33 @@ int	ft_isvalid_numstr_alt(char *s)
 	return (1);
 }
 
+static bool	ft_exit_helper(t_root *root, t_token **args)
+{
+	*args = root->current_cmd->cmd_tokens;
+	if (args && !(*args)->next)
+	{
+		root->exit = true;
+		root->current_cmd->exit_code = root->prev_cmd_status;
+		return (false);
+	}
+	*args = (*args)->next;
+	if (!ft_isvalid_numstr_alt((*args)->str))
+	{
+		ft_fprintf(STDERR_FILENO, "exit: %s: numeric argument required\n",
+			(*args)->str);
+		root->exit = true;
+		root->current_cmd->exit_code = 2;
+		return (false);
+	}
+	if ((*args)->next)
+	{
+		ft_fprintf(STDERR_FILENO, "exit: too many arguments\n");
+		root->current_cmd->exit_code = EXIT_FAILURE;
+		return (false);
+	}
+	return (true);
+}
+
 void	ft_exit(t_root *root)
 {
 	t_token		*args;
@@ -41,35 +68,14 @@ void	ft_exit(t_root *root)
 
 	if (root->current_cmd->next)
 		return ;
-	args = root->current_cmd->cmd_tokens;
-	if (args && !args->next)
-	{
-		root->exit = true;
-		root->current_cmd->exit_code = root->prev_cmd_status;
+	if (!ft_exit_helper(root, &args))
 		return ;
-	}
-	args = args->next;
-	if (!ft_isvalid_numstr_alt(args->str))
-	{
-		ft_fprintf(STDERR_FILENO, "exit: %s: numeric argument required\n",
-			args->str);
-		root->exit = true;
-		root->current_cmd->exit_code = 2;
-		return ;
-	}
-	if (args->next)
-	{
-		ft_fprintf(STDERR_FILENO, "exit: too many arguments\n");
-		root->current_cmd->exit_code = EXIT_FAILURE;
-		return ;
-	}
 	root->exit = true;
 	code = (long long)ft_atol(args->str);
-	if (code <= LONG_MIN + 1 || code >= LONG_MAX - 1)
+	if (code < LONG_MIN && code > LONG_MAX)
 	{
-		ft_fprintf(STDERR_FILENO, "exit: %q: numeric argument required\n",
+		printf("exit: %lld: numeric argument required\n",
 			code);
-		root->exit = true;
 		root->current_cmd->exit_code = 2;
 		return ;
 	}
