@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:31:02 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 13:36:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 21:20:35 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ bool	ft_cmd_input(t_cmd *cmd, char *path)
 	if (!ft_is_path_valid(path, false, true, false))
 	{
 		ft_fprintf(STDERR_FILENO, "%s: %s\n", path, strerror(errno));
-		cmd->root->prev_cmd_status = EXIT_FAILURE;
+		cmd->exit_code = EXIT_FAILURE;
 		return (false);
 	}
 	fd = ft_file_fd(false, true, path);
@@ -111,7 +111,7 @@ bool	ft_cmd_input(t_cmd *cmd, char *path)
 	{
 		ft_fprintf(STDERR_FILENO, "error duping fd: %d -> %d: %s\n",
 			fd, cmd->pipe[0], strerror(errno));
-		cmd->root->prev_cmd_status = EXIT_FAILURE;
+		cmd->exit_code = EXIT_FAILURE;
 		close(fd);
 		return (false);
 	}

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 13:09:07 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 01:45:05 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static void	ft_interactive_check(t_root *root)
 				ft_gc_str_array(tmp);
 			}
 			else
-				ft_exit(root, EXIT_FAILURE);
+				root->exit = true;
 		}
 		else
-			ft_exit(root, EXIT_FAILURE);
+			root->exit = true;
 	}
 }
 
@@ -66,13 +66,13 @@ void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 	root->preped_cmds = NULL;
 	root->current_cmd = NULL;
 	root->env = ft_init_env(env);
-	root->shell_name = "minishell";
 	root->interactive = true;
 	root->interactive_str = NULL;
 	root->init_args = av;
 	root->init_args_c = ac;
 	root->init_env = env;
 	root->prompt = NULL;
+	root->exit = false;
 	ft_interactive_check(root);
 	ft_init_vars(root);
 }

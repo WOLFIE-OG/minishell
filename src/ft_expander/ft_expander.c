@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:53:38 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 16:15:19 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/05 23:48:16 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_expander_helper(t_root *root, t_expander_vars *vars)
 	if (ft_strchr(vars->tkn_head->str, '$') || tilde)
 	{
 		vars->tkn_head->str = ft_expand_str(root, vars->tkn_head->str, tilde);
-		vars->expanded_tokens = ft_expander_tokenizer(vars->tkn_head->str);
+		vars->expanded_tokens = ft_expander_tokenizer(vars->tkn_head);
 		if (vars->expanded_tokens)
 			ft_expander_expand_tokens(vars);
 	}

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 13:43:51 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/10 16:39:03 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 18:43:59 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_eof(char *input)
 {
 	if (input)
 		return ;
-	ft_printf("exit\n");
+	printf("exit\n");
 }
 
 bool	ft_check_state(t_state current_state)

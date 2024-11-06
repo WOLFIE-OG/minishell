@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 17:51:56 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 18:21:51 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	ft_echo_flag_check(t_root *root, int *arg_n, bool *apply_nl)
 	}
 }
 
-static bool	ft_echo_output_ex(char *str, t_cmd *cmd)
+static int	ft_echo_output_ex(char *str, t_cmd *cmd)
 {
 	char	*tmp;
 
@@ -43,16 +43,16 @@ static bool	ft_echo_output_ex(char *str, t_cmd *cmd)
 		tmp = ft_write_to_tmp("minishell_tmp_echo", str, true, cmd->pipe[0]);
 		free(str);
 		if (!tmp)
-			return (false);
+			return (EXIT_FAILURE);
 		free(tmp);
 	}
 	else
 		ft_putstr_fd(str, STDOUT_FILENO);
 	free(str);
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
-static bool	ft_echo_output(t_cmd *cmd, int arg_n, bool apply_nl)
+static int	ft_echo_output(t_cmd *cmd, int arg_n, bool apply_nl)
 {
 	t_token	*arg;
 	char	**str_arr;
@@ -61,6 +61,8 @@ static bool	ft_echo_output(t_cmd *cmd, int arg_n, bool apply_nl)
 	str_arr = NULL;
 	str = NULL;
 	arg = ft_find_token_by_index(cmd->cmd_tokens, arg_n);
+	if (!arg && !apply_nl)
+		return (EXIT_SUCCESS);
 	while (arg)
 	{
 		str_arr = ft_strarrayappend2(str_arr, ft_strdup(arg->str));

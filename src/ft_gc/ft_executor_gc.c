@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:58:28 by otodd             #+#    #+#             */
-/*   Updated: 2024/09/05 13:20:55 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/05 23:31:15 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_gc_preped_cmds(t_root *root)
 	t_cmd	*next;
 
 	head = root->preped_cmds;
+	if (!head)
+		return ;
 	while (head)
 	{
 		next = head->next;

@@ -6,36 +6,31 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 17:45:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 02:01:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_builtins_execute(t_root *root, int fd)
+static void	ft_builtins_execute(t_root *root)
 {
 	char	*cmd;
 
 	cmd = root->current_cmd->cmd_tokens->str;
 	if (!ft_strcmp(cmd, "cd"))
-		root->prev_cmd_status = ft_cd(root);
+		root->current_cmd->exit_code = ft_cd(root);
 	else if (!ft_strcmp(cmd, "export"))
-		root->prev_cmd_status = ft_export(root);
+		root->current_cmd->exit_code = ft_export(root);
 	else if (!ft_strcmp(cmd, "env"))
-		root->prev_cmd_status = ft_env(root->current_cmd, false);
+		root->current_cmd->exit_code = ft_env(root->current_cmd, false);
 	else if (!ft_strcmp(cmd, "unset"))
-		root->prev_cmd_status = ft_unset(root);
+		root->current_cmd->exit_code = ft_unset(root);
 	else if (!ft_strcmp(cmd, "exit"))
-	{
-		ft_putstr("exit\n");
-		if (fd != STDOUT_FILENO)
-			close(fd);
-		ft_exit(root, root->prev_cmd_status);
-	}
+		ft_exit(root);
 	else if (!ft_strcmp(cmd, "echo"))
-		root->prev_cmd_status = ft_echo(root->current_cmd);
+		root->current_cmd->exit_code = ft_echo(root->current_cmd);
 	else if (!ft_strcmp(cmd, "pwd"))
-		root->prev_cmd_status = ft_pwd(root);
+		root->current_cmd->exit_code = ft_pwd(root);
 }
 
 static void	ft_builtins_handle_redir(t_root *root, int *fd)
@@ -59,7 +54,7 @@ void	ft_builtins(t_root *root)
 		|| (root->current_cmd->next
 			&& root->current_cmd->next->post_action != EMPTY))
 		ft_builtins_handle_redir(root, &fd);
-	ft_builtins_execute(root, fd);
+	ft_builtins_execute(root);
 	if (root->current_cmd->next
 		|| (root->current_cmd->next
 			&& root->current_cmd->next->post_action != EMPTY))

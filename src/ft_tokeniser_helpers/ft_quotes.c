@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 14:59:28 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/11 15:58:12 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 01:15:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_unclosed_quote(char *str)
 			printf("char: %c -- state rn: %d -- index: %d\n", str[i], state, i);
 		if (state != NORMAL && str[i + 1] == '\0')
 		{
-			ft_print_err("Syntax error: unclosed quote\n");
+			ft_fprintf(STDERR_FILENO, "Syntax error: unclosed quote\n");
 			return (1);
 		}
 		i++;

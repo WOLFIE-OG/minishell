@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/10/30 12:55:35 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 01:46:06 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int ac, char **av, char **envp)
 	ft_init_shell(&root, ac, av, envp);
 	if (!root.interactive)
 		ft_shell_post_input(&root, root.interactive_str);
-	while (true && root.interactive)
+	while (true && root.interactive && !root.exit)
 	{
 		tmp = ft_set_prompt(&root);
 		input = readline(tmp);
@@ -103,5 +103,6 @@ int	main(int ac, char **av, char **envp)
 			add_history(input);
 		free(input);
 	}
-	ft_exit(&root, root.prev_cmd_status);
+	ft_gc_shell(&root);
+	return (root.prev_cmd_status);
 }

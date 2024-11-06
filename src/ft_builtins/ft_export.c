@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 17:40:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 01:25:21 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	ft_isalnum_alt(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')
+		|| (c >= '0' && c <= '9'))
 		return (8);
 	return (0);
 }
@@ -26,7 +27,7 @@ static void	ft_export_helper(t_root *root, t_token *args, int *return_c)
 	temp = ft_key_value(args->str, '=');
 	if (temp[1] && ft_strlen(temp[0]))
 	{
-		if (!ft_ischeck_str(temp[0], ft_isalnum_alt))
+		if (!ft_ischeck_str(temp[0], ft_isalnum_alt) || !ft_isalpha(temp[0][0]))
 		{
 			ft_fprintf(STDERR_FILENO, "export: `%s=%s': %s\n",
 				temp[0], temp[1], "not a valid identifier");

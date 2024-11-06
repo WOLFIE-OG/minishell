@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:30:35 by ssottori          #+#    #+#             */
-/*   Updated: 2024/11/04 16:37:03 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 00:16:11 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ static void	ft_process_quotes(char **tok_str, t_state *s)
 	}
 }
 
+static void	ft_create_token_helper(t_token_info *info, t_token *token)
+{
+	if (info->input[info->end] != '\0')
+	{
+		if (!ft_iswhitespace(info->input[info->end])
+			&& !ft_issep(info->input, info->end))
+			token->is_compound = true;
+		else
+			token->has_space_trailing = true;
+	}
+	if (info->start != 0)
+		if (!ft_iswhitespace(info->input[info->start - 1])
+			&& !ft_issep(info->input, info->start - 1))
+			token->is_compound = true;
+}
+
 void	ft_create_token(t_token_info *info, t_token **head)
 {
 	char	*tok_str;
@@ -35,22 +51,14 @@ void	ft_create_token(t_token_info *info, t_token **head)
 	s = NORMAL;
 	if (info->start != info->end)
 	{
+		if (info->input[info->start] == '$'
+			&& ft_isquote(info->input[info->start + 1]))
+			return ;
 		tok_str = ft_tokenstr(info->input, info->start, info->end);
 		ft_process_quotes(&tok_str, &s);
 		token = ft_token_new(ft_strdup(tok_str));
 		free(tok_str);
-		if (info->input[info->end] != '\0')
-		{
-			if (!ft_iswhitespace(info->input[info->end])
-				&& !ft_issep(info->input, info->end))
-				token->is_compound = true;
-			else
-				token->has_space_trailing = true;
-		}
-		if (info->start != 0)
-			if (!ft_iswhitespace(info->input[info->start - 1])
-				&& !ft_issep(info->input, info->start - 1))
-				token->is_compound = true;
+		ft_create_token_helper(info, token);
 		token->state = s;
 		ft_token_add(head, token);
 	}

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 17:36:17 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 11:01:24 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ static char	*ft_process_arg(t_root *root, t_token *arg, t_env_var **var)
 {
 	if (!ft_strlen(arg->str))
 	{
-		*var = ft_get_var(root, "HOME");
-		arg->str = (*var)->value;
+		free(arg->str);
+		*var = ft_get_var(root, "PWD");
+		arg->str = ft_strdup((*var)->value);
 	}
 	else if (ft_strcmp(arg->str, "-") == 0)
 	{
@@ -43,7 +44,7 @@ static bool	ft_cd_arg_check(t_token *arg)
 		i++;
 		if (i > 1)
 		{
-			ft_print_err(ft_strdup("cd: too many arguments"));
+			ft_fprintf(STDERR_FILENO, "cd: too many arguments\n");
 			return (false);
 		}
 		arg = arg->next;

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:30:10 by otodd             #+#    #+#             */
-/*   Updated: 2024/10/30 22:28:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/04 21:08:32 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_cmd	*ft_new_cmd(void)
 	cmd->execute = false;
 	cmd->skip = false;
 	cmd->pid = 0;
+	cmd->exit_code = EXIT_SUCCESS;
+	cmd->exit_signaled = false;
 	return (cmd);
 }
 

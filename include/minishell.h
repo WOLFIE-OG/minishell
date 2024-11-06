@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 17:44:51 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 01:54:49 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
-typedef struct s_root	t_root;
+typedef	struct s_root t_root;
 typedef struct s_cmd
 {
 	t_token_type	post_action;
@@ -87,6 +87,8 @@ typedef struct s_cmd
 	bool			is_file;
 	bool			execute;
 	bool			skip;
+	bool			exit_signaled;
+	int				exit_code;
 	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
@@ -100,9 +102,7 @@ typedef struct s_root
 	struct s_token	*preped_tokens;
 	struct s_cmd	*preped_cmds;
 	char			**prompt;
-	char			*shell_name;
 	int				prev_cmd_status;
-	bool			prev_cmd_status_signaled;
 	struct s_cmd	*prev_cmd;
 	struct s_cmd	*current_cmd;
 	bool			interactive;
@@ -110,6 +110,7 @@ typedef struct s_root
 	char			**init_args;
 	int				init_args_c;
 	char			**init_env;
+	bool			exit;
 }	t_root;
 
 typedef struct s_token
@@ -190,7 +191,7 @@ int			ft_export(t_root *root);
 int			ft_echo(t_cmd *cmd);
 int			ft_unset(t_root *root);
 int			ft_env(t_cmd *cmd, bool declare);
-void		ft_exit(t_root *root, int code);
+void		ft_exit(t_root *root);
 
 // src/ft_env/ft_*.c - Env
 
@@ -227,7 +228,7 @@ void		ft_executor(t_root *root);
 void		ft_expander_expand_tokens(t_expander_vars *vars);
 char		*ft_expand_str(t_root *root, char *str, bool tilde);
 void		ft_expander_helper(t_root *root, t_expander_vars *vars);
-t_token		*ft_expander_tokenizer(char *input);
+t_token		*ft_expander_tokenizer(t_token *tkn);
 void		ft_expander(t_root *root);
 
 // src/ft_gc/ft_*.c - Garbage functions
@@ -284,7 +285,6 @@ void		ft_type_helper(t_token *head);
 
 // src/ft_errs.c - Error functions
 
-void		ft_print_err(const char *message);
 void		ft_worker_error_print(t_root *root);
 void		ft_worker_failure(t_root *root, bool is_binary);
 
