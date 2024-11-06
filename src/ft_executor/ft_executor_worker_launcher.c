@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:33:11 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 12:16:05 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 14:26:03 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	ft_worker_launcher(t_root *root)
 	cmd = root->current_cmd->cmd_tokens->str;
 	if (!ft_strlen(cmd)
 		&& root->current_cmd->cmd_tokens->state == NORMAL)
-		{
-			ft_gc_str_array(args);
-			return ;
-		}
+	{
+		ft_gc_str_array(args);
+		return ;
+	}
 	ft_worker_path_check(root, &cmd, &is_binary);
 	if (cmd)
 		ft_worker(root, cmd, args);

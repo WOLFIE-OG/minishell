@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 01:54:49 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 14:28:36 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
-typedef	struct s_root t_root;
+typedef struct s_root	t_root;
 typedef struct s_cmd
 {
 	t_token_type	post_action;

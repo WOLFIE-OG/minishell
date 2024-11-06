@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 10:53:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 16:04:48 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_exit(t_root *root)
 	{
 		ft_fprintf(STDERR_FILENO, "exit: %s: numeric argument required\n",
 			args->str);
+		root->exit = true;
 		root->current_cmd->exit_code = 2;
 		return ;
 	}
@@ -64,10 +65,11 @@ void	ft_exit(t_root *root)
 	}
 	root->exit = true;
 	code = (long long)ft_atol(args->str);
-	if (code > LONG_MAX)
+	if (code <= LONG_MIN + 1 || code >= LONG_MAX - 1)
 	{
-		ft_fprintf(STDERR_FILENO, "exit: %lld: numeric argument required\n",
+		ft_fprintf(STDERR_FILENO, "exit: %q: numeric argument required\n",
 			code);
+		root->exit = true;
 		root->current_cmd->exit_code = 2;
 		return ;
 	}

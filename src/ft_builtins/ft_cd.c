@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 11:01:24 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/06 14:05:32 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static char	*ft_cd_internal(t_root *root, t_token *arg)
 		free(pth);
 		return (NULL);
 	}
-	ft_set_var(root, "OLDPWD", ft_strdup(var->value));
+	if (var)
+		ft_set_var(root, "OLDPWD", ft_strdup(var->value));
 	ft_set_var(root, "PWD", ft_strdup(cwd));
 	free(pth);
 	return (NULL);
