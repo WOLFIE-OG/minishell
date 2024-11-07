@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/07 17:56:40 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 23:22:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ typedef enum e_token_type
 	OUTPUT_FILE
 }	t_token_type;
 
-// extern int	g_var_signal;
-
 /* These are the environment variables of the shell stored
 via a bi-directional linked list*/
 typedef struct s_env_var
@@ -78,7 +76,6 @@ typedef struct s_env_var
 	char	*value;
 }	t_env_var;
 
-typedef struct s_root	t_root;
 typedef struct s_cmd
 {
 	t_token_type	post_action;

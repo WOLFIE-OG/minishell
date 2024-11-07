@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:40:23 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/07 17:37:04 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 23:09:12 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	ft_echo_flag_check(t_root *root, int *arg_n, bool *apply_nl)
 	args = root->current_cmd->cmd_tokens->next;
 	while (args)
 	{
-		if (args->str[0] == '-' && ft_strrep(&args->str[0], '-') <= 1
-			&& args->state == NORMAL)
+		if (args->str[0] == '-' && ft_strrep(&args->str[0], '-', false) <= 1
+			&& args->state == NORMAL && args->str[1])
 		{
-			if (ft_strrep(&args->str[1], 'n'))
+			if ((int)ft_strrep(&args->str[1], 'n', true) != -1)
 			{
 				*arg_n += 1;
 				*apply_nl = false;
