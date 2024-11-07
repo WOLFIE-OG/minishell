@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 09:57:47 by ssottori          #+#    #+#             */
-/*   Updated: 2024/09/10 21:43:16 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 17:58:13 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 static void	ft_sigint_input(int signum)
 {
 	(void)signum;
-	write(STDIN_FILENO, "\n", 1);
-	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	rl_on_new_line();
+	write(STDOUT_FILENO, "\n", 1);
+	if (g_var_signal == 0)
+		rl_redisplay();
 }
 
 void	ft_config_sigint(void)

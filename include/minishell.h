@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 14:28:36 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 17:56:40 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define SIG_IOT	"[%d] Aborted (core dumped) %d\n"
 # define SYNTAX_ERROR_MSG "minishell: syntax error near unexpected token `%s`\n"
 # define DEBUG false
+
+extern int	g_var_signal;
 
 typedef enum e_state
 {

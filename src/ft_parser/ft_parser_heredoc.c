@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/04 14:44:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 15:18:21 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,43 @@ static char	*ft_heredoc_result_clean_up(char **data)
 	return (tmp);
 }
 
+static void	ft_join_heredoc_compounds(t_token **head_t, bool *expand)
+{
+	t_token	*c_head_t;
+	t_token	*next_token;
+	char	*tmp;
+
+	c_head_t = *head_t;
+	while (*head_t && (*head_t)->is_compound
+		&& (*head_t)->type == HEREDOC_DELIM)
+	{
+		if (*head_t == c_head_t)
+		{
+			*head_t = (*head_t)->next;
+			continue ;
+		}
+		if ((*head_t)->state == SINGLE_Q && expand)
+			*expand = false;
+		tmp = ft_strjoin(c_head_t->str, (*head_t)->str);
+		free(c_head_t->str);
+		c_head_t->str = tmp;
+		next_token = (*head_t)->next;
+		ft_token_delone(ft_token_pop(*head_t), free);
+		*head_t = next_token;
+	}
+	c_head_t->is_compound = false;
+	*head_t = c_head_t;
+}
+
 char	*ft_handle_heredoc(t_root *root, t_token *delim)
 {
 	t_heredoc_data	vars;
 
 	vars.data = NULL;
 	vars.end = false;
-	vars.delim = delim->str;
 	vars.expand = true;
-	if (delim->state == SINGLE_Q)
-		vars.expand = false;
+	ft_join_heredoc_compounds(&delim, &vars.expand);
+	vars.delim = delim->str;
 	while (!vars.end)
 	{
 		vars.prompt = ft_set_heredoc_prompt();

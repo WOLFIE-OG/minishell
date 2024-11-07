@@ -6,11 +6,13 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:25:24 by ssottori          #+#    #+#             */
-/*   Updated: 2024/11/06 01:46:06 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 17:58:03 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	g_var_signal;
 
 static void	ft_join_compounds(t_token **head_t)
 {

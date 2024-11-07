@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:28:07 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 01:45:05 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/07 17:58:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	ft_init_vars(t_root *root)
 
 void	ft_init_shell(t_root *root, int ac, char **av, char **env)
 {
+	g_var_signal = 0;
 	ft_config_sigint();
 	root->prev_cmd = NULL;
 	root->prev_cmd_status = EXIT_SUCCESS;
