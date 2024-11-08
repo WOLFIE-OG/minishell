@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:46:56 by ssottori          #+#    #+#             */
-/*   Updated: 2024/11/06 00:27:37 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 16:24:34 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,15 @@ char	*ft_set_prompt(t_root *root)
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup(RESET));
 	root->prompt = ft_strarrayappend2(root->prompt, ft_strdup("$ "));
 	return (ft_strarraytostr(root->prompt));
+}
+
+bool	ft_has_cmd(t_token *head)
+{
+	while (head)
+	{
+		if (head->type == CMD)
+			return (true);
+		head = head->prev;
+	}
+	return (false);
 }

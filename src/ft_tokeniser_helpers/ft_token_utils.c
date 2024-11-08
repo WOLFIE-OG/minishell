@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 18:47:10 by ssottori          #+#    #+#             */
-/*   Updated: 2024/11/08 16:16:00 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 16:24:23 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,4 @@ int	ft_issep(char *input, int i)
 int	ft_separator(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
-}
-
-bool	ft_has_cmd(t_token *head)
-{
-	while (head)
-	{
-		if (head->type == CMD)
-			return (true);
-		head = head->prev;
-	}
-	return (false);
 }
