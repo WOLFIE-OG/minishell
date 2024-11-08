@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:53:21 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/08 15:33:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 15:53:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void	ft_parser_arrange_trunc_append(t_root *rt, t_token *i_tkn,
 	if_tkn = i_tkn->next;
 	if (if_tkn)
 	{
+		while (if_tkn && if_tkn->type != CMD)
+			if_tkn = if_tkn->next;
+		if (!if_tkn)
+			if_tkn = i_tkn->next;
 		ft_token_move_before(if_tkn, *tkn);
 		*tkn = if_tkn;
 	}

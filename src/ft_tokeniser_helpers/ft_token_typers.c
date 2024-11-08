@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/08 13:03:56 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 15:47:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ void	ft_type_helper(t_token *head)
 	}
 }
 
+static bool	ft_has_cmd(t_token *head)
+{
+	while (head)
+	{
+		if (head->type == CMD)
+			return (true);
+		head = head->prev;
+	}
+	return (false);
+}
+
 static void	ft_token_retype_ext_ext(t_token *token)
 {
 	if (token->prev && token->prev->is_compound
@@ -46,8 +57,8 @@ static void	ft_token_retype_ext_ext(t_token *token)
 		&& (token->prev->prev->prev
 			&& (token->prev->prev->prev->type == CMD
 				|| token->prev->prev->prev->type == ARG
-				|| token->prev->prev->prev->type == INPUT_FILE
-				|| token->prev->prev->prev->type == OUTPUT_FILE)))
+				|| (token->prev->prev->prev->type == INPUT_FILE && ft_has_cmd(token))
+				|| (token->prev->prev->prev->type == OUTPUT_FILE && ft_has_cmd(token)))))
 		token->type = ARG;
 	else
 		token->type = CMD;
