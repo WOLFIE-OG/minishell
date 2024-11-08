@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:07:33 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/06 17:57:58 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 13:43:49 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	ft_exit(t_root *root)
 		root->current_cmd->exit_code = 2;
 		return ;
 	}
+	if (root->interactive == true)
+		ft_putstr("exit\n");
 	root->current_cmd->exit_code = code;
 	return ;
 }

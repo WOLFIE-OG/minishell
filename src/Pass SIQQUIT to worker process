@@ -1,5 +1,0 @@
-Pass SIQQUIT to worker process
-Add check to echo for non valid flag
-Fix double readline print
-Fix readline long text
-Fix heredoc quote removeal - cat << e'$a'f
