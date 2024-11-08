@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:45 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/07 23:22:07 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 16:16:30 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ bool		ft_is_in_quotes(char *line, int i, int *match_index, char c);
 void		ft_rm_quotes(char **value, char quote);
 t_state		ft_quote_type(char c);
 void		ft_type_helper(t_token *head);
+bool		ft_has_cmd(t_token *head);
 
 // src/ft_errs.c - Error functions
 
