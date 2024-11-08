@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:42:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/07 14:27:31 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 13:03:56 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static void	ft_token_retype_ext_ext(t_token *token)
 	if (token->prev && token->prev->is_compound
 		&& token->is_compound)
 		token->type = token->prev->type;
-	else if (token->prev->type == HEREDOC_DELIM)
+	else if ((token->prev && token->prev->type == HEREDOC_DELIM
+			&& token->prev->is_compound)
+		&& (token->prev->prev && token->prev->prev->type != HEREDOC_DELIM))
 		token->type = ARG;
 	else if ((token->prev->prev && (token->prev->prev->type == INPUT
 				|| token->prev->prev->type == TRUNC
