@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/08 19:59:57 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/11 17:18:45 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static void	ft_post_executor(t_root *root)
 		root->prev_cmd_status = root->prev_cmd->exit_code;
 	ft_gc_preped_cmds(root);
 	root->prev_cmd = NULL;
+	g_var_signal = 0;
 }
 
 void	ft_executor(t_root *root)
@@ -109,8 +110,9 @@ void	ft_executor(t_root *root)
 	root->current_cmd = root->preped_cmds;
 	while (root->current_cmd && !root->exit)
 	{
-		root->current_cmd->is_builtin
-			= ft_parser_is_builtin(root->current_cmd->cmd_tokens->str);
+		if (root->current_cmd->cmd_tokens && !root->current_cmd->is_file)
+			root->current_cmd->is_builtin
+				= ft_parser_is_builtin(root->current_cmd->cmd_tokens->str);
 		if (root->current_cmd->skip)
 		{
 			root->current_cmd = root->current_cmd->next;
@@ -128,6 +130,5 @@ void	ft_executor(t_root *root)
 		root->current_cmd = root->current_cmd->next;
 	}
 	ft_post_executor(root);
-	g_var_signal = 0;
 	return ;
 }
