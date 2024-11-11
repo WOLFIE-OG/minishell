@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:34:34 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/07 17:57:38 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 19:59:57 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	ft_executor(t_root *root)
 	root->current_cmd = root->preped_cmds;
 	while (root->current_cmd && !root->exit)
 	{
+		root->current_cmd->is_builtin
+			= ft_parser_is_builtin(root->current_cmd->cmd_tokens->str);
 		if (root->current_cmd->skip)
 		{
 			root->current_cmd = root->current_cmd->next;

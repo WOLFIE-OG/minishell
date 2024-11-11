@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:53:06 by otodd             #+#    #+#             */
-/*   Updated: 2024/08/15 17:47:27 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 16:43:27 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 int	ft_unset(t_root *root)
 {
-	const t_token	*arg = ft_find_token_by_index(
-			root->current_cmd->cmd_tokens, 1);
+	t_token	*args;
 
-	if (arg && ft_unset_var(root, arg->str))
+	args = root->current_cmd->cmd_tokens;
+	if (args && !args->next)
 		return (EXIT_SUCCESS);
-	else
-		return (EXIT_FAILURE);
+	args = args->next;
+	while (args)
+	{
+		ft_unset_var(root, args->str);
+		args = args->next;
+	}
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: otodd <otodd@student.42london.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 13:21:12 by otodd             #+#    #+#             */
-/*   Updated: 2024/11/07 15:18:21 by otodd            ###   ########.fr       */
+/*   Updated: 2024/11/08 20:03:07 by otodd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	ft_join_heredoc_compounds(t_token **head_t, bool *expand)
 			*head_t = (*head_t)->next;
 			continue ;
 		}
-		if ((*head_t)->state == SINGLE_Q && expand)
+		if ((*head_t)->state != NORMAL && expand)
 			*expand = false;
 		tmp = ft_strjoin(c_head_t->str, (*head_t)->str);
 		free(c_head_t->str);
