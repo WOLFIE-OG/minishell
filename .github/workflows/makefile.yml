@@ -60,3 +60,7 @@ jobs:
     
     - name: Run non-interactive mode | test 3 diff | diff
       run: diff minishell.txt bash.txt -y -s
+    
+    - name: Run mpanic tester
+      run: bash mpanic.sh
+      working-directory: mpanic
