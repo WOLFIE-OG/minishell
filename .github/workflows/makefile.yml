@@ -14,7 +14,7 @@ jobs:
       VALGRIND_CMD: valgrind --leak-check=full --track-fds=yes --trace-children=yes --track-origins=yes --suppressions=rl.supp
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Get submodules
       run: git submodule update --init --recursive
