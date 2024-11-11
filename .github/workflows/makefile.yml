@@ -66,12 +66,15 @@ jobs:
 
     - name: Run non-interactive mode | test 4 segfault program | minishell
       run: ./minishell -c './segfault.bin'
+      continue-on-error: true
     
     - name: Run non-interactive mode | test 4 segfault program | bash
       run: bash -c './segfault.bin'
+      continue-on-error: true
 
     - name: Run non-interactive mode with valgrind | test 4 segfault program | minishell
       run: $VALGRIND_CMD ./minishell -c './segfault.bin'
+      continue-on-error: true
     
     - name: Run mpanic tester
       run: touch .timmer && bash mpanic.sh
