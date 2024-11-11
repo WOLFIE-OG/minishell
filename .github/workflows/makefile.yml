@@ -62,5 +62,5 @@ jobs:
       run: diff minishell.txt bash.txt -y -s
     
     - name: Run mpanic tester
-      run: bash mpanic.sh
+      run: touch .timmer && bash mpanic.sh
       working-directory: mpanic
