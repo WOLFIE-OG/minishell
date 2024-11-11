@@ -60,7 +60,20 @@ jobs:
     
     - name: Run non-interactive mode | test 3 diff | diff
       run: diff minishell.txt bash.txt -y -s
+      
+    - name: Compile segfault program
+      run: gcc intentional_segfault.c -o segfault.bin
+
+    - name: Run non-interactive mode | test 4 segfault program | minishell
+      run: ./minishell -c './segfault.bin'
+    
+    - name: Run non-interactive mode | test 4 segfault program | bash
+      run: bash -c './segfault.bin'
+
+    - name: Run non-interactive mode with valgrind | test 4 segfault program | minishell
+      run: $VALGRIND_CMD ./minishell -c './segfault.bin'
     
     - name: Run mpanic tester
       run: touch .timmer && bash mpanic.sh
       working-directory: mpanic
+    

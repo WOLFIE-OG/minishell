@@ -17,4 +17,12 @@ To install and build
   make
   ./minishell
 ```
-    
+
+## Testing
+
+To run the tester
+
+```bash
+  cd mpanic
+  bash mpanic.sh
+```
