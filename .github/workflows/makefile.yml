@@ -22,8 +22,8 @@ jobs:
     - name: Update apt
       run: sudo apt-get update --fix-missing
     
-    - name: Install tree, valgrind, lolcat & neofetch
-      run: sudo apt-get install tree valgrind lolcat neofetch -y
+    - name: Install tree, valgrind, lolcat, libbsd & neofetch
+      run: sudo apt-get install tree valgrind lolcat libbsd-dev neofetch -y
 
     - name: Run tree
       run: tree
