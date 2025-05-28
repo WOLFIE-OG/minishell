@@ -1,6 +1,18 @@
 name: Makefile CI
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+      description: 'Log level'
+      required: true
+      default: 'information'
+      type: choice
+      options:
+        - information
+        - debug
+        - warning
+        - critical
   push:
     branches: [ "main" ]
   pull_request:
