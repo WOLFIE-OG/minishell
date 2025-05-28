@@ -23,7 +23,7 @@ jobs:
       run: sudo apt-get update --fix-missing
     
     - name: Install tree, valgrind, lolcat, libbsd & neofetch
-      run: sudo apt-get install tree valgrind lolcat libbsd-dev neofetch -y
+      run: sudo apt-get install tree valgrind lolcat libbsd-dev neofetch libreadline6 libreadline6-dev -y
 
     - name: Run tree
       run: tree
